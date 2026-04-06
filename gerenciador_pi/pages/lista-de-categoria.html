@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lista de Categorias – LuxAdmin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;900&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="lista-de-categoria.css" />
+</head>
+
+<body>
+
+    <!-- APP SHELL: contêiner raiz que divide sidebar e conteúdo -->
+    <div class="app-shell">
+
+        <!-- ===================== SIDEBAR ===================== -->
+        <aside class="sidebar">
+            <div class="sidebar__top">
+
+                <!-- Logo / Usuário -->
+                <div class="sidebar__brand">
+                    <img class="sidebar__avatar" src="https://placehold.co/40x40" alt="Avatar" />
+                    <img src="" alt="">
+                    <div>
+                        <div class="sidebar__brand-name">Administrador</div>
+                        <div class="sidebar__brand-role">Super Admin</div>
+                    </div>
+                </div>
+
+                <!-- Navegação — troque nav-item--active para a página atual -->
+                <nav class="sidebar__nav">
+                    <a href="./dashboard.html" class="nav-item">
+                        <div class="nav-item__icon"></div>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="./produtos.html" class="nav-item">
+                        <div class="nav-item__icon"></div>
+                        <span>Produtos</span>
+                    </a>
+                    <a href="./lista-de-categoria.html" class="nav-item nav-item--active"> <!-- página atual -->
+                        <div class="nav-item__icon"></div>
+                        <span>Categorias</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <div class="nav-item__icon"></div>
+                        <span>Administradores</span>
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Rodapé da sidebar -->
+            <footer class="sidebar__footer">
+                <button class="btn-logout">Sair</button>
+            </footer>
+        </aside>
+        <!-- /SIDEBAR -->
+
+        <!-- ===================== CONTEÚDO ===================== -->
+        <main class="content-area">
+
+            <!-- Topbar: título da seção + ícones de ação rápida -->
+            <header class="topbar">
+                <h1 class="topbar__title">Categorias</h1>
+                <div class="topbar__actions">
+                    <button class="icon-btn" aria-label="Notificações"> <!-- badge laranja indica novas notificações -->
+                        <div class="icon-btn__shape"></div>
+                        <span class="icon-btn__badge"></span>
+                    </button>
+                    <button class="icon-btn" aria-label="Configurações">
+                        <div class="icon-btn__shape"></div>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Corpo da página com scroll -->
+            <div class="page-body">
+                <div class="page-container">
+
+                    <!-- Cabeçalho da seção: título + botão de criação -->
+                    <div class="section-header">
+                        <div class="section-header__titles">
+                            <h2 class="section-header__heading">Gerenciar Categorias</h2>
+                            <p class="section-header__sub">Visualize e gerencie todas as categorias da sua loja.</p>
+                        </div>
+                        <button class="btn-primary"> <!-- abre modal/página de nova categoria -->
+                            <div class="btn-primary__icon"></div>
+                            Nova Categoria
+                        </button>
+                    </div>
+
+                    <!-- ===================== TABELA ===================== -->
+                    <div class="table-card">
+
+                        <!-- Cabeçalho das colunas -->
+                        <div class="table-head">
+                            <div class="table-head__cell">ID da Categoria</div>
+                            <div class="table-head__cell">Nome da Categoria</div>
+                            <div class="table-head__cell">Total de Produtos</div>
+                            <div class="table-head__cell">Status</div>
+                            <div class="table-head__cell table-head__cell--right">Ações</div>
+                        </div>
+
+                        <!-- Linhas de dados -->
+                        <div class="table-body">
+
+                            <!-- Linha 1: Vestidos de Gala -->
+                            <div class="table-row">
+                                <div class="table-row__cell cell-id">#CAT-8834</div>
+                                <div class="table-row__cell cell-name">Vestidos de Gala</div>
+                                <div class="table-row__cell cell-count">142 Produtos</div>
+                                <div class="table-row__cell">
+                                    <span class="badge badge--active"><span class="badge__dot"></span>Ativo</span>
+                                </div>
+                                <div class="cell-actions">
+                                    <button class="action-btn" aria-label="Editar Vestidos de Gala">
+                                        <div class="action-btn__icon action-btn__icon--edit"></div>
+                                    </button>
+                                    <button class="action-btn" aria-label="Excluir Vestidos de Gala">
+                                        <div class="action-btn__icon action-btn__icon--trash"></div>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Linha 2: Bolsas de Couro -->
+                            <div class="table-row">
+                                <div class="table-row__cell cell-id">#CAT-9201</div>
+                                <div class="table-row__cell cell-name">Bolsas de Couro</div>
+                                <div class="table-row__cell cell-count">89 Produtos</div>
+                                <div class="table-row__cell">
+                                    <span class="badge badge--active"><span class="badge__dot"></span>Ativo</span>
+                                </div>
+                                <div class="cell-actions">
+                                    <button class="action-btn" aria-label="Editar Bolsas de Couro">
+                                        <div class="action-btn__icon action-btn__icon--edit"></div>
+                                    </button>
+                                    <button class="action-btn" aria-label="Excluir Bolsas de Couro">
+                                        <div class="action-btn__icon action-btn__icon--trash"></div>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Linha 3: Sapatos de Salto -->
+                            <div class="table-row">
+                                <div class="table-row__cell cell-id">#CAT-7732</div>
+                                <div class="table-row__cell cell-name">Sapatos de Salto</div>
+                                <div class="table-row__cell cell-count">215 Produtos</div>
+                                <div class="table-row__cell">
+                                    <span class="badge badge--active"><span class="badge__dot"></span>Ativo</span>
+                                </div>
+                                <div class="cell-actions">
+                                    <button class="action-btn" aria-label="Editar Sapatos de Salto">
+                                        <div class="action-btn__icon action-btn__icon--edit"></div>
+                                    </button>
+                                    <button class="action-btn" aria-label="Excluir Sapatos de Salto">
+                                        <div class="action-btn__icon action-btn__icon--trash"></div>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Linha 4: Joalheria Fina — status INATIVO -->
+                            <div class="table-row">
+                                <div class="table-row__cell cell-id">#CAT-6540</div>
+                                <div class="table-row__cell cell-name">Joalheria Fina</div>
+                                <div class="table-row__cell cell-count">45 Produtos</div>
+                                <div class="table-row__cell">
+                                    <span class="badge badge--inactive"><span class="badge__dot"></span>Inativo</span>
+                                </div>
+                                <div class="cell-actions">
+                                    <button class="action-btn" aria-label="Editar Joalheria Fina">
+                                        <div class="action-btn__icon action-btn__icon--edit"></div>
+                                    </button>
+                                    <button class="action-btn" aria-label="Excluir Joalheria Fina">
+                                        <div class="action-btn__icon action-btn__icon--trash"></div>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Linha 5: Acessórios de Verão -->
+                            <div class="table-row">
+                                <div class="table-row__cell cell-id">#CAT-3398</div>
+                                <div class="table-row__cell cell-name">Acessórios de Verão</div>
+                                <div class="table-row__cell cell-count">12 Produtos</div>
+                                <div class="table-row__cell">
+                                    <span class="badge badge--active"><span class="badge__dot"></span>Ativo</span>
+                                </div>
+                                <div class="cell-actions">
+                                    <button class="action-btn" aria-label="Editar Acessórios de Verão">
+                                        <div class="action-btn__icon action-btn__icon--edit"></div>
+                                    </button>
+                                    <button class="action-btn" aria-label="Excluir Acessórios de Verão">
+                                        <div class="action-btn__icon action-btn__icon--trash"></div>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- /table-body -->
+
+                        <!-- Footer da tabela: contagem + paginação -->
+                        <div class="table-footer">
+                            <span class="table-footer__info">Mostrando 5 de 24 categorias</span>
+                            <div class="pagination">
+                                <button class="page-arrow" aria-label="Página anterior">
+                                    <div class="page-arrow__icon"></div>
+                                </button>
+                                <div class="page-numbers">
+                                    <button class="page-btn page-btn--active" aria-current="page">1</button>
+                                    <!-- página atual -->
+                                    <button class="page-btn">2</button>
+                                    <button class="page-btn">3</button>
+                                </div>
+                                <button class="page-arrow" aria-label="Próxima página">
+                                    <div class="page-arrow__icon"></div>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /TABELA -->
+
+                </div>
+            </div>
+            <!-- /CORPO DA PÁGINA -->
+
+        </main>
+        <!-- /CONTEÚDO -->
+
+    </div>
+    <!-- /APP SHELL -->
+
+</body>
+
+</html>

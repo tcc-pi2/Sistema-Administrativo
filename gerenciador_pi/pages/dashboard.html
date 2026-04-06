@@ -1,68 +1,121 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="style_dashboard.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard – LuxAdmin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style_dashboard.css" />
 </head>
 <body>
-    <div class="container_dashboard">
 
-        <aside class="sidebar">
-            <div class="header_dashboard">
-                <img src="/image/foto_admin.png" alt="Foto Admin">
-                <h1>Olá, Admin</h1>
-                <p>Administrador</p>
-            </div>
+<!-- ESTRUTURA APP: sidebar + conteúdo lado a lado -->
+<div class="estrutura-app">
 
-            <nav class="dashboard">
-                <div class="item">
-                    <img src="/image/logo_dashboard.png" alt="logo_dashboard">
-                    <h2><a href="/pages/dashboard.html">Dashboard</a></h2>
-                
-                </div>
-                <div class="item">
-                    <img src="/image/logo_produtos.png" alt="Logo_produtos">
-                    <h2><a href="/pages/produtos.html">Produtos</a></h2>
-                </div>
-                <div class="item">
-                    <img src="/image/logo_categorias.png" alt="logo_categoria">
-                    <h2>Categorias</h2>
-                    <a href=""></a>
-                </div>
-                <div class="item">
-                    <img src="/image/logo.admin.png" alt="logo_admin">
-                    <h2>Administradores</h2>
-                    <a href=""></a>
-                </div>
-            </nav>
-        </aside>
+  <!-- ===================== SIDEBAR ===================== -->
+  <aside class="sidebar">
 
-        <main class="main_dashboard">
-            <h1 class="titulo">Dashboard</h1>
-            <p class="subtitulo">Visão geral executiva</p>
+    <!-- Bloco do usuário -->
+    <div class="usuario-card">
+      <img class="usuario-avatar" src="https://placehold.co/40x40" alt="Foto do admin" />
+      <div>
+        <div class="usuario-nome">Olá, Usuário</div>
+        <div class="usuario-cargo">Administrador</div>
+      </div>
+    </div>
 
-            <div class="cards_dashboard">
-                <div class="card">
-                    <h2>Produtos</h2>
-                    <h1>124</h1>
-                    <p>ITENS <br> CADASTRADOS</p>
-                </div>
+    <!-- Navegação — troque item-nav--ativo para a página atual -->
+    <nav class="sidebar-nav">
+      <a href="./dashboard.html" class="item-nav item-nav--ativo"> <!-- página atual -->
+        <div class="item-nav__icone">
+            <img src="../image/logo_dashboard.png" alt="">
+        </div>
+        <span>Dashboard</span>
+      </a>
+      <a href="./produtos.html" class="item-nav">
+        <div class="item-nav__icone">
+            <img src="../image/logo_produtos.png" alt="">
+        </div>
+        <span>Produtos</span>
+      </a>
+      <a href="./lista-de-categoria.html" class="item-nav">
+        <div class="item-nav__icone">
+            <img src="../image/logo_categorias.png" alt="">
+        </div>
+        <span>Categorias</span>
+      </a>
+      <a href="./administradores.html" class="item-nav">
+        <div class="item-nav__icone">
+            <img src="../image/logo.admin.png" alt="">
+        </div>
+        <span>Administradores</span>
+      </a>
+    </nav>
 
-                <div class="card">
-                    <h2>Categorias</h2>
-                    <h1>12</h1>
-                    <p>COLEÇÕES <br> ATIVAS</p>
-                </div>
+    <!-- Botão sair — redireciona para login -->
+    <button class="botao-sair" onclick="window.location.href='./login.html'">
+      <div class="botao-sair__icone">
+        <img src="../image/icone_sair.png" alt="">
+      </div>
+      Sair
+    </button>
 
-                <div class="card">
-                    <h2>Admin</h2>
-                    <h1>5</h1>
-                    <p>ACESSO TOTAL</p>
-                </div>
-            </div>
-        </main>
+  </aside>
+  <!-- /SIDEBAR -->
+
+  <!-- ===================== CONTEÚDO ===================== -->
+  <main class="conteudo-principal">
+
+    <!-- Brilho decorativo no canto superior direito -->
+    <div class="brilho-decorativo"></div>
+
+    <!-- Cabeçalho da página -->
+    <div class="cabecalho-pagina">
+      <h1 class="titulo-pagina">Dashboard</h1>
+      <p class="subtitulo-pagina">Visão geral executiva</p>
+    </div>
+
+    <!-- Grade de cards com métricas -->
+    <div class="grade-cards">
+
+      <!-- Card: Produtos -->
+      <div class="card">
+        <div class="card__titulo">Produtos</div>
+        <div class="card__rodape">
+          <div class="card__numero">124</div>
+          <div class="card__divisor"></div>
+          <div class="card__descricao">Itens<br/>cadastrados</div>
+        </div>
+      </div>
+
+      <!-- Card: Categorias -->
+      <div class="card">
+        <div class="card__titulo">Categorias</div>
+        <div class="card__rodape">
+          <div class="card__numero">12</div>
+          <div class="card__divisor"></div>
+          <div class="card__descricao">Coleções<br/>ativas</div>
+        </div>
+      </div>
+
+      <!-- Card: Admin -->
+      <div class="card">
+        <div class="card__titulo">Admin</div>
+        <div class="card__rodape">
+          <div class="card__numero">5</div>
+          <div class="card__divisor"></div>
+          <div class="card__descricao">Acesso total</div>
+        </div>
+      </div>
 
     </div>
+    <!-- /GRADE DE CARDS -->
+
+  </main>
+  <!-- /CONTEÚDO -->
+
+</div>
+<!-- /ESTRUTURA APP -->
+
 </body>
 </html>
