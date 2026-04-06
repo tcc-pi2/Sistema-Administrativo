@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Produtos – LuxAdmin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+  <link rel="stylesheet" href="style_produtos.css" />
+</head>
+<body>
+
+<!-- ESTRUTURA APP: sidebar + conteúdo lado a lado -->
+<div class="app-shell">
+
+  <!-- ===================== SIDEBAR ===================== -->
+  <aside class="sidebar">
+    <div class="sidebar__topo">
+
+      <!-- Bloco do usuário -->
+      <div class="usuario-card">
+        <img class="usuario-avatar" src="../image/foto_admin.png" alt="Foto do admin" />
+        <div>
+          <div class="usuario-nome">Olá, Usuário</div>
+          <div class="usuario-cargo">Administrador</div>
+        </div>
+      </div>
+
+      <!-- Navegação — troque item-nav--ativo para a página atual -->
+      <nav class="sidebar-nav">
+        <a href="./dashboard.html" class="item-nav">
+          <i class="fas fa-th-large"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="./produtos.html" class="item-nav item-nav--ativo"> <!-- página atual -->
+          <i class="fas fa-box"></i>
+          <span>Produtos</span>
+        </a>
+        <a href="./lista-de-categoria.html" class="item-nav">
+          <i class="fas fa-tags"></i>
+          <span>Categorias</span>
+        </a>
+        <a href="./administradores.html" class="item-nav">
+          <i class="fas fa-users-cog"></i>
+          <span>Administradores</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- Botão sair — redireciona para login -->
+    <footer class="sidebar__rodape">
+      <button class="botao-sair" onclick="window.location.href='./login.html'">
+        <i class="fas fa-sign-out-alt"></i>
+        Sair
+      </button>
+    </footer>
+  </aside>
+  <!-- /SIDEBAR -->
+
+  <!-- ===================== CONTEÚDO ===================== -->
+  <main class="conteudo-principal">
+
+    <!-- Topbar: título + campo de busca + botão novo produto -->
+    <header class="topbar">
+      <h1 class="topbar__titulo">Gerenciamento de Produtos</h1>
+
+      <div class="topbar__acoes">
+        <!-- Campo de busca -->
+        <div class="busca-wrapper">
+          <i class="fas fa-search busca-icone"></i>
+          <input
+            type="text"
+            class="campo-busca"
+            placeholder="Buscar produtos..."
+            id="campoBusca"
+            oninput="filtrarProdutos()"
+          />
+        </div>
+
+        <!-- Botão abrir formulário de novo produto -->
+        <button class="botao-primario" onclick="abrirFormulario()">
+          <i class="fas fa-plus"></i>
+          Novo Produto
+        </button>
+      </div>
+    </header>
+
+    <!-- Corpo com scroll -->
+    <div class="corpo-pagina">
+
+      <!-- Card da tabela -->
+      <div class="tabela-card">
+
+        <!-- Cabeçalho do card: título + filtrar/exportar -->
+        <div class="tabela-cabecalho">
+          <h2 class="tabela-titulo">Inventário Completo</h2>
+          <div class="tabela-acoes">
+            <button class="botao-sutil"><i class="fas fa-filter"></i> Filtrar</button>
+            <button class="botao-sutil"><i class="fas fa-download"></i> Exportar</button>
+          </div>
+        </div>
+
+        <!-- Tabela de produtos -->
+        <div class="tabela-wrapper">
+          <table id="tabelaProdutos">
+            <thead>
+              <tr>
+                <th>Img</th>
+                <th>Nome</th>
+                <th>Tamanhos</th>
+                <th class="alinhar-direita">Estoque</th>
+                <th class="alinhar-direita">Preço</th>
+                <th class="alinhar-centro">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Linhas preenchidas via JavaScript -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Footer da tabela: contagem + paginação -->
+        <div class="tabela-rodape">
+          <span class="tabela-info" id="infoRegistros">Mostrando 1-5 de 0 produtos</span>
+
+          <div class="paginacao">
+            <div class="pagina-btn" onclick="mudarPagina(-1)"><i class="fas fa-chevron-left"></i></div>
+            <div class="numeros-pagina" id="numerosPagina"></div>
+            <div class="pagina-btn" onclick="mudarPagina(1)"><i class="fas fa-chevron-right"></i></div>
+          </div>
+        </div>
+
+      </div>
+      <!-- /TABELA CARD -->
+
+    </div>
+    <!-- /CORPO DA PÁGINA -->
+
+  </main>
+  <!-- /CONTEÚDO -->
+
+</div>
+<!-- /ESTRUTURA APP -->
+
+<script>
+  /* =====================================================
+     DADOS DOS PRODUTOS
+     Adicione ou remova objetos aqui para alterar a lista
+  ===================================================== */
+  const produtos = [
+    { nome: "Vestido Midnight",   tamanhos: ["P", "M"],       estoque: 15, preco: "1.200,00", imagem: "https://placehold.co/48x48" },
+    { nome: "Blazer Executive",   tamanhos: ["M", "G"],       estoque: 8,  preco: "890,00",   imagem: "https://placehold.co/48x48" },
+    { nome: "Calça Wide Leg",     tamanhos: ["36", "38", "40"], estoque: 20, preco: "450,00", imagem: "https://placehold.co/48x48" },
+    { nome: "Camisa Summer",      tamanhos: ["P", "M", "G"],  estoque: 12, preco: "380,00",   imagem: "https://placehold.co/48x48" },
+    { nome: "Saia Golden Hour",   tamanhos: ["P", "M"],       estoque: 5,  preco: "600,00",   imagem: "https://placehold.co/48x48" },
+    { nome: "Vestido Coral",      tamanhos: ["P", "M", "G"],  estoque: 18, preco: "950,00",   imagem: "https://placehold.co/48x48" },
+    { nome: "Blazer Nude",        tamanhos: ["M", "G", "GG"], estoque: 3,  preco: "1.100,00", imagem: "https://placehold.co/48x48" },
+    { nome: "Calça Alfaiataria",  tamanhos: ["38", "40", "42"], estoque: 9, preco: "520,00",  imagem: "https://placehold.co/48x48" },
+  ];
+
+  /* =====================================================
+     PAGINAÇÃO
+  ===================================================== */
+  const itensPorPagina = 5;   /* quantidade de produtos por página */
+  let paginaAtual = 1;
+  let produtosFiltrados = [...produtos];
+
+  /* Retorna classe do badge de estoque conforme quantidade */
+  function classeBadgeEstoque(qtd) {
+    if (qtd > 10) return "estoque-verde";
+    if (qtd > 5)  return "estoque-amarelo";
+    return "estoque-vermelho";
+  }
+
+  /* Renderiza as linhas da tabela conforme página atual */
+  function renderizarTabela() {
+    const inicio = (paginaAtual - 1) * itensPorPagina;
+    const fim    = inicio + itensPorPagina;
+    const pagina = produtosFiltrados.slice(inicio, fim);
+    const tbody  = document.querySelector("#tabelaProdutos tbody");
+
+    tbody.innerHTML = pagina.map((p, i) => `
+      <tr>
+        <!-- Imagem do produto -->
+        <td><img src="${p.imagem}" alt="${p.nome}" class="produto-imagem" /></td>
+
+        <!-- Nome -->
+        <td class="produto-nome">${p.nome}</td>
+
+        <!-- Tags de tamanho -->
+        <td>
+          <div class="tags-tamanho">
+            ${p.tamanhos.map(t => `<span class="tag-tamanho">${t}</span>`).join("")}
+          </div>
+        </td>
+
+        <!-- Badge de estoque (cor varia conforme quantidade) -->
+        <td class="alinhar-direita">
+          <span class="badge-estoque ${classeBadgeEstoque(p.estoque)}">${p.estoque} un.</span>
+        </td>
+
+        <!-- Preço -->
+        <td class="alinhar-direita produto-preco">R$ ${p.preco}</td>
+
+        <!-- Botões editar e excluir -->
+        <td class="alinhar-centro">
+          <div class="acoes-linha">
+            <button class="botao-acao" title="Editar" onclick="editarProduto(${inicio + i})">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="botao-acao botao-acao--excluir" title="Excluir" onclick="excluirProduto(${inicio + i})">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    `).join("");
+
+    /* Atualiza texto de contagem */
+    document.getElementById("infoRegistros").textContent =
+      `Mostrando ${inicio + 1}–${Math.min(fim, produtosFiltrados.length)} de ${produtosFiltrados.length} produtos`;
+
+    renderizarPaginacao();
+  }
+
+  /* Renderiza os botões de número de página */
+  function renderizarPaginacao() {
+    const total   = Math.ceil(produtosFiltrados.length / itensPorPagina);
+    const wrapper = document.getElementById("numerosPagina");
+
+    wrapper.innerHTML = Array.from({ length: total }, (_, i) => i + 1)
+      .map(n => `
+        <div class="pagina-btn ${n === paginaAtual ? "pagina-btn--ativo" : ""}"
+             onclick="irParaPagina(${n})">${n}</div>
+      `).join("");
+  }
+
+  /* Vai para uma página específica */
+  function irParaPagina(n) {
+    const total = Math.ceil(produtosFiltrados.length / itensPorPagina);
+    paginaAtual = Math.max(1, Math.min(n, total));
+    renderizarTabela();
+  }
+
+  /* Avança ou volta uma página (delta = +1 ou -1) */
+  function mudarPagina(delta) {
+    irParaPagina(paginaAtual + delta);
+  }
+
+  /* Filtra produtos pelo nome conforme o campo de busca */
+  function filtrarProdutos() {
+    const termo = document.getElementById("campoBusca").value.toLowerCase();
+    produtosFiltrados = produtos.filter(p => p.nome.toLowerCase().includes(termo));
+    paginaAtual = 1;
+    renderizarTabela();
+  }
+
+  /* Abre formulário de novo produto (implemente conforme seu fluxo) */
+  function abrirFormulario() {
+    alert("Formulário de novo produto — implemente aqui!");
+  }
+
+  /* Edita produto pelo índice */
+  function editarProduto(indice) {
+    alert(`Editar produto: ${produtosFiltrados[indice].nome}`);
+  }
+
+  /* Exclui produto pelo índice */
+  function excluirProduto(indice) {
+    if (confirm(`Excluir "${produtosFiltrados[indice].nome}"?`)) {
+      const nomeProduto = produtosFiltrados[indice].nome;
+      const posOriginal = produtos.findIndex(p => p.nome === nomeProduto);
+      if (posOriginal > -1) produtos.splice(posOriginal, 1);
+      filtrarProdutos();
+    }
+  }
+
+  /* Inicialização ao carregar a página */
+  window.onload = () => renderizarTabela();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,303 @@
+/* === VARIÁVEIS GLOBAIS === */
+:root {
+    --fundo-base: #1A1612;
+    /* fundo principal */
+    --fundo-sidebar: #231A10;
+    /* sidebar */
+    --fundo-card: #231E18;
+    /* cards */
+    --fundo-usuario: rgba(46, 40, 32, .50);
+    /* bloco do usuário */
+    --borda: #3A2E22;
+    /* bordas */
+    --borda-clara: #3F362A;
+    /* borda do bloco usuário */
+    --destaque: #F28B0D;
+    /* laranja principal */
+    --destaque-suave: rgba(242, 139, 13, .30);
+    /* laranja transparente (divisor) */
+    --nav-ativo-fundo: #493722;
+    /* fundo do item ativo na nav */
+    --texto-primario: #FFFFFF;
+    --texto-secundario: #CBB090;
+    /* dourado apagado */
+    --texto-apagado: #8C7B66;
+    /* descrição dos cards */
+    --texto-cargo: #9CA3AF;
+    /* cargo do usuário */
+    --fonte: 'Lexend', sans-serif;
+    --largura-sidebar: 256px;
+}
+
+/* === RESET & BASE === */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+    background: var(--fundo-base);
+    font-family: var(--fonte);
+    color: var(--texto-primario);
+}
+
+/* === LAYOUT PRINCIPAL === */
+.estrutura-app {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* === SIDEBAR === */
+.sidebar {
+    width: var(--largura-sidebar);
+    flex-shrink: 0;
+    background: var(--fundo-sidebar);
+    border-right: 1px solid var(--borda);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 16px;
+    gap: 32px;
+}
+
+/* Bloco do usuário */
+.usuario-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 12px;
+    background: rgba(46, 40, 32, .50);
+    outline: 1px solid var(--borda);
+}
+
+.usuario-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 9999px;
+    border: 2px solid var(--destaque);
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.usuario-nome {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--texto-primario);
+    line-height: 20px;
+}
+
+.usuario-cargo {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--texto-cargo);
+    line-height: 16px;
+}
+
+/* Navegação */
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+}
+
+.item-nav {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--texto-secundario);
+    text-decoration: none;
+    transition: background .15s;
+}
+
+.item-nav:hover {
+    background: rgba(73, 55, 34, .50);
+}
+
+.item-nav--ativo {
+    background: var(--nav-ativo-fundo);
+    color: var(--texto-primario);
+    font-weight: 700;
+}
+
+/* item da página atual */
+.item-nav img {
+  width: 18px;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* herda cor do item */
+
+/* Botão sair */
+.botao-sair {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    height: 40px;
+    padding: 0 16px;
+    background: var(--destaque);
+    border: none;
+    border-radius: 8px;
+    font-family: var(--fonte);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--fundo-sidebar);
+    cursor: pointer;
+    transition: opacity .15s;
+}
+
+.botao-sair:hover {
+    opacity: .9;
+}
+
+.botao-sair__icone {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+}
+
+/* === CONTEÚDO PRINCIPAL === */
+.conteudo-principal {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background: var(--fundo-base);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 64px;
+    gap: 80px;
+}
+
+/* Glow decorativo no canto superior direito */
+.brilho-decorativo {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 341px;
+    height: 341px;
+    background: rgba(242, 139, 13, .05);
+    border-radius: 9999px;
+    filter: blur(60px);
+    pointer-events: none;
+}
+
+/* Cabeçalho da página */
+.cabecalho-pagina {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.titulo-pagina {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 48px;
+    color: var(--texto-primario);
+    text-align: center;
+}
+
+.subtitulo-pagina {
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 28px;
+    letter-spacing: .45px;
+    color: var(--texto-secundario);
+    text-align: center;
+}
+
+/* === CARDS DE MÉTRICAS === */
+.grade-cards {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 48px;
+}
+
+.card {
+    width: 266px;
+    height: 384px;
+    padding: 48px;
+    position: relative;
+    overflow: hidden;
+    background: var(--fundo-card);
+    border-radius: 16px;
+    outline: 1px solid var(--borda);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Decoração sutil no canto superior direito do card */
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 128px;
+    height: 128px;
+    background: linear-gradient(135deg, rgba(242, 139, 13, .05) 0%, transparent 100%);
+    border-top-right-radius: 16px;
+    border-bottom-left-radius: 9999px;
+}
+
+.card__titulo {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 32px;
+    letter-spacing: .60px;
+    color: var(--texto-secundario);
+}
+
+/* ex: "Produtos" */
+.card__rodape {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    flex: 1;
+    padding-top: 32px;
+}
+
+.card__numero {
+    font-size: 96px;
+    font-weight: 700;
+    line-height: 96px;
+    color: var(--texto-primario);
+}
+
+/* número grande */
+.card__divisor {
+    width: 64px;
+    height: 1px;
+    background: var(--destaque-suave);
+    margin: 24px 0;
+}
+
+/* linha divisória */
+.card__descricao {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 24px;
+    letter-spacing: 1.60px;
+    text-transform: uppercase;
+    color: var(--texto-apagado);
+}
+
+/* ex: "itens cadastrados" */
