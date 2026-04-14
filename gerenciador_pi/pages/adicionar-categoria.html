@@ -7,6 +7,7 @@
     <title>Vault – Nova Categoria</title>
     <link rel="stylesheet" href="adicionar-categoria.css" />
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet" />
+    
 </head>
 
 <body>
@@ -79,7 +80,7 @@
 
                     <!-- Caminho de navegação -->
                     <nav class="caminho" aria-label="Caminho de navegação">
-                        <span class="caminho__item">Painel</span>
+                        <span class="caminho__item">Dashboard</span>
                         <span class="caminho__seta"></span>
                         <span class="caminho__item">Categorias</span>
                         <span class="caminho__seta"></span>
@@ -118,8 +119,8 @@
 
                         <!-- Rodapé do cartão -->
                         <div class="cartao__rodape">
-                            <button class="botao botao--fantasma">Cancelar</button>
-                            <button class="botao botao--primario">
+                            <a href="./lista-de-categoria.html" class="botao botao--fantasma">Cancelar</a>
+                            <button class="botao botao--primario" onclick ="adicionarCategoria()"> 
                                 <span class="icone icone--mais"></span>
                                 Adicionar Categoria
                             </button>
@@ -133,7 +134,7 @@
         </div><!-- /principal -->
 
     </div><!-- /layout -->
-
+<script src="/gerenciador_pi/pages/adicionar-categoria.js"></script>
 </body>
 
 </html>
