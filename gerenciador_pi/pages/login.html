@@ -35,7 +35,9 @@
                         <label>Senha</label>
                         <span class="forgot">Esqueceu a senha?</span>
                     </div>
-                    <input type="password" id="senha" placeholder="••••••••">
+                    <input type="password" id="senha" placeholder="••••••••"
+                    onkeydown="if(event.key==='Enter') document.getElementById('entrar').click()">
+                    
                 </div>
 
                 <!-- Botão -->

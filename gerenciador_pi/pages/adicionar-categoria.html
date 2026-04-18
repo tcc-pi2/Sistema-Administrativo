@@ -113,14 +113,15 @@
                             <div class="campo">
                                 <label class="campo__rotulo" for="nome-categoria">Nome da Categoria</label>
                                 <input class="campo__entrada" id="nome-categoria" type="text"
-                                    placeholder="Ex: Acessórios de Couro" />
+                                    placeholder="Ex: Acessórios de Couro" 
+                                    onkeydown="if(event.key==='Enter') adicionarCategoria()"/>
                             </div>
                         </div>
 
                         <!-- Rodapé do cartão -->
                         <div class="cartao__rodape">
                             <a href="./lista-de-categoria.html" class="botao botao--fantasma">Cancelar</a>
-                            <button class="botao botao--primario" onclick ="adicionarCategoria()"> 
+                            <button class="botao botao--primario" onclick ="adicionarCategoria()">
                                 <span class="icone icone--mais"></span>
                                 Adicionar Categoria
                             </button>
