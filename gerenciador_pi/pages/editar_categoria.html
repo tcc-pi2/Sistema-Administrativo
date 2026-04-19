@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vault – Nova Categoria</title>
+    <link rel="stylesheet" href="/pages/editar_categoria.css" />
+    
+</head>
+
+<body>
+
+    <div class="layout">
+
+        <!-- ══ BARRA LATERAL ══ -->
+        <aside class="barra-lateral">
+
+            <div class="barra-lateral__topo">
+
+                <!-- Usuário -->
+                <div class="barra-lateral__usuario">
+                    <img class="barra-lateral__avatar" src="https://placehold.co/40x40" alt="Avatar do administrador" />
+                    <div>
+                        <p class="barra-lateral__nome">Admin</p>
+                        <p class="barra-lateral__cargo">Super Admin</p>
+                    </div>
+                </div>
+
+                <!-- Navegação -->
+                <nav class="barra-lateral__nav" aria-label="Menu principal">
+                    <a href="./dashboard.html" class="item-nav">
+                        <span class="icone icone--painel"></span>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="./produtos.html" class="item-nav">
+                        <span class="icone icone--produtos"></span>
+                        <span>Produtos</span>
+                    </a>
+                    <a href="./lista-de-categoria.html" class="item-nav item-nav--ativo">
+                        <span class="icone icone--categorias icone--ativo"></span>
+                        <span>Categorias</span>
+                    </a>
+                    <a href="#" class="item-nav">
+                        <span class="icone icone--administradores"></span>
+                        <span>Administradores</span>
+                    </a>
+                </nav>
+
+            </div>
+
+            <div class="barra-lateral__rodape">
+                <button class="botao-sair" onclick="window.location.href='./login.html'">Sair</button>
+            </div>
+
+        </aside>
+
+        <!-- ══ ÁREA PRINCIPAL ══ -->
+        <div class="principal">
+
+            <!-- Cabeçalho -->
+            <header class="cabecalho">
+                <h1 class="cabecalho__titulo">Nova Categoria</h1>
+                <div class="cabecalho__acoes">
+                    <button class="cabecalho__botao-icone cabecalho__botao-icone--notificacao"
+                        aria-label="Notificações">
+                        <span class="icone icone--sino"></span>
+                        <span class="emblema"></span>
+                    </button>
+                    <button class="cabecalho__botao-icone" aria-label="Configurações">
+                        <span class="icone icone--configuracoes"></span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Conteúdo -->
+            <main class="conteudo">
+                <div class="area-formulario">
+
+                    <!-- Caminho de navegação -->
+                    <nav class="caminho" aria-label="Caminho de navegação">
+                        <span class="caminho__item">Dashboard</span>
+                        <span class="caminho__seta"></span>
+                        <span class="caminho__item">Categorias</span>
+                        <span class="caminho__seta"></span>
+                        <span class="caminho__item caminho__item--atual">Editar:***** add php </span>
+                    </nav>
+
+                    <!-- Título da página -->
+                    <div class="titulo-pagina">
+                        <h2 class="titulo-pagina__principal">Editar categoria</h2>
+                        <p class="titulo-pagina__descricao">Atualize o nome da categoria para exibição na loja.</p>
+                    </div>
+
+                    <!-- Cartão -->
+                    <div class="cartao">
+
+                        <!-- Cabeçalho do cartão -->
+                        <div class="cartao__cabecalho">
+                            <div class="cartao__icone-cabecalho">
+                                <span class="icone icone--etiqueta"></span>
+                            </div>
+                            <div>
+                                <p class="cartao__titulo">Informações Principais</p>
+                                <p class="cartao__subtitulo">ID da Categoria: #********</p>
+                            </div>
+                        </div>
+
+                        <!-- Corpo do cartão -->
+                        <div class="cartao__corpo">
+                            <div class="campo">
+                                <label class="campo__rotulo" for="nome-categoria">Alterar nome da Categoria</label>
+                                <input class="campo__entrada" id="nome-categoria" type="text"
+                                    placeholder="Ex: Acessórios de Couro" 
+                                    onkeydown="if(event.key==='Enter') alterarCategoria()"/>
+                            </div>
+                        </div>
+
+                        <!-- Rodapé do cartão -->
+                        <div class="cartao__rodape">
+                            <a href="./lista-de-categoria.html" class="botao botao--fantasma">Cancelar</a>
+                            <button class="botao botao--primario" onclick ="alterarCategoria()">
+                                <span class="icone icone--mais"></span>
+                                Salvar alterações
+                            </button>
+                        </div>
+
+                    </div><!-- /cartao -->
+                        
+                        <div class="excluir">
+                        <div class="excluir__conteudo">
+                            <h2>Zona de Perigo</h2>
+                            <p>A exclusão desta categoria removerá a associação de todos os produtos vinculados.</p>
+                        </div>
+
+                        <a href="/pages/excluir.html" class="botao-excluir" id="abrirExcluir">Excluir Categoria</a>
+                        </div>
+
+
+                </div><!-- /area-formulario -->
+            </main>
+
+        </div><!-- /principal -->
+
+    </div><!-- /layout -->
+
+                        
+
+</body>
+
+</html>

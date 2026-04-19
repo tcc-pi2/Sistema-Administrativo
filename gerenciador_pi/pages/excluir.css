@@ -1,0 +1,76 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0b0b0b;
+}
+
+.modal {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal__conteudo img{
+    width: 50px;
+    height: 50px;
+}
+
+.modal__conteudo {
+  background: #121212;
+  border-radius: 12px;
+  padding: 30px;
+  width: 340px;
+  text-align: center;
+}
+
+/* Título */
+.modal__conteudo h2 {
+  color: #ffffff;
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.modal__conteudo p {
+  color: #bfbfbf;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.acoes {
+  margin-top: 25px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+/* botoes */
+.botao {
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+/* Cancelar */
+.cancelar {
+  background: transparent;
+  border: 1px solid #3a3a3a;
+  color: #e0e0e0;
+}
+
+.cancelar:hover {
+  background: #1a1a1a;
+}
+
+/* Excluir */
+.excluir {
+  background: #ff8c00;
+  color: #000;
+}
+
+.excluir:hover {
+  background: #e67e00;
+}
