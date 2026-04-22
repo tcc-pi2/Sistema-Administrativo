@@ -5,8 +5,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vault – Nova Categoria</title>
-    <link rel="stylesheet" href="/pages/editar_categoria.css" />
-    
+    <link rel="stylesheet" href="./editar_categoria.css" />
+    <script src="./editar_categoria.js"></script>
+
 </head>
 
 <body>
@@ -111,30 +112,30 @@
                             <div class="campo">
                                 <label class="campo__rotulo" for="nome-categoria">Alterar nome da Categoria</label>
                                 <input class="campo__entrada" id="nome-categoria" type="text"
-                                    placeholder="Ex: Acessórios de Couro" 
-                                    onkeydown="if(event.key==='Enter') alterarCategoria()"/>
+                                    placeholder="Ex: Acessórios de Couro"
+                                    onkeydown="if(event.key==='Enter') alterarCategoria()" />
                             </div>
                         </div>
 
                         <!-- Rodapé do cartão -->
                         <div class="cartao__rodape">
                             <a href="./lista-de-categoria.html" class="botao botao--fantasma">Cancelar</a>
-                            <button class="botao botao--primario" onclick ="alterarCategoria()">
+                            <button class="botao botao--primario" onclick="alterarCategoria()">
                                 <span class="icone icone--mais"></span>
                                 Salvar alterações
                             </button>
                         </div>
 
                     </div><!-- /cartao -->
-                        
-                        <div class="excluir">
+
+                    <div class="excluir">
                         <div class="excluir__conteudo">
                             <h2>Zona de Perigo</h2>
                             <p>A exclusão desta categoria removerá a associação de todos os produtos vinculados.</p>
                         </div>
 
-                        <a href="/pages/excluir.html" class="botao-excluir" id="abrirExcluir">Excluir Categoria</a>
-                        </div>
+                        <a href="./excluir.html" class="botao-excluir" id="abrirExcluir">Excluir Categoria</a>
+                    </div>
 
 
                 </div><!-- /area-formulario -->
@@ -144,7 +145,7 @@
 
     </div><!-- /layout -->
 
-                        
+
 
 </body>
 
