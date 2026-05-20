@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | SaborFlow Admin</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <link rel="stylesheet" href="../styles/admin.css">
+  <script src="../scripts/store.js" defer></script>
+  <script src="../scripts/admin.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar__top">
+        <a class="brand-card" href="./dashboard.html">
+          <img class="brand-card__avatar" src="../assets/brand/saborflow-logo.svg" alt="Logo SaborFlow">
+          <span>
+            <strong class="brand-card__name">SaborFlow</strong>
+            <span class="brand-card__role">Painel administrativo</span>
+          </span>
+        </a>
+
+        <nav class="sidebar__nav" aria-label="Menu principal">
+          <a class="nav-link nav-link--active" href="./dashboard.html">
+            <i class="fa-solid fa-chart-pie"></i>
+            <span>Dashboard</span>
+          </a>
+          <a class="nav-link" href="./cozinha.html">
+            <i class="fa-solid fa-kitchen-set"></i>
+            <span>Cozinha</span>
+          </a>
+          <a class="nav-link" href="./financeiro.html">
+            <i class="fa-solid fa-cash-register"></i>
+            <span>Financeiro</span>
+          </a>
+          <a class="nav-link" href="./produtos.html">
+            <i class="fa-solid fa-box"></i>
+            <span>Cardápio</span>
+          </a>
+          <a class="nav-link" href="./lista-de-categoria.html">
+            <i class="fa-solid fa-tags"></i>
+            <span>Categorias</span>
+          </a>
+          <a class="nav-link" href="./administradores.html">
+            <i class="fa-solid fa-users-gear"></i>
+            <span>Administradores</span>
+          </a>
+        </nav>
+      </div>
+
+      <footer class="sidebar__footer">
+        <a class="button button--primary" href="./login.html?logout=1">
+          <i class="fa-solid fa-right-from-bracket"></i>
+          Sair
+        </a>
+      </footer>
+    </aside>
+
+    <main class="content">
+      <header class="topbar">
+        <div>
+          <p class="topbar__eyebrow">Operação do totem</p>
+          <h1 class="topbar__title">Dashboard</h1>
+        </div>
+        <div class="topbar__actions">
+          <button class="icon-button" type="button" title="Notificações">
+            <i class="fa-solid fa-bell"></i>
+          </button>
+          <button class="icon-button" type="button" title="Configurar tempo de espera" data-open-settings>
+            <i class="fa-solid fa-gear"></i>
+          </button>
+          <a class="icon-button" href="./totem.html" target="_blank" rel="noopener" title="Abrir totem do cliente em nova aba">
+            <i class="fa-solid fa-display"></i>
+          </a>
+          <a class="icon-button" href="./cozinha.html" title="Abrir fila da cozinha">
+            <i class="fa-solid fa-kitchen-set"></i>
+          </a>
+        </div>
+      </header>
+
+      <section class="page-body">
+        <div class="page-stack">
+          <div class="section-heading">
+            <div>
+              <h2>Painel do totem</h2>
+              <p>Controle o cardápio que aparece no autoatendimento, acompanhe disponibilidade dos itens e mantenha a operação da lanchonete organizada.</p>
+            </div>
+          </div>
+
+          <div class="metric-grid" aria-label="Indicadores do sistema">
+            <article class="metric-card">
+              <div class="metric-card__top">
+                <p class="metric-card__label">Itens do cardápio</p>
+                <span class="metric-card__icon"><i class="fa-solid fa-burger"></i></span>
+              </div>
+              <p class="metric-card__value" data-count="42">0</p>
+              <p class="metric-card__note">Produtos disponíveis no totem</p>
+            </article>
+
+            <article class="metric-card">
+              <div class="metric-card__top">
+                <p class="metric-card__label">Pedidos hoje</p>
+                <span class="metric-card__icon"><i class="fa-solid fa-receipt"></i></span>
+              </div>
+              <p class="metric-card__value" data-count="128">0</p>
+              <p class="metric-card__note">Simulação de pedidos registrados</p>
+            </article>
+
+            <article class="metric-card">
+              <div class="metric-card__top">
+                <p class="metric-card__label">Tempo médio</p>
+                <span class="metric-card__icon"><i class="fa-solid fa-clock"></i></span>
+              </div>
+              <p class="metric-card__value" data-count="18" data-suffix=" min">0</p>
+              <div class="metric-card__bottom">
+                <p class="metric-card__note">Previsão exibida após o pedido</p>
+                <button class="metric-card__action" type="button" data-open-settings>
+                  <i class="fa-solid fa-sliders"></i>
+                  Ajustar
+                </button>
+              </div>
+            </article>
+          </div>
+
+          <div class="quick-grid">
+            <a class="quick-card" href="./produtos.html">
+              <span>
+                <h3>Atualizar cardápio</h3>
+                <p>Alterar preço, estoque e opções dos lanches.</p>
+              </span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+            <a class="quick-card" href="./lista-de-categoria.html">
+              <span>
+                <h3>Organizar categorias</h3>
+                <p>Separar combos, bebidas, sobremesas e adicionais.</p>
+              </span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+            <a class="quick-card" href="./cozinha.html">
+              <span>
+                <h3>Acompanhar cozinha</h3>
+                <p>Avançar pedidos do recebimento até a retirada.</p>
+              </span>
+              <i class="fa-solid fa-kitchen-set"></i>
+            </a>
+
+            <a class="quick-card" href="./financeiro.html">
+              <span>
+                <h3>Conferir financeiro</h3>
+                <p>Ver vendas, caixa, entradas e saídas do dia.</p>
+              </span>
+              <i class="fa-solid fa-cash-register"></i>
+            </a>
+
+            <a class="quick-card" href="./administradores.html">
+              <span>
+                <h3>Gerenciar acessos</h3>
+                <p>Controlar usuários que entram no painel.</p>
+              </span>
+              <i class="fa-solid fa-users-gear"></i>
+            </a>
+
+            <a class="quick-card" href="./totem.html" target="_blank" rel="noopener">
+              <span>
+                <h3>Abrir totem do cliente</h3>
+                <p>Simular pedido com cardápio, carrinho e pagamento.</p>
+              </span>
+              <i class="fa-solid fa-display"></i>
+            </a>
+          </div>
+
+          <section class="operation-panel">
+            <div class="operation-panel__header">
+              <div>
+                <h3>Operação em andamento</h3>
+                <p>Resumo da fila atual e da previsão que aparece para o cliente após finalizar o pedido.</p>
+              </div>
+              <span class="kiosk-status">Totem online</span>
+            </div>
+
+            <div class="operation-grid" data-operation-grid></div>
+
+            <div class="operation-footer">
+              <div>
+                <strong data-wait-display>18 min</strong>
+                <span>Tempo de espera configurado para o cliente</span>
+              </div>
+              <button class="button button--ghost" type="button" data-open-settings>
+                <i class="fa-solid fa-sliders"></i>
+                Ajustar tempo
+              </button>
+            </div>
+          </section>
+
+          <section class="table-card">
+            <div class="table-card__header">
+              <h3 class="table-card__title">Pedidos recentes do totem</h3>
+              <div class="button-row">
+                <a class="button button--ghost" href="./totem.html" target="_blank" rel="noopener">
+                  <i class="fa-solid fa-display"></i>
+                  Abrir totem
+                </a>
+                <a class="button button--primary" href="./cozinha.html">
+                  <i class="fa-solid fa-kitchen-set"></i>
+                  Cozinha
+                </a>
+              </div>
+            </div>
+
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Código</th>
+                    <th>Cliente</th>
+                    <th>Itens</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th class="text-right">Ação</th>
+                  </tr>
+                </thead>
+                <tbody data-orders-body></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Configurações gerais do totem e da identidade da loja -->
+  <div class="crud-modal" data-settings-modal aria-hidden="true">
+    <div class="crud-panel">
+      <div class="crud-panel__header">
+        <div>
+          <h2>Configurações da loja</h2>
+          <p>Altere o nome, a logo e a previsão mostrada ao cliente.</p>
+        </div>
+        <button class="icon-button" type="button" data-close-settings title="Fechar">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form class="crud-form" data-settings-form>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="nome-loja">Nome da loja</label>
+            <input class="form-control" id="nome-loja" name="storeName" type="text" placeholder="Ex: SaborFlow">
+          </div>
+
+          <div class="form-group">
+            <label for="tempo-espera">Previsão em minutos</label>
+            <input class="form-control" id="tempo-espera" name="waitTime" type="number" min="1" max="120">
+          </div>
+
+          <div class="form-group form-group--wide">
+            <label for="subtitulo-loja">Frase do totem</label>
+            <input class="form-control" id="subtitulo-loja" name="storeSubtitle" type="text" placeholder="Ex: Monte seu pedido com todos os detalhes.">
+          </div>
+
+          <div class="form-group form-group--wide">
+            <label for="logo-loja">Logo da loja</label>
+            <input class="form-control" id="logo-loja" name="storeLogo" type="text" placeholder="Ex: ../assets/brand/saborflow-logo.svg">
+            <div class="image-picker">
+              <label class="button button--ghost" for="logo-loja-arquivo">
+                <i class="fa-solid fa-image"></i>
+                Enviar logo
+              </label>
+              <input id="logo-loja-arquivo" name="storeLogoFile" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml">
+              <button class="button button--ghost" type="button" data-clear-store-logo>
+                <i class="fa-solid fa-eraser"></i>
+                Usar logo padrão
+              </button>
+            </div>
+            <div class="image-preview image-preview--logo" data-store-logo-preview>
+              <span>Prévia da logo</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <p class="form-hint">Dica: use imagem quadrada para a logo ficar bem no totem e no painel.</p>
+          </div>
+        </div>
+
+        <div class="crud-panel__footer">
+          <button class="button button--ghost" type="button" data-close-settings>Cancelar</button>
+          <button class="button button--primary" type="submit">
+            <i class="fa-solid fa-check"></i>
+            Salvar configurações
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Excluir Categoria | SaborFlow Admin</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <link rel="stylesheet" href="../styles/admin.css">
+  <script src="../scripts/store.js" defer></script>
+  <script src="../scripts/admin.js" defer></script>
+</head>
+<body class="modal-page">
+  <main class="modal-card" aria-labelledby="delete-title">
+    <span class="modal-card__icon">
+      <i class="fa-solid fa-triangle-exclamation"></i>
+    </span>
+    <h1 id="delete-title">Excluir categoria</h1>
+    <p>Esta ação não poderá ser desfeita. A categoria <strong data-delete-name>selecionada</strong> será removida e os itens vinculados ficarão sem categoria.</p>
+
+    <div class="button-row modal-actions">
+      <a class="button button--ghost" href="./editar_categoria.html">Cancelar</a>
+      <button class="button button--danger" type="button" data-confirm-delete>
+        <i class="fa-solid fa-trash"></i>
+        Excluir
+      </button>
+    </div>
+  </main>
+</body>
+</html>

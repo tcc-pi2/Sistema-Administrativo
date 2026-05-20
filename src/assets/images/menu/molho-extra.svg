@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" role="img" aria-label="Potes de molho barbecue e maionese verde">
+  <rect width="640" height="420" rx="32" fill="#13160E"/>
+  <circle cx="492" cy="74" r="98" fill="#4ADE80" opacity=".13"/>
+  <ellipse cx="320" cy="334" rx="190" ry="32" fill="#050704" opacity=".42"/>
+  <g transform="translate(117 96)">
+    <path d="M51 75h150l-22 175H73L51 75Z" fill="#F7E4B7"/>
+    <path d="M31 54h190c10 0 18 8 18 18s-8 18-18 18H31c-10 0-18-8-18-18s8-18 18-18Z" fill="#FFF8E8"/>
+    <path d="M74 118c38 28 71-18 108 8v67c-38-22-72 22-108-3v-72Z" fill="#6BBF59"/>
+    <path d="M92 112c13-13 29-18 48-16" fill="none" stroke="#E7FFD8" stroke-width="10" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(325 112)">
+    <path d="M51 66h150l-22 175H73L51 66Z" fill="#F1C27D"/>
+    <path d="M31 45h190c10 0 18 8 18 18s-8 18-18 18H31c-10 0-18-8-18-18s8-18 18-18Z" fill="#FFE4AA"/>
+    <path d="M74 102c40 26 72-14 108 10v70c-38-20-72 22-108-4v-76Z" fill="#7B3F20"/>
+    <path d="M91 96c18-12 38-15 59-7" fill="none" stroke="#FFC66D" stroke-width="10" stroke-linecap="round"/>
+  </g>
+</svg>

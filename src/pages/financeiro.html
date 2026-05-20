@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Financeiro | SaborFlow Admin</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <link rel="stylesheet" href="../styles/admin.css">
+  <script src="../scripts/store.js" defer></script>
+  <script src="../scripts/admin.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar__top">
+        <a class="brand-card" href="./dashboard.html">
+          <img class="brand-card__avatar" src="../assets/brand/saborflow-logo.svg" alt="Logo SaborFlow">
+          <span>
+            <strong class="brand-card__name">GastroTech</strong>
+            <span class="brand-card__role">Painel administrativo</span>
+          </span>
+        </a>
+
+        <nav class="sidebar__nav" aria-label="Menu principal">
+          <a class="nav-link" href="./dashboard.html">
+            <i class="fa-solid fa-chart-pie"></i>
+            <span>Dashboard</span>
+          </a>
+          <a class="nav-link" href="./cozinha.html">
+            <i class="fa-solid fa-kitchen-set"></i>
+            <span>Cozinha</span>
+          </a>
+          <a class="nav-link nav-link--active" href="./financeiro.html">
+            <i class="fa-solid fa-cash-register"></i>
+            <span>Financeiro</span>
+          </a>
+          <a class="nav-link" href="./produtos.html">
+            <i class="fa-solid fa-box"></i>
+            <span>Cardápio</span>
+          </a>
+          <a class="nav-link" href="./lista-de-categoria.html">
+            <i class="fa-solid fa-tags"></i>
+            <span>Categorias</span>
+          </a>
+          <a class="nav-link" href="./administradores.html">
+            <i class="fa-solid fa-users-gear"></i>
+            <span>Administradores</span>
+          </a>
+        </nav>
+      </div>
+
+      <footer class="sidebar__footer">
+        <a class="button button--primary" href="./login.html?logout=1">
+          <i class="fa-solid fa-right-from-bracket"></i>
+          Sair
+        </a>
+      </footer>
+    </aside>
+
+    <main class="content">
+      <header class="topbar">
+        <div>
+          <p class="topbar__eyebrow">Controle de caixa</p>
+          <h1 class="topbar__title">Financeiro</h1>
+        </div>
+        <div class="topbar__actions">
+          <a class="icon-button" href="./dashboard.html" title="Voltar ao dashboard">
+            <i class="fa-solid fa-chart-pie"></i>
+          </a>
+          <a class="icon-button" href="./cozinha.html" title="Abrir cozinha">
+            <i class="fa-solid fa-kitchen-set"></i>
+          </a>
+          <a class="icon-button" href="./totem.html" target="_blank" rel="noopener" title="Abrir totem em nova aba">
+            <i class="fa-solid fa-display"></i>
+          </a>
+        </div>
+      </header>
+
+      <section class="page-body">
+        <div class="page-stack">
+          <div class="section-heading">
+            <div>
+              <h2>Caixa e movimentações</h2>
+              <p>Acompanhe vendas do totem, formas de pagamento, saldo em dinheiro e entradas ou saídas manuais do caixa.</p>
+            </div>
+            <button class="button button--ghost" type="button" data-export="finance">
+              <i class="fa-solid fa-download"></i>
+              Exportar financeiro
+            </button>
+          </div>
+
+          <div class="metric-grid metric-grid--four" aria-label="Resumo financeiro">
+            <article class="metric-card">
+              <div class="metric-card__top">
+                <p class="metric-card__label">Faturamento hoje</p>
+                <span class="metric-card__icon"><i class="fa-solid fa-sack-dollar"></i></span>
+              </div>
+              <p class="metric-card__value metric-card__value--money" data-finance-sales>R$ 0,00</p>
+              <p class="metric-card__note">Pedidos pagos no totem</p>
+            </article>
+
+            <article class="metric-card">
+              <div class="metric-card__top">
+                <p class="metric-card__label">Caixa atual</p>
+                <span class="metric-card__icon"><i class="fa-solid fa-cash-register"></i></span>
+              </div>
+              <p class="metric-card__value metric-card__value--money" data-finance-balance>R$ 0,00</p>
+              <p class="metric-card__note">Dinheiro disponível no caixa</p>
+            </article>
+
+            <article class="metric-card">
+              <div class="metric-card__top">
+                <p class="metric-card__label">Entradas</p>
+                <span class="metric-card__icon"><i class="fa-solid fa-arrow-trend-up"></i></span>
+              </div>
+              <p class="metric-card__value metric-card__value--money" data-finance-income>R$ 0,00</p>
+              <p class="metric-card__note">Movimentos adicionados</p>
+            </article>
+
+            <article class="metric-card">
+              <div class="metric-card__top">
+                <p class="metric-card__label">Saídas</p>
+                <span class="metric-card__icon"><i class="fa-solid fa-arrow-trend-down"></i></span>
+              </div>
+              <p class="metric-card__value metric-card__value--money" data-finance-expense>R$ 0,00</p>
+              <p class="metric-card__note">Despesas registradas</p>
+            </article>
+          </div>
+
+          <div class="finance-layout">
+            <form class="form-card" data-cash-form>
+              <div class="form-card__header">
+                <span class="form-card__icon"><i class="fa-solid fa-vault"></i></span>
+                <div>
+                  <p class="form-card__title">Caixa do dia</p>
+                  <p class="form-card__subtitle" data-cash-subtitle>Configure a abertura do caixa</p>
+                </div>
+              </div>
+
+              <div class="form-card__body">
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label for="saldo-inicial">Saldo inicial</label>
+                    <input class="form-control" id="saldo-inicial" name="openingBalance" type="number" min="0" step="0.01">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="status-caixa">Status</label>
+                    <select class="form-control" id="status-caixa" name="status">
+                      <option value="Aberto">Aberto</option>
+                      <option value="Fechado">Fechado</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-card__footer">
+                <button class="button button--primary" type="submit">
+                  <i class="fa-solid fa-check"></i>
+                  Salvar caixa
+                </button>
+              </div>
+            </form>
+
+            <form class="form-card" data-movement-form>
+              <div class="form-card__header">
+                <span class="form-card__icon"><i class="fa-solid fa-money-bill-transfer"></i></span>
+                <div>
+                  <p class="form-card__title">Novo movimento</p>
+                  <p class="form-card__subtitle">Registre reforços, retiradas e despesas</p>
+                </div>
+              </div>
+
+              <div class="form-card__body">
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label for="tipo-movimento">Tipo</label>
+                    <select class="form-control" id="tipo-movimento" name="type">
+                      <option value="Entrada">Entrada</option>
+                      <option value="Saida">Saída</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="valor-movimento">Valor</label>
+                    <input class="form-control" id="valor-movimento" name="amount" type="number" min="0.01" step="0.01">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="pagamento-movimento">Forma</label>
+                    <select class="form-control" id="pagamento-movimento" name="payment">
+                      <option value="Dinheiro">Dinheiro</option>
+                      <option value="Pix">Pix</option>
+                      <option value="Cartão">Cartão</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="descricao-movimento">Descrição</label>
+                    <input class="form-control" id="descricao-movimento" name="description" type="text" placeholder="Ex: compra de embalagens">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-card__footer">
+                <button class="button button--primary" type="submit">
+                  <i class="fa-solid fa-plus"></i>
+                  Adicionar
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div class="finance-tables">
+            <section class="table-card">
+              <div class="table-card__header">
+                <h3 class="table-card__title">Movimentações do caixa</h3>
+              </div>
+
+              <div class="table-wrapper">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Tipo</th>
+                      <th>Descrição</th>
+                      <th>Forma</th>
+                      <th>Data</th>
+                      <th class="text-right">Valor</th>
+                      <th class="text-right">Ação</th>
+                    </tr>
+                  </thead>
+                  <tbody data-movements-body></tbody>
+                </table>
+              </div>
+            </section>
+
+            <section class="table-card">
+              <div class="table-card__header">
+                <h3 class="table-card__title">Vendas por pagamento</h3>
+              </div>
+
+              <div class="table-wrapper">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Forma</th>
+                      <th>Pedidos</th>
+                      <th class="text-right">Total</th>
+                    </tr>
+                  </thead>
+                  <tbody data-payment-summary></tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

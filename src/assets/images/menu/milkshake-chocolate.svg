@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" role="img" aria-label="Milkshake de chocolate">
+  <rect width="640" height="420" rx="32" fill="#160E12"/>
+  <circle cx="126" cy="92" r="94" fill="#F8BBD0" opacity=".12"/>
+  <ellipse cx="318" cy="344" rx="154" ry="26" fill="#050303" opacity=".45"/>
+  <g transform="translate(214 36)">
+    <path d="M64 111h200l-26 244H90L64 111Z" fill="#F7C9A7"/>
+    <path d="M96 142h136l-19 180H115L96 142Z" fill="#7B3F20"/>
+    <path d="M69 94h191c11 0 20 9 20 20s-9 20-20 20H69c-11 0-20-9-20-20s9-20 20-20Z" fill="#FFE6CC"/>
+    <path d="M93 84c-3-38 27-69 68-69 43 0 76 31 74 69H93Z" fill="#FFF5EA"/>
+    <path d="M112 66c14-16 30-24 49-24 20 0 38 8 53 24" fill="none" stroke="#7B3F20" stroke-width="14" stroke-linecap="round"/>
+    <path d="M47 20 158 176" stroke="#FDE68A" stroke-width="16" stroke-linecap="round"/>
+    <path d="M47 20 158 176" stroke="#EF4444" stroke-width="5" stroke-linecap="round" stroke-dasharray="20 18"/>
+    <circle cx="205" cy="42" r="18" fill="#E11D48"/>
+    <path d="M150 94c12 19 25 21 40 0" fill="none" stroke="#7B3F20" stroke-width="9" stroke-linecap="round"/>
+    <g fill="#4A2512">
+      <circle cx="130" cy="186" r="7"/>
+      <circle cx="184" cy="212" r="7"/>
+      <circle cx="151" cy="264" r="7"/>
+      <circle cx="205" cy="281" r="7"/>
+    </g>
+  </g>
+</svg>

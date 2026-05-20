@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Categoria | SaborFlow Admin</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <link rel="stylesheet" href="../styles/admin.css">
+  <script src="../scripts/store.js" defer></script>
+  <script src="../scripts/admin.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar__top">
+        <a class="brand-card" href="./dashboard.html">
+          <img class="brand-card__avatar" src="../assets/brand/saborflow-logo.svg" alt="Logo SaborFlow">
+          <span>
+            <strong class="brand-card__name">SaborFlow</strong>
+            <span class="brand-card__role">Painel administrativo</span>
+          </span>
+        </a>
+
+        <nav class="sidebar__nav" aria-label="Menu principal">
+          <a class="nav-link" href="./dashboard.html">
+            <i class="fa-solid fa-chart-pie"></i>
+            <span>Dashboard</span>
+          </a>
+          <a class="nav-link" href="./cozinha.html">
+            <i class="fa-solid fa-kitchen-set"></i>
+            <span>Cozinha</span>
+          </a>
+          <a class="nav-link" href="./financeiro.html">
+            <i class="fa-solid fa-cash-register"></i>
+            <span>Financeiro</span>
+          </a>
+          <a class="nav-link" href="./produtos.html">
+            <i class="fa-solid fa-box"></i>
+            <span>Cardápio</span>
+          </a>
+          <a class="nav-link nav-link--active" href="./lista-de-categoria.html">
+            <i class="fa-solid fa-tags"></i>
+            <span>Categorias</span>
+          </a>
+          <a class="nav-link" href="./administradores.html">
+            <i class="fa-solid fa-users-gear"></i>
+            <span>Administradores</span>
+          </a>
+        </nav>
+      </div>
+
+      <footer class="sidebar__footer">
+        <a class="button button--primary" href="./login.html?logout=1">
+          <i class="fa-solid fa-right-from-bracket"></i>
+          Sair
+        </a>
+      </footer>
+    </aside>
+
+    <main class="content">
+      <header class="topbar">
+        <div>
+          <p class="topbar__eyebrow">Catálogo</p>
+          <h1 class="topbar__title">Editar categoria</h1>
+        </div>
+        <div class="topbar__actions">
+          <button class="icon-button" type="button" title="Notificações">
+            <i class="fa-solid fa-bell"></i>
+          </button>
+          <button class="icon-button" type="button" title="Configurações">
+            <i class="fa-solid fa-gear"></i>
+          </button>
+        </div>
+      </header>
+
+      <section class="page-body">
+        <div class="page-stack page-stack--narrow">
+          <nav class="breadcrumbs" aria-label="Caminho">
+            <span>Dashboard</span>
+            <span>/</span>
+            <span>Categorias</span>
+            <span>/</span>
+            <span data-current-category>Editar</span>
+          </nav>
+
+          <div class="section-heading">
+            <div>
+              <h2>Editar categoria</h2>
+              <p>Atualize o nome da categoria exibida no cardápio do totem.</p>
+            </div>
+          </div>
+
+          <form class="form-card" data-category-form data-mode="edit">
+            <input type="hidden" name="id">
+            <div class="form-card__header">
+              <span class="form-card__icon"><i class="fa-solid fa-tag"></i></span>
+              <div>
+                <p class="form-card__title">Informações principais</p>
+                <p class="form-card__subtitle" data-category-subtitle>ID da categoria</p>
+              </div>
+            </div>
+
+            <div class="form-card__body">
+              <div class="form-group">
+                <label for="nome-categoria">Nome da categoria</label>
+                <input class="form-control" id="nome-categoria" name="name" type="text" placeholder="Ex: Combos promocionais">
+              </div>
+
+              <div class="form-group">
+                <label for="descricao-categoria">Descrição</label>
+                <input class="form-control" id="descricao-categoria" name="description" type="text" placeholder="Ex: Promoções com lanche e bebida">
+              </div>
+
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="ordem-categoria">Ordem</label>
+                  <input class="form-control" id="ordem-categoria" name="order" type="number" min="1">
+                </div>
+
+                <div class="form-group">
+                  <label for="status-categoria">Status</label>
+                  <select class="form-control" id="status-categoria" name="status">
+                    <option value="Ativo">Ativo</option>
+                    <option value="Inativo">Inativo</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-card__footer">
+              <a class="button button--ghost" href="./lista-de-categoria.html">Cancelar</a>
+              <button class="button button--primary" type="submit">
+                <i class="fa-solid fa-check"></i>
+                Salvar alterações
+              </button>
+            </div>
+          </form>
+
+          <section class="danger-zone">
+            <div>
+              <h3>Zona de perigo</h3>
+              <p>Excluir uma categoria remove sua associação dos itens vinculados.</p>
+            </div>
+            <a class="button button--danger" id="delete-category-link" href="./excluir.html">
+              <i class="fa-solid fa-trash"></i>
+              Excluir categoria
+            </a>
+          </section>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

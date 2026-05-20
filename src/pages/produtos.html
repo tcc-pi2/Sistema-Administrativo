@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Produtos | SaborFlow Admin</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <link rel="stylesheet" href="../styles/admin.css">
+  <script src="../scripts/store.js" defer></script>
+  <script src="../scripts/admin.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar__top">
+        <a class="brand-card" href="./dashboard.html">
+          <img class="brand-card__avatar" src="../assets/brand/saborflow-logo.svg" alt="Logo SaborFlow">
+          <span>
+            <strong class="brand-card__name">GastroTech</strong>
+            <span class="brand-card__role">Painel administrativo</span>
+          </span>
+        </a>
+
+        <nav class="sidebar__nav" aria-label="Menu principal">
+          <a class="nav-link" href="./dashboard.html">
+            <i class="fa-solid fa-chart-pie"></i>
+            <span>Dashboard</span>
+          </a>
+          <a class="nav-link" href="./cozinha.html">
+            <i class="fa-solid fa-kitchen-set"></i>
+            <span>Cozinha</span>
+          </a>
+          <a class="nav-link" href="./financeiro.html">
+            <i class="fa-solid fa-cash-register"></i>
+            <span>Financeiro</span>
+          </a>
+          <a class="nav-link nav-link--active" href="./produtos.html">
+            <i class="fa-solid fa-box"></i>
+            <span>Cardápio</span>
+          </a>
+          <a class="nav-link" href="./lista-de-categoria.html">
+            <i class="fa-solid fa-tags"></i>
+            <span>Categorias</span>
+          </a>
+          <a class="nav-link" href="./administradores.html">
+            <i class="fa-solid fa-users-gear"></i>
+            <span>Administradores</span>
+          </a>
+        </nav>
+      </div>
+
+      <footer class="sidebar__footer">
+        <a class="button button--primary" href="./login.html?logout=1">
+          <i class="fa-solid fa-right-from-bracket"></i>
+          Sair
+        </a>
+      </footer>
+    </aside>
+
+    <main class="content">
+      <header class="topbar">
+        <div>
+          <p class="topbar__eyebrow">Cardápio do totem</p>
+          <h1 class="topbar__title">Cardápio</h1>
+        </div>
+        <div class="topbar__actions">
+          <button class="icon-button" type="button" title="Notificações">
+            <i class="fa-solid fa-bell"></i>
+          </button>
+          <button class="icon-button" type="button" title="Configurações">
+            <i class="fa-solid fa-gear"></i>
+          </button>
+        </div>
+      </header>
+
+      <section class="page-body">
+        <div class="page-stack">
+          <div class="section-heading">
+            <div>
+              <h2>Gerenciamento de cardápio</h2>
+              <p>Controle os lanches, bebidas, adicionais, preços e disponibilidade exibidos no totem.</p>
+            </div>
+            <button class="button button--primary" type="button" data-open-product-form>
+              <i class="fa-solid fa-plus"></i>
+              Novo item
+            </button>
+          </div>
+
+          <section class="table-card">
+            <div class="table-card__header">
+              <h3 class="table-card__title">Itens cadastrados</h3>
+              <div class="toolbar">
+                <label class="search" aria-label="Buscar itens">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                  <input type="search" data-products-search placeholder="Buscar item ou categoria">
+                </label>
+                <button class="button button--ghost" type="button" data-export="products">
+                  <i class="fa-solid fa-download"></i>
+                  Exportar
+                </button>
+              </div>
+            </div>
+
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Código</th>
+                    <th>Item</th>
+                    <th>Detalhes</th>
+                    <th class="text-right">Estoque</th>
+                    <th class="text-right">Preço</th>
+                    <th class="text-center">Ações</th>
+                  </tr>
+                </thead>
+                <tbody data-products-body></tbody>
+              </table>
+            </div>
+
+            <div class="table-card__footer">
+              <span data-products-info>Carregando itens</span>
+              <span class="button-row" data-products-pages></span>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="crud-modal" data-product-modal aria-hidden="true">
+    <div class="crud-panel">
+      <div class="crud-panel__header">
+        <div>
+          <h2>Item do cardápio</h2>
+          <p>Cadastre ou altere o item exibido no totem.</p>
+        </div>
+        <button class="icon-button" type="button" data-close-product-form title="Fechar">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form class="crud-form" data-product-form>
+        <input type="hidden" name="id">
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="produto-nome">Nome</label>
+            <input class="form-control" id="produto-nome" name="name" type="text" placeholder="Ex: Combo Smash">
+          </div>
+
+          <div class="form-group">
+            <label for="produto-categoria">Categoria</label>
+            <select class="form-control" id="produto-categoria" name="categoryId"></select>
+          </div>
+
+          <div class="form-group form-group--wide">
+            <label for="produto-descricao">Descrição</label>
+            <input class="form-control" id="produto-descricao" name="description" type="text" placeholder="Ex: Hambúrguer, batata e refrigerante">
+          </div>
+
+          <div class="form-group form-group--wide">
+            <label for="produto-imagem">Imagem</label>
+            <input class="form-control" id="produto-imagem" name="image" type="text" placeholder="Ex: ../assets/images/menu/combo-smash.svg">
+            <!-- Aqui dá para trocar a imagem sem abrir o código. -->
+            <div class="image-picker">
+              <label class="button button--ghost" for="produto-imagem-arquivo">
+                <i class="fa-solid fa-image"></i>
+                Enviar imagem
+              </label>
+              <input id="produto-imagem-arquivo" name="imageFile" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml">
+              <button class="button button--ghost" type="button" data-clear-product-image>
+                <i class="fa-solid fa-eraser"></i>
+                Remover imagem
+              </button>
+            </div>
+            <div class="image-preview" data-product-image-preview>
+              <span>Prévia da imagem</span>
+            </div>
+          </div>
+
+          <div class="form-group form-group--wide">
+            <label for="produto-opcoes">Itens inclusos</label>
+            <input class="form-control" id="produto-opcoes" name="options" type="text" placeholder="Ex: Burger, Batata, Refri">
+          </div>
+
+          <div class="form-group form-group--wide">
+            <label for="produto-ingredientes">Ingredientes</label>
+            <textarea class="form-control" id="produto-ingredientes" name="ingredients" rows="3" placeholder="Ex: pão brioche, blend bovino, cheddar, picles, molho especial"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="produto-tags">Tags</label>
+            <input class="form-control" id="produto-tags" name="tags" type="text" placeholder="Ex: Mais vendido, Completo">
+          </div>
+
+          <div class="form-group">
+            <label for="produto-alergenos">Alérgenos</label>
+            <input class="form-control" id="produto-alergenos" name="allergens" type="text" placeholder="Ex: glúten, leite">
+          </div>
+
+          <div class="form-group">
+            <label for="produto-porcao">Porção</label>
+            <input class="form-control" id="produto-porcao" name="portion" type="text" placeholder="Ex: 1 lanche + batata + bebida">
+          </div>
+
+          <div class="form-group">
+            <label for="produto-calorias">Calorias</label>
+            <input class="form-control" id="produto-calorias" name="calories" type="number" min="0" placeholder="Ex: 920">
+          </div>
+
+          <div class="form-group">
+            <label for="produto-estoque">Estoque</label>
+            <input class="form-control" id="produto-estoque" name="stock" type="number" min="0">
+          </div>
+
+          <div class="form-group">
+            <label for="produto-preco">Preço</label>
+            <input class="form-control" id="produto-preco" name="price" type="number" min="0" step="0.01">
+          </div>
+
+          <div class="form-group">
+            <label for="produto-tempo">Preparo min.</label>
+            <input class="form-control" id="produto-tempo" name="prepTime" type="number" min="1">
+          </div>
+
+          <div class="form-group">
+            <label for="produto-icone">Ícone</label>
+            <select class="form-control" id="produto-icone" name="icon">
+              <option value="fa-burger">Hambúrguer</option>
+              <option value="fa-bowl-food">Porção</option>
+              <option value="fa-glass-water">Bebida</option>
+              <option value="fa-ice-cream">Sobremesa</option>
+              <option value="fa-droplet">Adicional</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="produto-status">Status</label>
+            <select class="form-control" id="produto-status" name="status">
+              <option value="Ativo">Ativo</option>
+              <option value="Inativo">Inativo</option>
+            </select>
+          </div>
+
+          <label class="check-row">
+            <input type="checkbox" name="featured">
+            Destacar no dashboard
+          </label>
+        </div>
+
+        <div class="crud-panel__footer">
+          <button class="button button--ghost" type="button" data-close-product-form>Cancelar</button>
+          <button class="button button--primary" type="submit">
+            <i class="fa-solid fa-check"></i>
+            Salvar item
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pedido no Totem | GastroTech</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <link rel="stylesheet" href="../styles/totem.css">
+  <script src="../scripts/store.js" defer></script>
+  <script src="../scripts/totem.js" defer></script>
+</head>
+<body>
+  <div class="totem-shell">
+    <aside class="totem-sidebar">
+      <div>
+        <div class="totem-brand">
+          <span class="totem-brand__mark">
+            <img src="../assets/brand/saborflow-logo.svg" alt="" data-store-logo>
+          </span>
+          <div>
+            <h1 data-store-name>GastroTech</h1>
+            <p data-store-subtitle>Monte seu pedido com todos os detalhes.</p>
+          </div>
+        </div>
+
+        <nav class="category-list" data-categories aria-label="Categorias do cardápio"></nav>
+      </div>
+
+      <div class="totem-sidebar__footer">
+        <button class="track-order-button" type="button" data-open-tracker>
+          <i class="fa-solid fa-receipt"></i>
+          Acompanhar pedido
+        </button>
+
+        <a class="back-office" href="./login.html?next=dashboard.html&logout=1" target="_blank" rel="noopener">
+          <i class="fa-solid fa-lock"></i>
+          Painel administrativo
+        </a>
+      </div>
+    </aside>
+
+    <main class="totem-main">
+      <header class="totem-header">
+        <div>
+          <h2>Escolha seu sabor</h2>
+          <p>Veja ingredientes, porções e detalhes antes de finalizar seu pedido no autoatendimento.</p>
+        </div>
+        <span class="order-chip">
+          <i class="fa-solid fa-circle-check"></i>
+          Totem 01 online
+        </span>
+      </header>
+
+      <section class="menu-grid" data-products aria-label="Itens do cardápio"></section>
+    </main>
+
+    <aside class="totem-cart">
+      <header class="cart-header">
+        <h2>Seu pedido</h2>
+        <p data-cart-summary>Escolha os itens do pedido</p>
+      </header>
+
+      <div class="cart-items" data-cart-items></div>
+
+      <footer class="cart-footer">
+        <input class="customer-field" type="text" data-customer placeholder="Nome para retirada">
+
+        <div class="payment-grid" aria-label="Forma de pagamento">
+          <button class="payment-button is-active" type="button" data-payment="Pix">
+            <i class="fa-solid fa-qrcode"></i><br>Pix
+          </button>
+          <button class="payment-button" type="button" data-payment="Cartão">
+            <i class="fa-solid fa-credit-card"></i><br>Cartão
+          </button>
+          <button class="payment-button" type="button" data-payment="Dinheiro">
+            <i class="fa-solid fa-money-bill"></i><br>Dinheiro
+          </button>
+        </div>
+
+        <div class="cart-total">
+          <span>Total</span>
+          <strong data-total>R$ 0,00</strong>
+        </div>
+
+        <button class="finish-button" type="button" data-finish disabled>
+          Finalizar pedido
+        </button>
+      </footer>
+    </aside>
+  </div>
+
+  <div class="order-modal" data-modal role="dialog" aria-modal="true" aria-labelledby="order-title">
+    <div class="order-card">
+      <span class="order-card__icon">
+        <i class="fa-solid fa-circle-check"></i>
+      </span>
+      <h2 id="order-title">Pedido confirmado</h2>
+      <p data-order-text>Seu pedido foi registrado.</p>
+      <div class="order-code" data-order-code>A000</div>
+
+      <section class="customer-status" aria-label="Situacao do pedido">
+        <h3>Situação do pedido</h3>
+        <div class="status-progress" data-order-progress></div>
+        <p data-order-status-text>Pedido recebido pela cozinha.</p>
+      </section>
+
+      <div class="order-actions">
+        <button class="finish-button finish-button--secondary" type="button" data-open-tracker>
+          Acompanhar status
+        </button>
+        <button class="finish-button" type="button" data-new-order>
+          Novo pedido
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="order-modal" data-tracker-modal role="dialog" aria-modal="true" aria-labelledby="tracker-title">
+    <div class="order-card order-card--tracker">
+      <button class="modal-close" type="button" data-close-tracker title="Fechar">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <span class="order-card__icon">
+        <i class="fa-solid fa-magnifying-glass-location"></i>
+      </span>
+      <h2 id="tracker-title">Acompanhar pedido</h2>
+      <p>Digite o código de retirada para ver a situação atual.</p>
+
+      <form class="tracking-form" data-tracker-form>
+        <input class="customer-field" type="text" data-tracker-code placeholder="Ex: A105" autocomplete="off">
+        <button class="finish-button" type="submit">
+          Consultar
+        </button>
+      </form>
+
+      <div class="tracker-result" data-tracker-result>
+        <span class="tracker-empty">Informe o código que apareceu ao finalizar o pedido.</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

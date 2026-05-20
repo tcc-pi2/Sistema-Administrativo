@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | SaborFlow Admin</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <link rel="stylesheet" href="../styles/admin.css">
+  <script src="../scripts/store.js" defer></script>
+  <script src="../scripts/login.js" defer></script>
+</head>
+<body class="login-page">
+  <main class="login-card" aria-labelledby="login-title">
+    <div class="login-card__brand">
+      <span class="login-card__mark">
+        <img src="../assets/brand/saborflow-logo.svg" alt="" data-store-logo>
+      </span>
+      <div>
+        <h1 id="login-title">Acesso ao Painel</h1>
+        <p>Painel administrativo <span data-store-name>SaborFlow</span></p>
+      </div>
+    </div>
+
+    <form class="login-form" id="login-form">
+      <div class="form-group">
+        <label for="email">Usuário ou e-mail</label>
+        <input class="form-control" type="text" id="email" autocomplete="username" placeholder="admin">
+      </div>
+
+      <div class="form-group">
+        <label for="senha">Senha</label>
+        <input class="form-control" type="password" id="senha" autocomplete="current-password" placeholder="Digite sua senha">
+      </div>
+
+      <button class="button button--primary" type="submit">
+        <i class="fa-solid fa-right-to-bracket"></i>
+        Entrar
+      </button>
+    </form>
+
+    <div class="login-footer">
+      Acesso de teste: <strong>admin</strong> / <strong>123</strong>
+    </div>
+  </main>
+</body>
+</html>

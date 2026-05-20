@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Categorias | SaborFlow Admin</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <link rel="stylesheet" href="../styles/admin.css">
+  <script src="../scripts/store.js" defer></script>
+  <script src="../scripts/admin.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar__top">
+        <a class="brand-card" href="./dashboard.html">
+          <img class="brand-card__avatar" src="../assets/brand/saborflow-logo.svg" alt="Logo SaborFlow">
+          <span>
+            <strong class="brand-card__name">SaborFlow</strong>
+            <span class="brand-card__role">Painel administrativo</span>
+          </span>
+        </a>
+
+        <nav class="sidebar__nav" aria-label="Menu principal">
+          <a class="nav-link" href="./dashboard.html">
+            <i class="fa-solid fa-chart-pie"></i>
+            <span>Dashboard</span>
+          </a>
+          <a class="nav-link" href="./cozinha.html">
+            <i class="fa-solid fa-kitchen-set"></i>
+            <span>Cozinha</span>
+          </a>
+          <a class="nav-link" href="./financeiro.html">
+            <i class="fa-solid fa-cash-register"></i>
+            <span>Financeiro</span>
+          </a>
+          <a class="nav-link" href="./produtos.html">
+            <i class="fa-solid fa-box"></i>
+            <span>Cardápio</span>
+          </a>
+          <a class="nav-link nav-link--active" href="./lista-de-categoria.html">
+            <i class="fa-solid fa-tags"></i>
+            <span>Categorias</span>
+          </a>
+          <a class="nav-link" href="./administradores.html">
+            <i class="fa-solid fa-users-gear"></i>
+            <span>Administradores</span>
+          </a>
+        </nav>
+      </div>
+
+      <footer class="sidebar__footer">
+        <a class="button button--primary" href="./login.html?logout=1">
+          <i class="fa-solid fa-right-from-bracket"></i>
+          Sair
+        </a>
+      </footer>
+    </aside>
+
+    <main class="content">
+      <header class="topbar">
+        <div>
+          <p class="topbar__eyebrow">Catálogo</p>
+          <h1 class="topbar__title">Categorias</h1>
+        </div>
+        <div class="topbar__actions">
+          <button class="icon-button" type="button" title="Notificações">
+            <i class="fa-solid fa-bell"></i>
+          </button>
+          <button class="icon-button" type="button" title="Configurações">
+            <i class="fa-solid fa-gear"></i>
+          </button>
+        </div>
+      </header>
+
+      <section class="page-body">
+        <div class="page-stack">
+          <div class="section-heading">
+            <div>
+              <h2>Gerenciar categorias</h2>
+              <p>Organize os grupos usados no totem, como combos, bebidas, sobremesas e adicionais.</p>
+            </div>
+            <a class="button button--primary" href="./adicionar-categoria.html">
+              <i class="fa-solid fa-plus"></i>
+              Nova categoria
+            </a>
+          </div>
+
+          <section class="table-card">
+            <div class="table-card__header">
+              <h3 class="table-card__title">Lista de categorias</h3>
+              <div class="toolbar">
+                <button class="button button--ghost" type="button" data-export="categories">
+                  <i class="fa-solid fa-download"></i>
+                  Exportar
+                </button>
+              </div>
+            </div>
+
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nome da categoria</th>
+                    <th>Total de itens</th>
+                    <th>Status</th>
+                    <th class="text-right">Ações</th>
+                  </tr>
+                </thead>
+                <tbody data-categories-body></tbody>
+              </table>
+            </div>
+
+            <div class="table-card__footer">
+              <span data-categories-info>Carregando categorias</span>
+              <span class="button-row">
+                <button class="button button--primary" type="button">1</button>
+                <button class="button button--ghost" type="button">2</button>
+                <button class="button button--ghost" type="button">3</button>
+              </span>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
