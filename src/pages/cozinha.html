@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cozinha | SaborFlow Admin</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <link rel="stylesheet" href="../styles/cozinha.css">
+  <script src="../scripts/store.js" defer></script>
+  <script src="../scripts/cozinha.js" defer></script>
+</head>
+<body>
+  <div class="kitchen-shell">
+    <header class="kitchen-topbar">
+      <div class="kitchen-heading">
+        <span class="kitchen-brand">
+          <img src="../assets/brand/saborflow-logo.svg" alt="" data-store-logo>
+          <span>
+            <strong data-store-name>SaborFlow</strong>
+            <small>Cozinha</small>
+          </span>
+        </span>
+        <div>
+          <h1>Fila da cozinha</h1>
+          <p>Acompanhe os pedidos do totem e avance o status até a retirada.</p>
+        </div>
+      </div>          
+
+      <div class="top-actions">
+        <a class="button" href="./dashboard.html">
+          <i class="fa-solid fa-chart-pie"></i>
+          Dashboard
+        </a>
+        <a class="button" href="./financeiro.html">
+          <i class="fa-solid fa-cash-register"></i>
+          Financeiro
+        </a>
+        <a class="button" href="./totem.html" target="_blank" rel="noopener">
+          <i class="fa-solid fa-display"></i>
+          Totem
+        </a>
+      </div>
+    </header>
+
+    <main class="kitchen-body">
+      <nav class="status-tabs" data-status-tabs aria-label="Filtros de status"></nav>
+      <section class="orders-board" data-orders-board aria-label="Pedidos da cozinha"></section>
+    </main>
+  </div>
+</body>
+</html>

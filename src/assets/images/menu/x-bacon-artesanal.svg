@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" role="img" aria-label="Hamburguer artesanal com bacon">
+  <rect width="640" height="420" rx="32" fill="#1B1009"/>
+  <path d="M61 341c87-58 181-74 283-47 78 20 144 7 236-44v170H61v-79Z" fill="#2A1A10"/>
+  <ellipse cx="320" cy="327" rx="218" ry="34" fill="#090604" opacity=".5"/>
+  <g transform="translate(128 78)">
+    <path d="M29 131C44 53 111 0 192 0s148 53 163 131H29Z" fill="#F5A12D"/>
+    <path d="M54 143h276c18 0 32 14 32 32s-14 32-32 32H54c-18 0-32-14-32-32s14-32 32-32Z" fill="#FFE4AA"/>
+    <path d="M52 207h281l-29 45H81l-29-45Z" fill="#63B64E"/>
+    <path d="M74 241c64-18 127 12 191-6 33-9 61-12 88 0l-26 42H95l-21-36Z" fill="#E24B2D"/>
+    <path d="M92 275h200c29 0 53 23 53 52H39c0-29 24-52 53-52Z" fill="#7C3F1E"/>
+    <path d="M62 326h260c18 0 32 14 32 32s-14 32-32 32H62c-18 0-32-14-32-32s14-32 32-32Z" fill="#F8BA4C"/>
+    <path d="M71 224c49 13 94-14 143-1 37 10 70 3 113-15" fill="none" stroke="#FFCB6B" stroke-width="20" stroke-linecap="round"/>
+    <path d="M73 95c40-25 84-33 132-23 37 8 70 24 99 49" fill="none" stroke="#FFEBC0" stroke-width="8" stroke-linecap="round"/>
+    <circle cx="117" cy="58" r="6" fill="#FFEBC0"/>
+    <circle cx="184" cy="41" r="6" fill="#FFEBC0"/>
+    <circle cx="252" cy="72" r="6" fill="#FFEBC0"/>
+  </g>
+</svg>

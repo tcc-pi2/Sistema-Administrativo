@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" role="img" aria-label="Refrigerante em lata gelado">
+  <rect width="640" height="420" rx="32" fill="#10151B"/>
+  <circle cx="462" cy="115" r="110" fill="#38BDF8" opacity=".13"/>
+  <ellipse cx="320" cy="342" rx="154" ry="28" fill="#05080C" opacity=".45"/>
+  <g transform="translate(214 40)">
+    <path d="M64 30h184c17 0 31 14 31 31v268c0 17-14 31-31 31H64c-17 0-31-14-31-31V61c0-17 14-31 31-31Z" fill="#D7372F"/>
+    <path d="M75 30h134c16 0 29 13 29 29v270c0 17-14 31-31 31H75V30Z" fill="#F05243"/>
+    <ellipse cx="156" cy="31" rx="92" ry="24" fill="#F8FAFC"/>
+    <ellipse cx="156" cy="31" rx="55" ry="11" fill="#CBD5E1"/>
+    <path d="M77 108c43-28 85-29 126-4 30 18 55 19 73 4v92c-35 18-69 17-101-2-36-21-69-19-98 6v-96Z" fill="#FFFFFF" opacity=".95"/>
+    <circle cx="155" cy="150" r="44" fill="#FDE68A"/>
+    <path d="M132 151h46" stroke="#F05243" stroke-width="11" stroke-linecap="round"/>
+    <g stroke="#E0F2FE" stroke-linecap="round" opacity=".85">
+      <path d="M294 112h24"/>
+      <path d="M286 155h37"/>
+      <path d="M294 206h24"/>
+      <path d="M9 126h28"/>
+      <path d="M1 178h34"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" role="img" aria-label="Batata frita com cheddar e bacon">
+  <rect width="640" height="420" rx="32" fill="#211408"/>
+  <circle cx="134" cy="88" r="82" fill="#FFD166" opacity=".16"/>
+  <ellipse cx="320" cy="338" rx="206" ry="34" fill="#0B0704" opacity=".45"/>
+  <g transform="translate(134 58)">
+    <path d="M68 78 92 288H280L304 78H68Z" fill="#C83324"/>
+    <path d="M50 63h272l-21 72H71L50 63Z" fill="#E94C33"/>
+    <path d="m98 7 28 207h-38L61 14 98 7Zm76-7 10 214h-39L136 4l38-4Zm84 14-33 203h-38L220 8l38 6Zm61 38-55 176h-35l56-186 34 10Z" fill="#FFD86B"/>
+    <path d="M77 194c79-31 141 28 220-1" fill="none" stroke="#FFB02E" stroke-width="28" stroke-linecap="round"/>
+    <path d="M82 221c70-22 132 16 211-6" fill="none" stroke="#FFE3A2" stroke-width="10" stroke-linecap="round"/>
+    <g fill="#7B2F1B">
+      <rect x="104" y="172" width="32" height="15" rx="5"/>
+      <rect x="176" y="202" width="34" height="15" rx="5"/>
+      <rect x="244" y="168" width="30" height="15" rx="5"/>
+      <rect x="128" y="236" width="31" height="15" rx="5"/>
+    </g>
+  </g>
+</svg>
