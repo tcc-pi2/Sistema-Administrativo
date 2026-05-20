@@ -1,4 +1,4 @@
-# SaborFlow Admin
+# GastroTech Admin
 
 Sistema de autoatendimento e painel administrativo para lanchonete, com cardapio visual, detalhes dos alimentos, fluxo da cozinha e acompanhamento financeiro.
 
@@ -8,8 +8,7 @@ O SaborFlow resolve um problema simples e real: a lanchonete precisa alterar pro
 
 ## Identidade visual
 
-- Nome do sistema: `SaborFlow`.
-- Logo: `src/assets/brand/saborflow-logo.svg`.
+- Nome do sistema: `GastroTech`.
 - Proposta: mostrar que o pedido "flui" do totem para a cozinha, financeiro e administracao.
 - Estilo visual: lanchonete moderna, tons quentes, cards escuros, imagens dos produtos e detalhes claros para o cliente.
 
