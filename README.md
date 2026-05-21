@@ -4,11 +4,12 @@ Sistema de autoatendimento e painel administrativo para lanchonete, com cardapio
 
 ## Ideia do projeto
 
-O SaborFlow resolve um problema simples e real: a lanchonete precisa alterar produtos, precos, categorias, ingredientes, imagens e disponibilidade do cardapio sem mexer diretamente no totem. O cliente usa o totem para escolher o lanche; o administrador usa este painel para manter a operacao organizada.
+O GastroTech resolve um problema simples e real: a lanchonete precisa alterar produtos, precos, categorias, ingredientes, imagens e disponibilidade do cardapio sem mexer diretamente no totem. O cliente usa o totem para escolher o lanche; o administrador usa este painel para manter a operacao organizada.
 
 ## Identidade visual
 
 - Nome do sistema: `GastroTech`.
+- Logo padrao: `src/assets/brand/gastrotech-logo.jpg`.
 - Proposta: mostrar que o pedido "flui" do totem para a cozinha, financeiro e administracao.
 - Estilo visual: lanchonete moderna, tons quentes, cards escuros, imagens dos produtos e detalhes claros para o cliente.
 
@@ -51,19 +52,20 @@ Fluxo principal:
 
 ```text
 Sistema Administrativo/
-├── index.html
-├── README.md
-├── database/
-│   └── database.sql
-├── src/
-│   ├── assets/
-│   │   ├── brand/
-│   │   └── images/
-│   │       └── menu/
-│   ├── styles/
-│   ├── scripts/
-│   └── pages/
-└── .vscode/
+|-- index.html
+|-- README.md
+|-- GUIA_DO_CODIGO.md
+|-- database/
+|   `-- database.sql
+|-- src/
+|   |-- assets/
+|   |   |-- brand/
+|   |   `-- images/
+|   |       `-- menu/
+|   |-- styles/
+|   |-- scripts/
+|   `-- pages/
+`-- .vscode/
 ```
 
 - `index.html`: entrada principal do projeto.
@@ -92,7 +94,18 @@ No codigo, caso queira estudar:
 - `src/assets/brand`: pasta para logos.
 - `src/assets/images/menu`: pasta para imagens dos alimentos.
 
+Imagens oficiais usadas agora:
+
+- `src/assets/brand/gastrotech-logo.jpg`
+- `src/assets/images/menu/combo-smash.jpg`
+- `src/assets/images/menu/x-bacon-artesanal.jpg`
+- `src/assets/images/menu/batata-suprema.jpg`
+- `src/assets/images/menu/bebida-gelada.jpg`
+- `src/assets/images/menu/milkshake-chocolate.jpg`
+- `src/assets/images/menu/molho-extra.jpg`
+
 Depois que voce muda pelo painel, o navegador salva isso no `localStorage`. Se limpar os dados do navegador, o sistema volta para os dados iniciais do `store.js`.
+Para entregar o projeto, prefira deixar as imagens fixas nessa pasta. Assim o professor abre em outro computador e as imagens continuam aparecendo.
 
 ## Funcionalidades prontas
 
@@ -104,6 +117,7 @@ Depois que voce muda pelo painel, o navegador salva isso no `localStorage`. Se l
 - Cadastro, edição e exclusão de categorias.
 - Cadastro, edição, bloqueio e exclusão de administradores.
 - Totem do cliente com categorias, carrinho, pagamento simulado e código de retirada.
+- Escolha de bebida no totem: refrigerante ou suco, com gelo ou sem gelo.
 - Consulta de situacao do pedido no totem pelo codigo de retirada.
 - Pedidos do totem salvos e exibidos no dashboard.
 - Tela da cozinha para acompanhar e avancar o status dos pedidos.
@@ -123,7 +137,7 @@ Os dados ficam salvos no navegador usando `localStorage`, então o projeto funci
 - Feedback por notificacoes na tela.
 - Efeito visual nos botoes.
 - Padrao unico de icones e componentes.
-- Logo propria do SaborFlow.
+- Logo propria do GastroTech.
 - Cards de produtos com imagem, ingredientes e detalhes nutricionais simples.
 
 ## Telas
@@ -169,8 +183,12 @@ Tambem e possivel colocar a pasta `Sistema Administrativo` dentro do `htdocs` do
 
 1. Abra o VS Code.
 2. Va em `File > Open Folder`.
-3. Selecione a pasta `C:\Users\luiza\Documents\Sistema Administrativo`.
+3. Selecione a pasta `Sistema Administrativo` que tem `index.html`, `src` e `database` dentro.
 4. Abra o arquivo `index.html` da raiz ou use a extensao Live Server.
+
+## Guia para estudar
+
+O arquivo `GUIA_DO_CODIGO.md` explica, de forma mais simples, onde ficam as telas, os scripts, as imagens, a logo e os nomes internos usados no JavaScript.
 
 ## Banco de dados
 

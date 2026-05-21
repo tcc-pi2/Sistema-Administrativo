@@ -1,5 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap");
 
+/*
+  Estilos do totem do cliente.
+  As cores principais ficam em :root.
+  Os cards dos produtos ficam nas classes product-card.
+*/
+
 :root {
   --bg: #100b08;
   --surface: #1b130e;
@@ -86,10 +92,11 @@ a {
 .totem-brand__mark {
   width: 56px;
   height: 56px;
+  flex: 0 0 56px;
   display: grid;
   place-items: center;
   border-radius: var(--radius);
-  background: #130d08;
+  background: #fff;
   border: 1px solid rgba(242, 139, 13, 0.35);
   overflow: hidden;
 }
@@ -97,7 +104,9 @@ a {
 .totem-brand__mark img {
   width: 100%;
   height: 100%;
+  padding: 7px;
   display: block;
+  object-fit: contain;
 }
 
 .totem-brand h1 {
@@ -504,6 +513,14 @@ a {
   font-size: 12px;
 }
 
+.cart-item__options {
+  display: block;
+  margin-top: 3px;
+  color: var(--accent-2);
+  font-size: 11px;
+  line-height: 1.35;
+}
+
 .quantity-button {
   width: 32px;
   height: 32px;
@@ -633,6 +650,12 @@ a {
   width: min(100%, 560px);
 }
 
+.order-card--options {
+  position: relative;
+  width: min(100%, 520px);
+  text-align: left;
+}
+
 .order-card__icon {
   width: 64px;
   height: 64px;
@@ -643,6 +666,11 @@ a {
   background: rgba(74, 222, 128, 0.12);
   color: var(--green);
   font-size: 28px;
+}
+
+.order-card__icon--orange {
+  background: var(--accent-soft);
+  color: var(--accent-2);
 }
 
 .order-card h2 {
@@ -816,6 +844,51 @@ a {
   gap: 10px;
   color: var(--muted);
   font-size: 13px;
+}
+
+.tracker-item span small {
+  display: block;
+  margin-top: 3px;
+  color: var(--accent-2);
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.option-list {
+  display: grid;
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.option-group {
+  display: grid;
+  gap: 9px;
+}
+
+.option-group strong {
+  font-size: 13px;
+}
+
+.option-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.option-button {
+  min-height: 38px;
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.option-button.is-active {
+  border-color: rgba(242, 139, 13, 0.34);
+  background: var(--accent-soft);
+  color: var(--accent-2);
 }
 
 @keyframes productIn {

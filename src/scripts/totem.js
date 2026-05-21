@@ -1,6 +1,20 @@
-let categoriaAtual = "todos";
+﻿let categoriaAtual = "todos";
 let pagamentoAtual = "Pix";
 const carrinho = new Map();
+let produtoPersonalizado = null;
+let escolhasPersonalizadas = {};
+
+/*
+  Este arquivo controla a tela do cliente.
+
+  Aqui ficam:
+  - categorias do lado esquerdo
+  - cards dos lanches
+  - carrinho
+  - escolha de bebida/gelo
+  - finalizacao do pedido
+  - acompanhamento pelo codigo
+*/
 
 // Etapas usadas para mostrar o andamento do pedido para o cliente.
 const etapasPedido = [
@@ -14,6 +28,7 @@ let codigoAcompanhado = "";
 let statusTimer = null;
 
 function textoSeguro(valor) {
+  // Protege a tela caso algum texto tenha <, > ou aspas.
   return String(valor ?? "")
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
@@ -28,6 +43,42 @@ function listaChipsHtml(items, classe = "product-chip") {
     .filter(Boolean)
     .map((item) => `<span class="${classe}">${textoSeguro(item)}</span>`)
     .join("");
+}
+
+// Confere se o produto precisa abrir escolhas antes de ir para o carrinho.
+function temPersonalizacao(produto) {
+  return Array.isArray(produto?.customizations) && produto.customizations.length > 0;
+}
+
+// Pega a primeira opção de cada grupo para deixar tudo preenchido.
+function escolhasPadrao(produto) {
+  return (produto.customizations || []).reduce((resultado, grupo) => {
+    resultado[grupo.label] = grupo.choices?.[0] || "";
+    return resultado;
+  }, {});
+}
+
+function textoDasEscolhas(escolhas = {}) {
+  // Transforma escolhas em texto. Ex: Bebida: Coca-Cola • Gelo: Sem gelo.
+  return Object.entries(escolhas)
+    .filter(([, valor]) => valor)
+    .map(([nome, valor]) => `${nome}: ${valor}`)
+    .join(" • ");
+}
+
+function chaveDoItem(produtoId, escolhas = {}) {
+  // Faz itens iguais com escolhas diferentes ficarem separados no carrinho.
+  const partes = Object.keys(escolhas)
+    .sort()
+    .map((nome) => `${nome}=${escolhas[nome]}`);
+  return `${produtoId}|${partes.join("|")}`;
+}
+
+function quantidadeProdutoNoCarrinho(produtoId) {
+  // Soma o total daquele produto no carrinho para respeitar o estoque.
+  return [...carrinho.values()]
+    .filter((item) => item.product.id === produtoId)
+    .reduce((total, item) => total + item.quantity, 0);
 }
 
 // Escolhe um ícone para a categoria pelo nome dela.
@@ -46,7 +97,7 @@ function renderCategoriasTotem() {
   const lista = document.querySelector("[data-categories]");
   const categorias = [
     { id: "todos", name: "Todos", icon: "fa-table-cells-large" },
-    ...TotemStore.activeCategories().map((categoria) => ({
+    ...TotemStore.categoriasAtivas().map((categoria) => ({
       id: String(categoria.id),
       name: categoria.name,
       icon: categoriaIcone(categoria.name)
@@ -71,7 +122,7 @@ function renderCategoriasTotem() {
 
 // Filtra os produtos conforme a categoria escolhida.
 function produtosVisiveis() {
-  const produtos = TotemStore.activeProducts();
+  const produtos = TotemStore.produtosAtivos();
   if (categoriaAtual === "todos") return produtos;
   return produtos.filter((produto) => String(produto.categoryId) === categoriaAtual);
 }
@@ -111,10 +162,11 @@ function renderProdutosTotem() {
           <h3>${textoSeguro(produto.name)}</h3>
           ${produto.featured ? `<span class="featured-pill">Destaque</span>` : ""}
         </div>
-        <p>${textoSeguro(produto.description || TotemStore.categoryName(produto.categoryId))}</p>
+        <p>${textoSeguro(produto.description || TotemStore.nomeCategoria(produto.categoryId))}</p>
 
         <div class="product-card__chips">
           ${listaChipsHtml(produto.tags)}
+          ${temPersonalizacao(produto) ? `<span class="product-chip">Escolha bebida/gelo</span>` : ""}
         </div>
 
         <div class="ingredient-panel">
@@ -130,11 +182,11 @@ function renderProdutosTotem() {
 
         <div class="product-card__meta">
           <span>
-            <strong class="price">${TotemStore.money(produto.price)}</strong>
+            <strong class="price">${TotemStore.formatarDinheiro(produto.price)}</strong>
           </span>
           <button class="add-button" type="button" data-add="${produto.id}">
             <i class="fa-solid fa-plus"></i>
-            Adicionar
+            ${temPersonalizacao(produto) ? "Escolher" : "Adicionar"}
           </button>
         </div>
       </div>
@@ -142,39 +194,52 @@ function renderProdutosTotem() {
   `).join("");
 
   grid.querySelectorAll("[data-add]").forEach((botao) => {
-    botao.addEventListener("click", () => adicionarItem(Number(botao.dataset.add)));
+    botao.addEventListener("click", () => {
+      const id = Number(botao.dataset.add);
+      const produto = TotemStore.produtosAtivos().find((item) => item.id === id);
+      if (temPersonalizacao(produto)) abrirPersonalizacao(id);
+      else adicionarItem(id);
+    });
   });
 }
 
 // Adiciona o produto no carrinho.
-function adicionarItem(id) {
-  const produto = TotemStore.activeProducts().find((item) => item.id === id);
+function adicionarItem(id, escolhas = {}) {
+  const produto = TotemStore.produtosAtivos().find((item) => item.id === id);
   if (!produto) return;
 
-  const atual = carrinho.get(id) || { product: produto, quantity: 0 };
-  if (atual.quantity >= produto.stock) {
+  if (quantidadeProdutoNoCarrinho(id) >= produto.stock) {
     mostrarToastTotem("Estoque insuficiente", "Não há mais unidades disponíveis desse item.");
     return;
   }
 
+  const chave = chaveDoItem(id, escolhas);
+  const atual = carrinho.get(chave) || {
+    key: chave,
+    product: produto,
+    quantity: 0,
+    options: escolhas,
+    notes: textoDasEscolhas(escolhas)
+  };
+
   atual.quantity += 1;
-  carrinho.set(id, atual);
+  carrinho.set(chave, atual);
   renderCarrinho();
   mostrarToastTotem("Item adicionado", `${produto.name} entrou no pedido.`);
 }
 
 // Aumenta ou diminui a quantidade no carrinho.
-function alterarQuantidade(id, delta) {
-  const item = carrinho.get(id);
+function alterarQuantidade(chave, delta) {
+  const item = carrinho.get(chave);
   if (!item) return;
 
-  if (delta > 0 && item.quantity >= item.product.stock) {
+  if (delta > 0 && quantidadeProdutoNoCarrinho(item.product.id) >= item.product.stock) {
     mostrarToastTotem("Estoque insuficiente", "Não há mais unidades disponíveis desse item.");
     return;
   }
 
   item.quantity += delta;
-  if (item.quantity <= 0) carrinho.delete(id);
+  if (item.quantity <= 0) carrinho.delete(chave);
   renderCarrinho();
 }
 
@@ -183,7 +248,7 @@ function resumoCarrinho() {
   const items = [...carrinho.values()];
   const total = items.reduce((soma, item) => soma + item.product.price * item.quantity, 0);
   const quantity = items.reduce((soma, item) => soma + item.quantity, 0);
-  const prepTime = quantity ? TotemStore.getWaitTime() : 0;
+  const prepTime = quantity ? TotemStore.pegarTempoEspera() : 0;
   return { items, total, quantity, prepTime };
 }
 
@@ -209,16 +274,19 @@ function renderCarrinho() {
         <div class="cart-item__top">
           <span class="cart-item__name">
             ${item.product.image ? `<img src="${textoSeguro(item.product.image)}" alt="">` : ""}
-            <strong>${textoSeguro(item.product.name)}</strong>
+            <strong>
+              ${textoSeguro(item.product.name)}
+              ${item.notes ? `<small class="cart-item__options">${textoSeguro(item.notes)}</small>` : ""}
+            </strong>
           </span>
-          <span>${TotemStore.money(item.product.price * item.quantity)}</span>
+          <span>${TotemStore.formatarDinheiro(item.product.price * item.quantity)}</span>
         </div>
         <div class="cart-item__actions">
-          <span>${TotemStore.money(item.product.price)} cada</span>
+          <span>${TotemStore.formatarDinheiro(item.product.price)} cada</span>
           <div>
-            <button class="quantity-button" type="button" data-dec="${item.product.id}">-</button>
+            <button class="quantity-button" type="button" data-dec="${textoSeguro(item.key)}">-</button>
             <strong>${item.quantity}</strong>
-            <button class="quantity-button" type="button" data-inc="${item.product.id}">+</button>
+            <button class="quantity-button" type="button" data-inc="${textoSeguro(item.key)}">+</button>
           </div>
         </div>
       </div>
@@ -226,14 +294,14 @@ function renderCarrinho() {
   }
 
   lista.querySelectorAll("[data-dec]").forEach((botao) => {
-    botao.addEventListener("click", () => alterarQuantidade(Number(botao.dataset.dec), -1));
+    botao.addEventListener("click", () => alterarQuantidade(botao.dataset.dec, -1));
   });
 
   lista.querySelectorAll("[data-inc]").forEach((botao) => {
-    botao.addEventListener("click", () => alterarQuantidade(Number(botao.dataset.inc), 1));
+    botao.addEventListener("click", () => alterarQuantidade(botao.dataset.inc, 1));
   });
 
-  total.textContent = TotemStore.money(valorTotal);
+  total.textContent = TotemStore.formatarDinheiro(valorTotal);
   finish.disabled = quantity === 0;
   document.querySelector("[data-cart-summary]").textContent =
     quantity ? `${quantity} item(ns) no carrinho` : "Escolha os itens do pedido";
@@ -247,6 +315,64 @@ function configurarPagamento() {
       document.querySelectorAll("[data-payment]").forEach((item) => item.classList.remove("is-active"));
       botao.classList.add("is-active");
     });
+  });
+}
+
+// Abre as escolhas extras de bebidas e gelo.
+function abrirPersonalizacao(id) {
+  produtoPersonalizado = TotemStore.produtosAtivos().find((produto) => produto.id === id);
+  if (!produtoPersonalizado) return;
+
+  escolhasPersonalizadas = escolhasPadrao(produtoPersonalizado);
+  renderPersonalizacao();
+  document.querySelector("[data-options-modal]")?.classList.add("is-open");
+}
+
+function fecharPersonalizacao() {
+  produtoPersonalizado = null;
+  escolhasPersonalizadas = {};
+  document.querySelector("[data-options-modal]")?.classList.remove("is-open");
+}
+
+function renderPersonalizacao() {
+  const titulo = document.querySelector("[data-options-title]");
+  const lista = document.querySelector("[data-options-list]");
+  if (!produtoPersonalizado || !titulo || !lista) return;
+
+  titulo.textContent = `Escolha: ${produtoPersonalizado.name}`;
+  lista.innerHTML = produtoPersonalizado.customizations.map((grupo) => `
+    <div class="option-group">
+      <strong>${textoSeguro(grupo.label)}</strong>
+      <div class="option-buttons">
+        ${(grupo.choices || []).map((opcao) => `
+          <button class="option-button ${escolhasPersonalizadas[grupo.label] === opcao ? "is-active" : ""}" type="button" data-option-group="${textoSeguro(grupo.label)}" data-option-choice="${textoSeguro(opcao)}">
+            ${textoSeguro(opcao)}
+          </button>
+        `).join("")}
+      </div>
+    </div>
+  `).join("");
+
+  lista.querySelectorAll("[data-option-choice]").forEach((botao) => {
+    botao.addEventListener("click", () => {
+      escolhasPersonalizadas[botao.dataset.optionGroup] = botao.dataset.optionChoice;
+      renderPersonalizacao();
+    });
+  });
+}
+
+function confirmarPersonalizacao() {
+  if (!produtoPersonalizado) return;
+
+  adicionarItem(produtoPersonalizado.id, { ...escolhasPersonalizadas });
+  fecharPersonalizacao();
+}
+
+function configurarPersonalizacao() {
+  document.querySelector("[data-options-confirm]")?.addEventListener("click", confirmarPersonalizacao);
+  document.querySelector("[data-close-options]")?.addEventListener("click", fecharPersonalizacao);
+  document.querySelector("[data-options-modal]")?.addEventListener("click", (event) => {
+    if (event.target.matches("[data-options-modal]")) fecharPersonalizacao();
   });
 }
 
@@ -300,7 +426,7 @@ function buscarPedidoPorCodigo(codigo) {
   const normalizado = String(codigo || "").trim().toUpperCase();
   if (!normalizado) return null;
 
-  return TotemStore.load().orders.find((pedido) => String(pedido.code).toUpperCase() === normalizado);
+  return TotemStore.carregarDados().orders.find((pedido) => String(pedido.code).toUpperCase() === normalizado);
 }
 
 function atualizarStatusConfirmacao(pedido) {
@@ -331,8 +457,11 @@ function renderResultadoAcompanhamento(pedido) {
     <div class="tracker-items">
       ${pedido.items.map((item) => `
         <div class="tracker-item">
-          <span>${item.quantity}x ${textoSeguro(item.name)}</span>
-          <strong>${TotemStore.money(item.price * item.quantity)}</strong>
+          <span>
+            ${item.quantity}x ${textoSeguro(item.name)}
+            ${item.notes ? `<small>${textoSeguro(item.notes)}</small>` : ""}
+          </span>
+          <strong>${TotemStore.formatarDinheiro(item.price * item.quantity)}</strong>
         </div>
       `).join("")}
     </div>
@@ -366,7 +495,7 @@ function consultarPedido(codigo) {
 
 function atualizarAcompanhamento() {
   if (pedidoConfirmadoId) {
-    const pedido = TotemStore.load().orders.find((item) => item.id === pedidoConfirmadoId);
+    const pedido = TotemStore.carregarDados().orders.find((item) => item.id === pedidoConfirmadoId);
     if (pedido) atualizarStatusConfirmacao(pedido);
   }
 
@@ -423,13 +552,13 @@ function finalizarPedido() {
   }
 
   const customer = document.querySelector("[data-customer]").value.trim() || "Cliente";
-  const order = TotemStore.createOrder({ customer, payment: pagamentoAtual, total, prepTime, items });
+  const order = TotemStore.criarPedido({ customer, payment: pagamentoAtual, total, prepTime, items });
   pedidoConfirmadoId = order.id;
   codigoAcompanhado = order.code;
 
   document.querySelector("[data-order-code]").textContent = order.code;
   document.querySelector("[data-order-text]").textContent =
-    `${customer}, seu pedido de ${TotemStore.money(total)} foi registrado em ${pagamentoAtual}. Tempo estimado: ${prepTime} min.`;
+    `${customer}, seu pedido de ${TotemStore.formatarDinheiro(total)} foi registrado em ${pagamentoAtual}. Tempo estimado: ${prepTime} min.`;
   document.querySelector("[data-tracker-code]").value = order.code;
   atualizarStatusConfirmacao(order);
   iniciarAtualizacaoStatus();
@@ -463,11 +592,12 @@ function mostrarToastTotem(titulo, mensagem) {
 
 document.addEventListener("DOMContentLoaded", () => {
   document.body.classList.add("totem-ready");
-  TotemStore.applyBranding();
+  TotemStore.aplicarMarca();
   renderCategoriasTotem();
   renderProdutosTotem();
   renderCarrinho();
   configurarPagamento();
+  configurarPersonalizacao();
   configurarAcompanhamento();
   atualizarStatusConfirmacao({ status: "Recebido" });
 

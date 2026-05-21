@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -6,16 +6,17 @@
   <title>Pedido no Totem | GastroTech</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <link rel="stylesheet" href="../styles/totem.css">
-  <script src="../scripts/store.js" defer></script>
+  <script src="../scripts/store.js?v=20260521c" defer></script>
   <script src="../scripts/totem.js" defer></script>
 </head>
 <body>
+  <!-- Tela principal que o cliente usa no totem. -->
   <div class="totem-shell">
     <aside class="totem-sidebar">
       <div>
         <div class="totem-brand">
           <span class="totem-brand__mark">
-            <img src="../assets/brand/saborflow-logo.svg" alt="" data-store-logo>
+            <img src="../assets/brand/gastrotech-logo.jpg" alt="" data-store-logo>
           </span>
           <div>
             <h1 data-store-name>GastroTech</h1>
@@ -54,6 +55,7 @@
       <section class="menu-grid" data-products aria-label="Itens do cardápio"></section>
     </main>
 
+    <!-- Carrinho com itens escolhidos, pagamento e finalização. -->
     <aside class="totem-cart">
       <header class="cart-header">
         <h2>Seu pedido</h2>
@@ -89,6 +91,28 @@
     </aside>
   </div>
 
+  <!-- Modal para escolher bebida, suco e gelo antes de colocar no carrinho. -->
+  <div class="order-modal" data-options-modal role="dialog" aria-modal="true" aria-labelledby="options-title">
+    <div class="order-card order-card--options">
+      <button class="modal-close" type="button" data-close-options title="Fechar">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <span class="order-card__icon order-card__icon--orange">
+        <i class="fa-solid fa-sliders"></i>
+      </span>
+      <h2 id="options-title" data-options-title>Escolha as opções</h2>
+      <p>Defina a bebida e o gelo antes de adicionar ao pedido.</p>
+
+      <div class="option-list" data-options-list></div>
+
+      <button class="finish-button" type="button" data-options-confirm>
+        Adicionar ao pedido
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal de pedido confirmado. -->
   <div class="order-modal" data-modal role="dialog" aria-modal="true" aria-labelledby="order-title">
     <div class="order-card">
       <span class="order-card__icon">
@@ -115,6 +139,7 @@
     </div>
   </div>
 
+  <!-- Modal para consultar o andamento pelo código de retirada. -->
   <div class="order-modal" data-tracker-modal role="dialog" aria-modal="true" aria-labelledby="tracker-title">
     <div class="order-card order-card--tracker">
       <button class="modal-close" type="button" data-close-tracker title="Fechar">

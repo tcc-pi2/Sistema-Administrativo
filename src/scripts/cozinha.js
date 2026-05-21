@@ -1,4 +1,11 @@
-const AUTH_KEY = "saborFlowAdminAutenticado";
+﻿const AUTH_KEY = "gastroTechAdminAutenticado";
+
+/*
+  Este arquivo controla a tela da cozinha.
+
+  Aqui a cozinha ve os pedidos, filtra por status,
+  avanca o preparo e recebe aviso quando chega pedido novo.
+*/
 
 // Bloqueia a cozinha se não tiver login no painel.
 if (localStorage.getItem(AUTH_KEY) !== "true") {
@@ -12,7 +19,18 @@ const pedidosNovos = new Set();
 let tituloOriginal = document.title;
 
 function dinheiro(valor) {
-  return TotemStore.money(valor);
+  // Usa o mesmo formato de dinheiro do resto do sistema.
+  return TotemStore.formatarDinheiro(valor);
+}
+
+function detalhesDoItem(item) {
+  // Mostra detalhes como bebida escolhida e gelo.
+  if (item.notes) return item.notes;
+
+  return Object.entries(item.options || {})
+    .filter(([, valor]) => valor)
+    .map(([nome, valor]) => `${nome}: ${valor}`)
+    .join(" • ");
 }
 
 // Define a cor do status do pedido.
@@ -38,13 +56,13 @@ function textoAcao(status) {
 }
 
 function registrarPedidosAtuais() {
-  TotemStore.load().orders.forEach((pedido) => pedidosConhecidos.add(Number(pedido.id)));
+  TotemStore.carregarDados().orders.forEach((pedido) => pedidosConhecidos.add(Number(pedido.id)));
 }
 
 // Monta as abas de filtro: todos, recebido, preparo, pronto e retirado.
 function renderTabs() {
   const wrapper = document.querySelector("[data-status-tabs]");
-  const pedidos = TotemStore.load().orders;
+  const pedidos = TotemStore.carregarDados().orders;
 
   wrapper.innerHTML = filtros.map((filtro) => {
     const total = filtro === "Todos" ? pedidos.length : pedidos.filter((pedido) => pedido.status === filtro).length;
@@ -66,7 +84,7 @@ function renderTabs() {
 // Monta os cards dos pedidos da cozinha.
 function renderPedidos() {
   const board = document.querySelector("[data-orders-board]");
-  const pedidos = TotemStore.load().orders
+  const pedidos = TotemStore.carregarDados().orders
     .filter((pedido) => filtroAtual === "Todos" || pedido.status === filtroAtual)
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
@@ -99,7 +117,10 @@ function renderPedidos() {
       <div class="order-items">
         ${pedido.items.map((item) => `
           <div class="order-item">
-            <span>${item.quantity}x ${item.name}</span>
+            <span>
+              ${item.quantity}x ${item.name}
+              ${detalhesDoItem(item) ? `<small>${detalhesDoItem(item)}</small>` : ""}
+            </span>
             <strong>${dinheiro(item.price * item.quantity)}</strong>
           </div>
         `).join("")}
@@ -116,11 +137,11 @@ function renderPedidos() {
 
   board.querySelectorAll("[data-next]").forEach((botao) => {
     botao.addEventListener("click", () => {
-      const pedido = TotemStore.load().orders.find((item) => item.id === Number(botao.dataset.next));
+      const pedido = TotemStore.carregarDados().orders.find((item) => item.id === Number(botao.dataset.next));
       if (!pedido) return;
 
       const status = proximoStatus(pedido.status);
-      TotemStore.updateOrderStatus(pedido.id, status);
+      TotemStore.atualizarStatusPedido(pedido.id, status);
       pedidosNovos.delete(Number(pedido.id));
       mostrarToast(`Pedido ${pedido.code}: ${status}`);
       renderCozinha();
@@ -195,7 +216,7 @@ function mostrarNotificacaoNovoPedido(pedido) {
 
 // Verifica se entrou pedido novo no localStorage.
 function verificarNovosPedidos() {
-  const pedidos = TotemStore.load().orders;
+  const pedidos = TotemStore.carregarDados().orders;
   const novos = pedidos.filter((pedido) => !pedidosConhecidos.has(Number(pedido.id)));
 
   if (!novos.length) return;
@@ -215,7 +236,7 @@ function configurarNotificacoesPedidos() {
   registrarPedidosAtuais();
 
   window.addEventListener("storage", (event) => {
-    if (event.key === TotemStore.KEY) verificarNovosPedidos();
+    if (event.key === TotemStore.CHAVE_DADOS) verificarNovosPedidos();
   });
 
   setInterval(verificarNovosPedidos, 2500);
@@ -228,7 +249,7 @@ function renderCozinha() {
 
 document.addEventListener("DOMContentLoaded", () => {
   document.body.classList.add("ready");
-  TotemStore.applyBranding();
+  TotemStore.aplicarMarca();
   configurarNotificacoesPedidos();
   renderCozinha();
 });

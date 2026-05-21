@@ -1,5 +1,14 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const AUTH_KEY = "saborFlowAdminAutenticado";
+﻿document.addEventListener("DOMContentLoaded", () => {
+  /*
+    Login simples para a apresentacao.
+    Usuario principal: admin
+    Senha: 123
+
+    Cada usuario usa uma base separada no navegador.
+    Assim o admin fica com o cardapio dele e outra conta comeca separada.
+  */
+
+  const AUTH_KEY = "gastroTechAdminAutenticado";
   const params = new URLSearchParams(window.location.search);
 
   // Sair limpa a sessão do painel.
@@ -8,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   document.body.classList.add("app-ready");
-  TotemStore.applyBranding();
+  TotemStore.aplicarMarca();
 
   const form = document.querySelector("#login-form");
   if (!form) return;
@@ -24,12 +33,14 @@ document.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    // Login simples para apresentação.
+    // Qualquer usuario com senha 123 entra em uma base propria.
     const email = document.querySelector("#email").value.trim().toLowerCase();
     const senha = document.querySelector("#senha").value.trim();
-    const usuarioValido = email === "admin" || email === "admin@saborflow.com";
+    const usuarioValido = email.length > 0;
 
     if (usuarioValido && senha === "123") {
+      TotemStore.definirContaAtual(email);
+      TotemStore.carregarDados();
       localStorage.setItem(AUTH_KEY, "true");
       window.location.href = destinoSeguro(params.get("next"));
       return;
