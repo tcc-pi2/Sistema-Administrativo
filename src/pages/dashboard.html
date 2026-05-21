@@ -1,22 +1,23 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard | SaborFlow Admin</title>
+  <title>Dashboard | GastroTech Admin</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <link rel="stylesheet" href="../styles/admin.css">
-  <script src="../scripts/store.js" defer></script>
+  <script src="../scripts/store.js?v=20260521c" defer></script>
   <script src="../scripts/admin.js" defer></script>
 </head>
 <body>
+  <!-- Tela inicial do painel, com resumo da operacao e atalhos. -->
   <div class="app-shell">
     <aside class="sidebar">
       <div class="sidebar__top">
         <a class="brand-card" href="./dashboard.html">
-          <img class="brand-card__avatar" src="../assets/brand/saborflow-logo.svg" alt="Logo SaborFlow">
+          <img class="brand-card__avatar" src="../assets/brand/gastrotech-logo.jpg" alt="Logo GastroTech">
           <span>
-            <strong class="brand-card__name">SaborFlow</strong>
+            <strong class="brand-card__name">GastroTech</strong>
             <span class="brand-card__role">Painel administrativo</span>
           </span>
         </a>
@@ -88,6 +89,7 @@
             </div>
           </div>
 
+          <!-- Cards de resumo. O admin.js atualiza esses numeros. -->
           <div class="metric-grid" aria-label="Indicadores do sistema">
             <article class="metric-card">
               <div class="metric-card__top">
@@ -123,6 +125,7 @@
             </article>
           </div>
 
+          <!-- Atalhos para as telas principais do sistema. -->
           <div class="quick-grid">
             <a class="quick-card" href="./produtos.html">
               <span>
@@ -249,7 +252,7 @@
         <div class="form-grid">
           <div class="form-group">
             <label for="nome-loja">Nome da loja</label>
-            <input class="form-control" id="nome-loja" name="storeName" type="text" placeholder="Ex: SaborFlow">
+            <input class="form-control" id="nome-loja" name="storeName" type="text" placeholder="Ex: GastroTech">
           </div>
 
           <div class="form-group">
@@ -264,7 +267,8 @@
 
           <div class="form-group form-group--wide">
             <label for="logo-loja">Logo da loja</label>
-            <input class="form-control" id="logo-loja" name="storeLogo" type="text" placeholder="Ex: ../assets/brand/saborflow-logo.svg">
+            <input class="form-control" id="logo-loja" name="storeLogo" type="text" placeholder="Ex: ../assets/brand/gastrotech-logo.jpg">
+            <!-- Aqui troca a logo pelo proprio sistema, sem mexer no codigo. -->
             <div class="image-picker">
               <label class="button button--ghost" for="logo-loja-arquivo">
                 <i class="fa-solid fa-image"></i>
@@ -273,7 +277,7 @@
               <input id="logo-loja-arquivo" name="storeLogoFile" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml">
               <button class="button button--ghost" type="button" data-clear-store-logo>
                 <i class="fa-solid fa-eraser"></i>
-                Usar logo padrão
+                Usar logo GastroTech
               </button>
             </div>
             <div class="image-preview image-preview--logo" data-store-logo-preview>

@@ -1,7 +1,20 @@
-const AUTH_KEY = "saborFlowAdminAutenticado";
+﻿const AUTH_KEY = "gastroTechAdminAutenticado";
 const itensPorPagina = 5;
 let paginaProdutos = 1;
 let produtosFiltrados = [];
+
+/*
+  Este arquivo controla o painel administrativo.
+
+  Partes importantes:
+  - produtos/cardapio: procure por renderProdutos, abrirProdutoForm e salvarProduto
+  - imagem do lanche: procure por configurarImagemProduto
+  - logo/nome da loja: procure por abrirConfiguracoes e configurarLogoLoja
+  - financeiro: procure por renderFinanceiro
+
+  Os campos dos formularios usam alguns nomes em ingles porque batem com os dados
+  salvos no store.js. Assim fica mais seguro para o sistema nao quebrar.
+*/
 
 // Se não estiver logado, volta para a tela de login.
 const acessoPainelBloqueado = (() => {
@@ -17,11 +30,13 @@ const acessoPainelBloqueado = (() => {
 })();
 
 function prepararPagina() {
+  // Marca a tela como pronta e aplica logo/nome da loja.
   document.body.classList.add("app-ready");
-  TotemStore.applyBranding();
+  TotemStore.aplicarMarca();
 }
 
 function animarElementos() {
+  // Entrada suave dos cards e blocos do painel.
   const elementos = document.querySelectorAll(".section-heading, .metric-card, .quick-card, .operation-panel, .table-card, .form-card, .danger-zone, .kiosk-panel, .flow-card");
   elementos.forEach((elemento, index) => {
     elemento.classList.add("animate-in");
@@ -72,6 +87,7 @@ function configurarRipple() {
 }
 
 function mostrarToast(titulo, mensagem, icone = "fa-circle-check") {
+  // Mensagem pequena que aparece no canto da tela.
   let stack = document.querySelector(".toast-stack");
 
   if (!stack) {
@@ -98,6 +114,7 @@ function mostrarToast(titulo, mensagem, icone = "fa-circle-check") {
 }
 
 function textoSeguro(valor) {
+  // Evita que texto digitado pelo usuario vire HTML dentro da pagina.
   return String(valor ?? "")
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
@@ -107,13 +124,13 @@ function textoSeguro(valor) {
 }
 
 function exportarCsv(tipo) {
-  const data = TotemStore.load();
+  const data = TotemStore.carregarDados();
   const linhas = {
     products: [
       ["nome", "categoria", "descricao", "ingredientes", "alergenos", "porcao", "calorias", "estoque", "preco", "status"],
       ...data.products.map((produto) => [
         produto.name,
-        TotemStore.categoryName(produto.categoryId),
+        TotemStore.nomeCategoria(produto.categoryId),
         produto.description,
         (produto.ingredients || []).join(" | "),
         (produto.allergens || []).join(" | "),
@@ -187,7 +204,7 @@ function badgeStatus(status) {
 function preencherSelectCategorias(select, selectedId) {
   if (!select) return;
 
-  const categorias = TotemStore.load().categories
+  const categorias = TotemStore.carregarDados().categories
     .slice()
     .sort((a, b) => a.order - b.order || a.name.localeCompare(b.name));
 
@@ -206,7 +223,7 @@ function renderOperacao() {
   const grid = document.querySelector("[data-operation-grid]");
   if (!grid) return;
 
-  const pedidos = TotemStore.load().orders;
+  const pedidos = TotemStore.carregarDados().orders;
   const statusCards = [
     { label: "Recebidos", status: "Recebido", icon: "fa-receipt" },
     { label: "Em preparo", status: "Em preparo", icon: "fa-kitchen-set" },
@@ -228,13 +245,13 @@ function renderOperacao() {
   }).join("");
 
   document.querySelector("[data-wait-display]")?.replaceChildren(
-    document.createTextNode(`${TotemStore.getWaitTime()} min`)
+    document.createTextNode(`${TotemStore.pegarTempoEspera()} min`)
   );
 }
 
 // Atualiza os números principais do dashboard.
 function atualizarDashboard() {
-  const data = TotemStore.load();
+  const data = TotemStore.carregarDados();
   const metricas = document.querySelectorAll("[data-count]");
   if (!metricas.length) return;
 
@@ -242,7 +259,7 @@ function atualizarDashboard() {
     const hoje = new Date().toDateString();
     return new Date(pedido.createdAt).toDateString() === hoje;
   });
-  const tempoMedio = TotemStore.getWaitTime();
+  const tempoMedio = TotemStore.pegarTempoEspera();
 
   const valores = [data.products.length, pedidosHoje.length || data.orders.length, tempoMedio];
   metricas.forEach((elemento, index) => {
@@ -258,14 +275,14 @@ function renderPedidosRecentes() {
   const tbody = document.querySelector("[data-orders-body]");
   if (!tbody) return;
 
-  const pedidos = TotemStore.load().orders.slice(0, 6);
+  const pedidos = TotemStore.carregarDados().orders.slice(0, 6);
 
   tbody.innerHTML = pedidos.map((pedido) => `
     <tr>
       <td><strong>${pedido.code}</strong></td>
       <td>${pedido.customer}</td>
       <td>${pedido.items.reduce((total, item) => total + item.quantity, 0)} item(ns)</td>
-      <td>${TotemStore.money(pedido.total)}</td>
+      <td>${TotemStore.formatarDinheiro(pedido.total)}</td>
       <td><span class="${badgeStatus(pedido.status)}">${pedido.status}</span></td>
       <td class="text-right">
         <button class="button button--ghost" type="button" data-next-order="${pedido.id}">
@@ -284,12 +301,12 @@ function renderPedidosRecentes() {
 
 function avancarPedido(id) {
   const ordem = ["Recebido", "Em preparo", "Pronto", "Retirado"];
-  const pedido = TotemStore.load().orders.find((item) => item.id === id);
+  const pedido = TotemStore.carregarDados().orders.find((item) => item.id === id);
   if (!pedido) return;
 
   const atual = ordem.indexOf(pedido.status);
   const proximo = ordem[Math.min(atual + 1, ordem.length - 1)];
-  TotemStore.updateOrderStatus(id, proximo);
+  TotemStore.atualizarStatusPedido(id, proximo);
   renderPedidosRecentes();
   mostrarToast("Pedido atualizado", `Pedido ${pedido.code} agora está como ${proximo}.`);
 }
@@ -299,20 +316,20 @@ function atualizarPreviaTotem() {
   const preview = document.querySelector("[data-kiosk-preview]");
   if (!preview) return;
 
-  const produtos = TotemStore.activeProducts().slice(0, 2);
+  const produtos = TotemStore.produtosAtivos().slice(0, 2);
   preview.innerHTML = produtos.map((produto) => `
     <div class="kiosk-preview__item">
       <span class="product-thumb">
         ${produto.image
-          ? `<img src="${textoSeguro(produto.image)}" alt="">`
-          : TotemStore.initials(produto.name)
-        }
+      ? `<img src="${textoSeguro(produto.image)}" alt="">`
+      : TotemStore.iniciais(produto.name)
+    }
       </span>
       <div>
         <strong>${textoSeguro(produto.name)}</strong>
         <span>${textoSeguro(produto.description)}</span>
       </div>
-      <div class="kiosk-preview__price">${TotemStore.money(produto.price)}</div>
+      <div class="kiosk-preview__price">${TotemStore.formatarDinheiro(produto.price)}</div>
     </div>
   `).join("");
 }
@@ -320,10 +337,10 @@ function atualizarPreviaTotem() {
 // Filtra os produtos pelo texto digitado na busca.
 function carregarProdutosFiltrados() {
   const termo = document.querySelector("[data-products-search]")?.value.trim().toLowerCase() || "";
-  const data = TotemStore.load();
+  const data = TotemStore.carregarDados();
 
   produtosFiltrados = data.products.filter((produto) => {
-    const categoria = TotemStore.categoryName(produto.categoryId);
+    const categoria = TotemStore.nomeCategoria(produto.categoryId);
     const busca = [
       produto.name,
       categoria,
@@ -349,14 +366,14 @@ function renderProdutos() {
       <td>
         <span class="product-thumb">
           ${produto.image
-            ? `<img src="${textoSeguro(produto.image)}" alt="">`
-            : TotemStore.initials(produto.name)
-          }
+      ? `<img src="${textoSeguro(produto.image)}" alt="">`
+      : TotemStore.iniciais(produto.name)
+    }
         </span>
       </td>
       <td>
         <strong>${textoSeguro(produto.name)}</strong><br>
-        <span class="muted">${TotemStore.categoryName(produto.categoryId)}</span>
+        <span class="muted">${TotemStore.nomeCategoria(produto.categoryId)}</span>
       </td>
       <td>
         <span class="tag-list">
@@ -366,7 +383,7 @@ function renderProdutos() {
         <span class="muted">${textoSeguro((produto.ingredients || []).slice(0, 4).join(", "))}</span>
       </td>
       <td class="text-right"><span class="${badgeEstoque(produto.stock)}">${produto.stock} un.</span></td>
-      <td class="text-right"><strong>${TotemStore.money(produto.price)}</strong></td>
+      <td class="text-right"><strong>${TotemStore.formatarDinheiro(produto.price)}</strong></td>
       <td class="text-center">
         <span class="row-actions">
           <button class="icon-button" type="button" title="Editar ${produto.name}" data-edit-product="${produto.id}">
@@ -476,7 +493,7 @@ function abrirProdutoForm(id) {
   const form = document.querySelector("[data-product-form]");
   if (!modal || !form) return;
 
-  const produto = TotemStore.load().products.find((item) => item.id === Number(id));
+  const produto = TotemStore.carregarDados().products.find((item) => item.id === Number(id));
   form.reset();
   preencherSelectCategorias(form.elements.categoryId, produto?.categoryId);
 
@@ -517,7 +534,7 @@ function salvarProduto(event) {
     return;
   }
 
-  TotemStore.upsertProduct({
+  TotemStore.salvarProdutoDados({
     id: form.elements.id.value,
     name: nome,
     categoryId: form.elements.categoryId.value,
@@ -543,11 +560,11 @@ function salvarProduto(event) {
 }
 
 function excluirProduto(id) {
-  const produto = TotemStore.load().products.find((item) => item.id === Number(id));
+  const produto = TotemStore.carregarDados().products.find((item) => item.id === Number(id));
   if (!produto) return;
 
   if (confirm(`Excluir "${produto.name}" do cardápio?`)) {
-    TotemStore.deleteProduct(id);
+    TotemStore.excluirProdutoDados(id);
     renderProdutos();
     mostrarToast("Item excluído", "O item foi removido do cardápio.", "fa-trash");
   }
@@ -574,7 +591,7 @@ function renderCategorias() {
   const tbody = document.querySelector("[data-categories-body]");
   if (!tbody) return;
 
-  const data = TotemStore.load();
+  const data = TotemStore.carregarDados();
   const categorias = data.categories.slice().sort((a, b) => a.order - b.order || a.name.localeCompare(b.name));
 
   tbody.innerHTML = categorias.map((categoria) => {
@@ -612,7 +629,7 @@ function carregarCategoriaParaEdicao() {
 
   const params = new URLSearchParams(window.location.search);
   const id = Number(params.get("id"));
-  const categoria = TotemStore.load().categories.find((item) => item.id === id);
+  const categoria = TotemStore.carregarDados().categories.find((item) => item.id === id);
 
   if (form.dataset.mode === "edit" && !categoria) {
     alert("Categoria não encontrada.");
@@ -648,7 +665,7 @@ function salvarCategoria(event) {
     return;
   }
 
-  TotemStore.upsertCategory({
+  TotemStore.salvarCategoriaDados({
     id: form.elements.id.value,
     name: nome,
     description: form.elements.description.value,
@@ -668,11 +685,11 @@ function confirmarExclusao() {
 
   const params = new URLSearchParams(window.location.search);
   const id = Number(params.get("id"));
-  const categoria = TotemStore.load().categories.find((item) => item.id === id);
+  const categoria = TotemStore.carregarDados().categories.find((item) => item.id === id);
   document.querySelector("[data-delete-name]")?.replaceChildren(document.createTextNode(categoria?.name || "categoria selecionada"));
 
   button.addEventListener("click", () => {
-    if (categoria) TotemStore.deleteCategory(categoria.id);
+    if (categoria) TotemStore.excluirCategoriaDados(categoria.id);
     mostrarToast("Categoria excluída", "Os itens vinculados ficaram sem categoria.", "fa-trash");
     setTimeout(() => {
       window.location.href = "./lista-de-categoria.html";
@@ -684,10 +701,10 @@ function renderAdministradores() {
   const tbody = document.querySelector("[data-admins-body]");
   if (!tbody) return;
 
-  const admins = TotemStore.load().admins;
+  const admins = TotemStore.carregarDados().admins;
   tbody.innerHTML = admins.map((admin) => `
     <tr>
-      <td><span class="avatar-mini">${TotemStore.initials(admin.name)}</span></td>
+      <td><span class="avatar-mini">${TotemStore.iniciais(admin.name)}</span></td>
       <td>
         <strong>${admin.name}</strong><br>
         <span class="muted">${admin.email}</span>
@@ -718,7 +735,7 @@ function renderAdministradores() {
 
   tbody.querySelectorAll("[data-toggle-admin]").forEach((botao) => {
     botao.addEventListener("click", () => {
-      const admin = TotemStore.toggleAdminStatus(Number(botao.dataset.toggleAdmin));
+      const admin = TotemStore.alternarStatusAdmin(Number(botao.dataset.toggleAdmin));
       renderAdministradores();
       if (admin) mostrarToast("Acesso atualizado", `${admin.name} agora está ${admin.status}.`);
     });
@@ -736,7 +753,7 @@ function abrirAdminForm(id) {
   const form = document.querySelector("[data-admin-form]");
   if (!modal || !form) return;
 
-  const admin = TotemStore.load().admins.find((item) => item.id === Number(id));
+  const admin = TotemStore.carregarDados().admins.find((item) => item.id === Number(id));
   form.reset();
   form.elements.id.value = admin?.id || "";
   form.elements.name.value = admin?.name || "";
@@ -759,7 +776,7 @@ function salvarAdmin(event) {
     return;
   }
 
-  TotemStore.upsertAdmin({
+  TotemStore.salvarAdminDados({
     id: form.elements.id.value,
     name: form.elements.name.value,
     email: form.elements.email.value,
@@ -773,11 +790,11 @@ function salvarAdmin(event) {
 }
 
 function excluirAdmin(id) {
-  const admin = TotemStore.load().admins.find((item) => item.id === Number(id));
+  const admin = TotemStore.carregarDados().admins.find((item) => item.id === Number(id));
   if (!admin) return;
 
   if (confirm(`Excluir o administrador "${admin.name}"?`)) {
-    TotemStore.deleteAdmin(id);
+    TotemStore.excluirAdminDados(id);
     renderAdministradores();
     mostrarToast("Administrador excluído", "O usuário foi removido da lista.", "fa-trash");
   }
@@ -805,7 +822,7 @@ function dataCurta(valor) {
 }
 
 function resumoFinanceiro() {
-  const data = TotemStore.load();
+  const data = TotemStore.carregarDados();
   const pedidosHoje = data.orders.filter((pedido) => dataEhHoje(pedido.createdAt) && pedido.status !== "Cancelado");
   const movimentosHoje = (data.movements || []).filter((movement) => dataEhHoje(movement.createdAt));
   const formas = ["Pix", "Cartão", "Dinheiro"];
@@ -836,10 +853,10 @@ function renderFinanceiro() {
   if (!salesEl) return;
 
   const resumo = resumoFinanceiro();
-  salesEl.textContent = TotemStore.money(resumo.faturamento);
-  document.querySelector("[data-finance-balance]").textContent = TotemStore.money(resumo.saldo);
-  document.querySelector("[data-finance-income]").textContent = TotemStore.money(resumo.entradas);
-  document.querySelector("[data-finance-expense]").textContent = TotemStore.money(resumo.saidas);
+  salesEl.textContent = TotemStore.formatarDinheiro(resumo.faturamento);
+  document.querySelector("[data-finance-balance]").textContent = TotemStore.formatarDinheiro(resumo.saldo);
+  document.querySelector("[data-finance-income]").textContent = TotemStore.formatarDinheiro(resumo.entradas);
+  document.querySelector("[data-finance-expense]").textContent = TotemStore.formatarDinheiro(resumo.saidas);
 
   const cashForm = document.querySelector("[data-cash-form]");
   if (cashForm) {
@@ -874,7 +891,7 @@ function renderMovimentosFinanceiros(movimentos) {
       <td>${textoSeguro(movement.description)}</td>
       <td>${textoSeguro(movement.payment)}</td>
       <td>${dataCurta(movement.createdAt)}</td>
-      <td class="text-right"><strong>${TotemStore.money(movement.amount)}</strong></td>
+      <td class="text-right"><strong>${TotemStore.formatarDinheiro(movement.amount)}</strong></td>
       <td class="text-right">
         <button class="icon-button" type="button" title="Excluir movimento" data-delete-movement="${movement.id}">
           <i class="fa-solid fa-trash"></i>
@@ -885,7 +902,7 @@ function renderMovimentosFinanceiros(movimentos) {
 
   tbody.querySelectorAll("[data-delete-movement]").forEach((botao) => {
     botao.addEventListener("click", () => {
-      TotemStore.deleteCashMovement(Number(botao.dataset.deleteMovement));
+      TotemStore.excluirMovimentoCaixa(Number(botao.dataset.deleteMovement));
       renderFinanceiro();
       mostrarToast("Movimento removido", "O lançamento foi retirado do caixa.", "fa-trash");
     });
@@ -902,7 +919,7 @@ function renderResumoPagamentos(pagamentos) {
     <tr>
       <td><strong>${item.forma}</strong></td>
       <td>${item.pedidos} pedido(s)</td>
-      <td class="text-right"><strong>${TotemStore.money(item.total)}</strong></td>
+      <td class="text-right"><strong>${TotemStore.formatarDinheiro(item.total)}</strong></td>
     </tr>
   `).join("");
 
@@ -912,7 +929,7 @@ function renderResumoPagamentos(pagamentos) {
 function salvarCaixa(event) {
   event.preventDefault();
   const form = event.currentTarget;
-  TotemStore.updateCash({
+  TotemStore.atualizarCaixa({
     openingBalance: form.elements.openingBalance.value,
     status: form.elements.status.value
   });
@@ -931,7 +948,7 @@ function salvarMovimento(event) {
     return;
   }
 
-  TotemStore.addCashMovement({
+  TotemStore.adicionarMovimentoCaixa({
     type: form.elements.type.value,
     description,
     amount,
@@ -960,7 +977,7 @@ function abrirConfiguracoes() {
   const form = document.querySelector("[data-settings-form]");
   if (!modal || !form) return;
 
-  const settings = TotemStore.getSettings();
+  const settings = TotemStore.pegarConfiguracoes();
   form.elements.waitTime.value = settings.waitTime;
   form.elements.storeName.value = settings.storeName;
   form.elements.storeSubtitle.value = settings.storeSubtitle;
@@ -985,14 +1002,14 @@ function salvarConfiguracoes(event) {
     return;
   }
 
-  TotemStore.updateSettings({
+  TotemStore.atualizarConfiguracoes({
     waitTime,
     storeName: form.elements.storeName.value,
     storeSubtitle: form.elements.storeSubtitle.value,
     storeLogo: form.elements.storeLogo.value
   });
   fecharConfiguracoes();
-  TotemStore.applyBranding();
+  TotemStore.aplicarMarca();
   atualizarDashboard();
   animarContadores();
   mostrarToast("Configurações salvas", "Nome, logo e tempo de espera foram atualizados.");
@@ -1046,7 +1063,7 @@ function configurarLogoLoja() {
   });
 
   botaoPadrao?.addEventListener("click", () => {
-    campoLogo.value = "../assets/brand/saborflow-logo.svg";
+    campoLogo.value = "../assets/brand/gastrotech-logo.jpg";
     if (campoArquivo) campoArquivo.value = "";
     atualizarPreviaLogoLoja(campoLogo.value);
   });

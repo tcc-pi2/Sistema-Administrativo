@@ -1,5 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap");
 
+/*
+  Estilos da tela da cozinha.
+  As cores ficam em :root e os pedidos ficam nas classes order-card.
+*/
+
 :root {
   --bg: #0f0c08;
   --surface: #1a1612;
@@ -91,7 +96,9 @@ button {
 .kitchen-brand img {
   width: 44px;
   height: 44px;
+  padding: 6px;
   border-radius: var(--radius);
+  background: #fff;
   object-fit: contain;
 }
 
@@ -298,6 +305,14 @@ button {
   gap: 10px;
   color: var(--muted);
   font-size: 14px;
+}
+
+.order-item small {
+  display: block;
+  margin-top: 4px;
+  color: var(--accent-2);
+  font-size: 12px;
+  line-height: 1.35;
 }
 
 .order-total {

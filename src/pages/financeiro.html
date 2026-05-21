@@ -1,20 +1,22 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Financeiro | SaborFlow Admin</title>
+  <title>Financeiro | GastroTech Admin</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <link rel="stylesheet" href="../styles/admin.css">
-  <script src="../scripts/store.js" defer></script>
+  <script src="../scripts/store.js?v=20260521c" defer></script>
   <script src="../scripts/admin.js" defer></script>
 </head>
+
 <body>
   <div class="app-shell">
     <aside class="sidebar">
       <div class="sidebar__top">
         <a class="brand-card" href="./dashboard.html">
-          <img class="brand-card__avatar" src="../assets/brand/saborflow-logo.svg" alt="Logo SaborFlow">
+          <img class="brand-card__avatar" src="../assets/brand/gastrotech-logo.jpg" alt="Logo GastroTech">
           <span>
             <strong class="brand-card__name">GastroTech</strong>
             <span class="brand-card__role">Painel administrativo</span>
@@ -81,7 +83,8 @@
           <div class="section-heading">
             <div>
               <h2>Caixa e movimentações</h2>
-              <p>Acompanhe vendas do totem, formas de pagamento, saldo em dinheiro e entradas ou saídas manuais do caixa.</p>
+              <p>Acompanhe vendas do totem, formas de pagamento, saldo em dinheiro e entradas ou saídas manuais do
+                caixa.</p>
             </div>
             <button class="button button--ghost" type="button" data-export="finance">
               <i class="fa-solid fa-download"></i>
@@ -141,7 +144,8 @@
                 <div class="form-grid">
                   <div class="form-group">
                     <label for="saldo-inicial">Saldo inicial</label>
-                    <input class="form-control" id="saldo-inicial" name="openingBalance" type="number" min="0" step="0.01">
+                    <input class="form-control" id="saldo-inicial" name="openingBalance" type="number" min="0"
+                      step="0.01">
                   </div>
 
                   <div class="form-group">
@@ -197,7 +201,8 @@
 
                   <div class="form-group">
                     <label for="descricao-movimento">Descrição</label>
-                    <input class="form-control" id="descricao-movimento" name="description" type="text" placeholder="Ex: compra de embalagens">
+                    <input class="form-control" id="descricao-movimento" name="description" type="text"
+                      placeholder="Ex: compra de embalagens">
                   </div>
                 </div>
               </div>
@@ -258,4 +263,5 @@
     </main>
   </div>
 </body>
+
 </html>

@@ -1,8 +1,8 @@
-CREATE DATABASE IF NOT EXISTS saborflow_admin
+CREATE DATABASE IF NOT EXISTS gastrotech_admin
   DEFAULT CHARACTER SET utf8mb4
   DEFAULT COLLATE utf8mb4_general_ci;
 
-USE saborflow_admin;
+USE gastrotech_admin;
 
 DROP TABLE IF EXISTS itens_pedido;
 DROP TABLE IF EXISTS pedidos;
@@ -78,6 +78,7 @@ CREATE TABLE produtos (
   nome VARCHAR(140) NOT NULL,
   descricao VARCHAR(255) NULL,
   opcoes VARCHAR(160) NULL,
+  opcoes_personalizacao TEXT NULL,
   ingredientes TEXT NULL,
   tags VARCHAR(180) NULL,
   alergenos VARCHAR(180) NULL,
@@ -137,9 +138,9 @@ CREATE TABLE itens_pedido (
 );
 
 INSERT INTO administradores (nome, email, senha_hash, permissao, status) VALUES
-('Usuario Admin', 'admin@saborflow.com', '$2y$10$troque-este-hash-no-php', 'Administrador', 'Ativo'),
-('Marina Costa', 'marina@saborflow.com', '$2y$10$troque-este-hash-no-php', 'Cardapio', 'Ativo'),
-('Rafael Lima', 'rafael@saborflow.com', '$2y$10$troque-este-hash-no-php', 'Atendimento', 'Ativo');
+('Usuario Admin', 'admin@gastrotech.com', '$2y$10$troque-este-hash-no-php', 'Administrador', 'Ativo'),
+('Marina Costa', 'marina@gastrotech.com', '$2y$10$troque-este-hash-no-php', 'Cardapio', 'Ativo'),
+('Rafael Lima', 'rafael@gastrotech.com', '$2y$10$troque-este-hash-no-php', 'Atendimento', 'Ativo');
 
 INSERT INTO totens (codigo, localizacao, status) VALUES
 ('TOTEM-01', 'Entrada principal', 'Online'),
@@ -147,6 +148,8 @@ INSERT INTO totens (codigo, localizacao, status) VALUES
 ('TOTEM-03', 'Area externa', 'Manutencao');
 
 INSERT INTO configuracoes_sistema (chave, valor, descricao) VALUES
+('nome_loja', 'GastroTech', 'Nome exibido no totem e no painel'),
+('logo_loja', '../assets/brand/gastrotech-logo.jpg', 'Logo padrao da loja'),
 ('tempo_espera_min', '18', 'Previsao em minutos exibida ao cliente apos confirmar o pedido');
 
 INSERT INTO caixas (saldo_inicial, status) VALUES
@@ -164,13 +167,13 @@ INSERT INTO categorias (nome, descricao, ordem, status) VALUES
 ('Sobremesas', 'Opcoes doces', 5, 'Ativo'),
 ('Adicionais', 'Molhos e extras', 6, 'Ativo');
 
-INSERT INTO produtos (categoria_id, nome, descricao, opcoes, ingredientes, tags, alergenos, porcao, calorias, imagem_url, estoque, preco, tempo_preparo_min, destaque, status) VALUES
-(1, 'Combo Smash', 'Smash burger na chapa, batata sequinha e refrigerante gelado.', 'Burger,Batata,Refri', 'pao brioche, blend bovino 120g, cheddar, picles, molho especial, batata palito, refrigerante lata', 'Mais vendido,Completo', 'gluten,leite', '1 lanche + batata + bebida', 920, '../assets/images/menu/combo-smash.svg', 24, 32.90, 18, 1, 'Ativo'),
-(2, 'X-Bacon Artesanal', 'Pao brioche tostado, bacon crocante, cheddar e molho da casa.', 'Pao brioche,Bacon,Cheddar', 'pao brioche, hamburguer artesanal, bacon em tiras, queijo cheddar, cebola caramelizada, molho da casa', 'Artesanal,Chapa', 'gluten,leite', '1 lanche artesanal', 680, '../assets/images/menu/x-bacon-artesanal.svg', 18, 24.90, 16, 1, 'Ativo'),
-(3, 'Batata Suprema', 'Batata crocante coberta com cheddar cremoso e bacon.', 'Cheddar,Bacon,Media', 'batata palito, creme de cheddar, bacon crocante, cebolinha, tempero da casa', 'Compartilhar,Crocante', 'leite', 'porcao media 350g', 540, '../assets/images/menu/batata-suprema.svg', 12, 18.00, 10, 0, 'Ativo'),
-(4, 'Refrigerante Lata', 'Lata 350ml bem gelada para acompanhar qualquer pedido.', '350ml,Gelado', 'bebida gaseificada, gelo opcional', 'Gelado,Rapido', '', 'lata 350ml', 140, '../assets/images/menu/refrigerante-lata.svg', 42, 6.00, 2, 0, 'Ativo'),
-(5, 'Milkshake Chocolate', 'Milkshake cremoso de chocolate com chantilly e calda.', '400ml,Chocolate', 'sorvete de chocolate, leite, calda de chocolate, chantilly, raspas de chocolate', 'Cremoso,Doce', 'leite', 'copo 400ml', 460, '../assets/images/menu/milkshake-chocolate.svg', 7, 16.90, 8, 1, 'Ativo'),
-(6, 'Molho Extra', 'Pote extra para escolher barbecue defumado ou maionese verde.', 'Barbecue,Maionese verde', 'barbecue defumado, maionese verde, ervas frescas, especiarias', 'Extra,Molhos', 'ovo', 'pote 40ml', 95, '../assets/images/menu/molho-extra.svg', 35, 3.50, 1, 0, 'Ativo');
+INSERT INTO produtos (categoria_id, nome, descricao, opcoes, opcoes_personalizacao, ingredientes, tags, alergenos, porcao, calorias, imagem_url, estoque, preco, tempo_preparo_min, destaque, status) VALUES
+(1, 'Combo Smash', 'Smash burger na chapa, batata sequinha e refrigerante gelado.', 'Burger,Batata,Refri ou suco', 'Bebida do combo: Coca-Cola, Guarana, Fanta Laranja, Suco de laranja, Suco de uva | Gelo: Com gelo, Sem gelo', 'pao brioche, blend bovino 120g, cheddar, picles, molho especial, batata palito, refrigerante lata', 'Mais vendido,Completo', 'gluten,leite', '1 lanche + batata + bebida', 920, '../assets/images/menu/combo-smash.jpg', 24, 32.90, 18, 1, 'Ativo'),
+(2, 'X-Bacon Artesanal', 'Pao brioche tostado, bacon crocante, cheddar e molho da casa.', 'Pao brioche,Bacon,Cheddar', NULL, 'pao brioche, hamburguer artesanal, bacon em tiras, queijo cheddar, cebola caramelizada, molho da casa', 'Artesanal,Chapa', 'gluten,leite', '1 lanche artesanal', 680, '../assets/images/menu/x-bacon-artesanal.jpg', 18, 24.90, 16, 1, 'Ativo'),
+(3, 'Batata Suprema', 'Batata crocante coberta com cheddar cremoso e bacon.', 'Cheddar,Bacon,Media', NULL, 'batata palito, creme de cheddar, bacon crocante, cebolinha, tempero da casa', 'Compartilhar,Crocante', 'leite', 'porcao media 350g', 540, '../assets/images/menu/batata-suprema.jpg', 12, 18.00, 10, 0, 'Ativo'),
+(4, 'Bebida Gelada', 'Lata 350ml ou suco gelado para acompanhar qualquer pedido.', 'Coca-Cola,Guarana,Fanta,Suco', 'Sabor da bebida: Coca-Cola, Guarana, Fanta Laranja, Suco de laranja, Suco de uva | Gelo: Com gelo, Sem gelo', 'bebida escolhida, gelo opcional', 'Gelado,Rapido', '', 'lata 350ml ou copo 500ml', 140, '../assets/images/menu/bebida-gelada.jpg', 42, 6.00, 2, 0, 'Ativo'),
+(5, 'Milkshake Chocolate', 'Milkshake cremoso de chocolate com chantilly e calda.', '400ml,Chocolate', NULL, 'sorvete de chocolate, leite, calda de chocolate, chantilly, raspas de chocolate', 'Cremoso,Doce', 'leite', 'copo 400ml', 460, '../assets/images/menu/milkshake-chocolate.jpg', 7, 16.90, 8, 1, 'Ativo'),
+(6, 'Molho Extra', 'Pote extra para escolher barbecue defumado ou maionese verde.', 'Barbecue,Maionese verde', NULL, 'barbecue defumado, maionese verde, ervas frescas, especiarias', 'Extra,Molhos', 'ovo', 'pote 40ml', 95, '../assets/images/menu/molho-extra.jpg', 35, 3.50, 1, 0, 'Ativo');
 
 INSERT INTO pedidos (totem_id, codigo_retirada, nome_cliente, status_pedido, status_pagamento, forma_pagamento, subtotal, tempo_estimado_min) VALUES
 (1, 'A102', 'Cliente Totem', 'Recebido', 'Pago', 'Pix', 38.90, 18),
@@ -179,6 +182,6 @@ INSERT INTO pedidos (totem_id, codigo_retirada, nome_cliente, status_pedido, sta
 
 INSERT INTO itens_pedido (pedido_id, produto_id, nome_produto, observacao, quantidade, preco_unitario) VALUES
 (1, 1, 'Combo Smash', 'Sem cebola', 1, 32.90),
-(1, 4, 'Refrigerante Lata', NULL, 1, 6.00),
+(1, 4, 'Bebida Gelada', 'Sabor da bebida: Guarana | Gelo: Sem gelo', 1, 6.00),
 (2, 2, 'X-Bacon Artesanal', NULL, 2, 24.90),
 (3, 1, 'Combo Smash', NULL, 1, 32.90);
