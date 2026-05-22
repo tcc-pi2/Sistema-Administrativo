@@ -244,6 +244,3 @@ Para usar no phpMyAdmin:
 3. Selecione o arquivo `database/database.sql`.
 4. Execute a importacao.
 
-## Proxima etapa
-
-Esta versao esta funcional no navegador com `localStorage`. A proxima etapa, se o professor exigir backend, e transformar as telas em PHP, conectar com MySQL e substituir o armazenamento local pelo banco.
