@@ -156,7 +156,8 @@ a {
 
 .totem-sidebar__footer {
   display: grid;
-  gap: 14px;
+  gap: 10px;
+  margin-top: 18px;
 }
 
 .back-office,
@@ -172,14 +173,16 @@ a {
 }
 
 .track-order-button {
-  min-height: 46px;
-  justify-content: center;
-  padding: 10px 12px;
+  min-height: 38px;
+  justify-content: flex-start;
+  padding: 8px 10px;
   border: 1px solid rgba(242, 139, 13, 0.28);
   border-radius: var(--radius);
   background: var(--accent-soft);
   color: var(--accent-2);
+  font-size: 13px;
   font-weight: 800;
+  white-space: nowrap;
   transition: background 0.16s ease, transform 0.16s ease;
 }
 
@@ -854,6 +857,126 @@ a {
   line-height: 1.35;
 }
 
+.receipt-card {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 18px;
+  padding: 18px;
+  border: 1px solid rgba(74, 222, 128, 0.24);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(135deg, rgba(74, 222, 128, 0.12), transparent 50%),
+    rgba(27, 19, 14, 0.9);
+  box-shadow: var(--shadow);
+}
+
+.receipt-card__header,
+.receipt-card__footer,
+.receipt-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.receipt-card__header {
+  align-items: flex-start;
+}
+
+.receipt-card__icon {
+  width: 46px;
+  height: 46px;
+  flex: 0 0 46px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius);
+  background: rgba(74, 222, 128, 0.14);
+  color: var(--green);
+}
+
+.receipt-card h3 {
+  margin: 0;
+  font-size: 19px;
+}
+
+.receipt-card p,
+.receipt-card small {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.receipt-card__code {
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  background: var(--accent-soft);
+  color: var(--accent-2);
+  font-size: 24px;
+  white-space: nowrap;
+}
+
+.receipt-card__info {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.receipt-card__info span,
+.receipt-items {
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: rgba(40, 26, 16, 0.66);
+}
+
+.receipt-card__info strong,
+.receipt-card__info small,
+.receipt-card__footer strong,
+.receipt-card__footer small {
+  display: block;
+}
+
+.receipt-items {
+  display: grid;
+  gap: 9px;
+}
+
+.receipt-item {
+  align-items: flex-start;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.receipt-item strong {
+  color: var(--text);
+}
+
+.receipt-item small {
+  display: block;
+  color: var(--accent-2);
+  line-height: 1.35;
+}
+
+.receipt-card__footer {
+  align-items: stretch;
+}
+
+.receipt-card__footer .finish-button {
+  width: auto;
+  min-width: 180px;
+}
+
+.receipt-card__footer > span {
+  display: grid;
+  align-content: center;
+  justify-items: end;
+}
+
+.receipt-card__footer > span strong {
+  color: var(--accent-2);
+  font-size: 24px;
+}
+
 .option-list {
   display: grid;
   gap: 16px;
@@ -965,6 +1088,7 @@ a {
 
   .category-list,
   .payment-grid,
+  .receipt-card__info,
   .status-progress,
   .tracking-form,
   .order-actions {
@@ -985,5 +1109,20 @@ a {
 
   .product-card {
     min-height: auto;
+  }
+
+  .receipt-card__header,
+  .receipt-card__footer,
+  .receipt-item {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .receipt-card__footer .finish-button {
+    width: 100%;
+  }
+
+  .receipt-card__footer > span {
+    justify-items: start;
   }
 }

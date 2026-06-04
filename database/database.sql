@@ -149,6 +149,7 @@ INSERT INTO totens (codigo, localizacao, status) VALUES
 
 INSERT INTO configuracoes_sistema (chave, valor, descricao) VALUES
 ('nome_loja', 'GastroTech', 'Nome exibido no totem e no painel'),
+('frase_totem', 'Monte seu pedido com todos os detalhes.', 'Frase curta exibida abaixo da logo no totem'),
 ('logo_loja', '../assets/brand/gastrotech-logo.jpg', 'Logo padrao da loja'),
 ('tempo_espera_min', '18', 'Previsao em minutos exibida ao cliente apos confirmar o pedido');
 
@@ -168,7 +169,7 @@ INSERT INTO categorias (nome, descricao, ordem, status) VALUES
 ('Adicionais', 'Molhos e extras', 6, 'Ativo');
 
 INSERT INTO produtos (categoria_id, nome, descricao, opcoes, opcoes_personalizacao, ingredientes, tags, alergenos, porcao, calorias, imagem_url, estoque, preco, tempo_preparo_min, destaque, status) VALUES
-(1, 'Combo Smash', 'Smash burger na chapa, batata sequinha e refrigerante gelado.', 'Burger,Batata,Refri ou suco', 'Bebida do combo: Coca-Cola, Guarana, Fanta Laranja, Suco de laranja, Suco de uva | Gelo: Com gelo, Sem gelo', 'pao brioche, blend bovino 120g, cheddar, picles, molho especial, batata palito, refrigerante lata', 'Mais vendido,Completo', 'gluten,leite', '1 lanche + batata + bebida', 920, '../assets/images/menu/combo-smash.jpg', 24, 32.90, 18, 1, 'Ativo'),
+(1, 'Combo Smash', 'Smash burger na chapa, batata sequinha e refrigerante gelado.', 'Burger,Batata,Refri ou suco', 'Bebida do combo: Coca-Cola, Guarana, Fanta Laranja, Suco de laranja, Suco de uva | Gelo: Com gelo, Sem gelo', 'pao brioche, blend bovino 120g, cheddar, picles, molho especial, batata palito, refrigerante lata', 'Mais vendido,Completo', 'gluten,leite', '1 lanche + batata + bebida', 920, '../assets/images/menu/combo 2.jpg', 24, 32.90, 18, 1, 'Ativo'),
 (2, 'X-Bacon Artesanal', 'Pao brioche tostado, bacon crocante, cheddar e molho da casa.', 'Pao brioche,Bacon,Cheddar', NULL, 'pao brioche, hamburguer artesanal, bacon em tiras, queijo cheddar, cebola caramelizada, molho da casa', 'Artesanal,Chapa', 'gluten,leite', '1 lanche artesanal', 680, '../assets/images/menu/x-bacon-artesanal.jpg', 18, 24.90, 16, 1, 'Ativo'),
 (3, 'Batata Suprema', 'Batata crocante coberta com cheddar cremoso e bacon.', 'Cheddar,Bacon,Media', NULL, 'batata palito, creme de cheddar, bacon crocante, cebolinha, tempero da casa', 'Compartilhar,Crocante', 'leite', 'porcao media 350g', 540, '../assets/images/menu/batata-suprema.jpg', 12, 18.00, 10, 0, 'Ativo'),
 (4, 'Bebida Gelada', 'Lata 350ml ou suco gelado para acompanhar qualquer pedido.', 'Coca-Cola,Guarana,Fanta,Suco', 'Sabor da bebida: Coca-Cola, Guarana, Fanta Laranja, Suco de laranja, Suco de uva | Gelo: Com gelo, Sem gelo', 'bebida escolhida, gelo opcional', 'Gelado,Rapido', '', 'lata 350ml ou copo 500ml', 140, '../assets/images/menu/bebida-gelada.jpg', 42, 6.00, 2, 0, 'Ativo'),
