@@ -53,6 +53,7 @@ Fluxo principal:
 ```text
 Sistema Administrativo/
 |-- index.html
+|-- index.php
 |-- README.md
 |-- GUIA_DO_CODIGO.md
 |-- database/
@@ -68,7 +69,7 @@ Sistema Administrativo/
 `-- .vscode/
 ```
 
-- `index.html`: entrada principal do projeto.
+- `index.html` e `index.php`: entrada principal do projeto, redirecionando para o totem em PHP.
 - `database/database.sql`: modelo inicial do banco de dados.
 - `src/assets/brand`: logo e arquivos da identidade visual.
 - `src/assets/images/menu`: imagens dos alimentos exibidos no totem.
@@ -97,15 +98,14 @@ No codigo, caso queira estudar:
 Imagens oficiais usadas agora:
 
 - `src/assets/brand/gastrotech-logo.jpg`
-- `src/assets/images/menu/combo-smash.jpg`
+- `src/assets/images/menu/combo 2.jpg`
 - `src/assets/images/menu/x-bacon-artesanal.jpg`
 - `src/assets/images/menu/batata-suprema.jpg`
 - `src/assets/images/menu/bebida-gelada.jpg`
 - `src/assets/images/menu/milkshake-chocolate.jpg`
 - `src/assets/images/menu/molho-extra.jpg`
 
-Depois que voce muda pelo painel, o navegador salva isso no `localStorage`. Se limpar os dados do navegador, o sistema volta para os dados iniciais do `store.js`.
-Para entregar o projeto, prefira deixar as imagens fixas nessa pasta. Assim o professor abre em outro computador e as imagens continuam aparecendo.
+Depois que voce muda pelo painel, o caminho fica salvo no MySQL. Para entregar o projeto, leve a pasta inteira com `src/assets`, assim o professor abre e as imagens continuam aparecendo.
 
 ## Funcionalidades prontas
 
@@ -127,7 +127,7 @@ Para entregar o projeto, prefira deixar as imagens fixas nessa pasta. Assim o pr
 - Estoque atualizado quando um pedido é finalizado.
 - Exportação CSV de cardápio, categorias, administradores e financeiro.
 
-Os dados ficam salvos no navegador usando `localStorage`, então o projeto funciona mesmo sem servidor PHP. O arquivo `database/database.sql` já deixa a estrutura pronta para uma futura integração com MySQL.
+Os dados principais ficam salvos no MySQL. O arquivo `database/database.sql` cria a estrutura inicial para importar no phpMyAdmin.
 
 ## Melhorias visuais
 
@@ -163,28 +163,33 @@ Senha: 123
 
 ## Acesso administrativo
 
-O totem do cliente fica aberto para simular o autoatendimento. Ja o painel administrativo exige login: ao tentar abrir dashboard, cozinha, financeiro, cardapio, categorias ou administradores sem sessao ativa, o sistema redireciona para `login.html`.
+O totem do cliente fica aberto para simular o autoatendimento. Ja o painel administrativo exige login: ao tentar abrir dashboard, cozinha, financeiro, cardapio, categorias ou administradores sem sessao ativa, o sistema redireciona para `login.php`.
 
 O botao **Sair** encerra a sessao e volta para a tela de login.
 
 ## Como abrir
 
-Abra o arquivo:
+Com PHP, abra pelo servidor local:
 
 ```text
-index.html
+C:\xampp\php\php.exe -S 127.0.0.1:5520 -t .
 ```
 
-O `index.html` abre o totem do cliente. Pelo link **Painel administrativo**, o sistema pede login antes de abrir o dashboard.
+Depois acesse:
 
-Tambem e possivel colocar a pasta `Sistema Administrativo` dentro do `htdocs` do XAMPP e acessar pelo navegador.
+```text
+http://127.0.0.1:5520/src/pages/totem.php
+```
+
+Tambem e possivel colocar a pasta `Sistema Administrativo` dentro do `htdocs` do XAMPP e acessar pelo navegador com Apache e MySQL ligados.
 
 ## Como abrir no VS Code
 
 1. Abra o VS Code.
 2. Va em `File > Open Folder`.
 3. Selecione a pasta `Sistema Administrativo` que tem `index.html`, `src` e `database` dentro.
-4. Abra o arquivo `index.html` da raiz ou use a extensao Live Server.
+4. Va em `Terminal > Run Task` e escolha `Iniciar servidor PHP`.
+5. Abra `http://127.0.0.1:5520/src/pages/totem.php`.
 
 ## Guia para estudar
 
@@ -205,7 +210,7 @@ O arquivo `database/database.sql` contem uma estrutura inicial com:
 
 ## Totem do cliente
 
-A tela `src/pages/totem.html` simula a parte que o cliente usaria no autoatendimento:
+A tela `src/pages/totem.php` simula a parte que o cliente usaria no autoatendimento:
 
 - filtro por categorias;
 - cards de lanches e bebidas;
@@ -214,13 +219,13 @@ A tela `src/pages/totem.html` simula a parte que o cliente usaria no autoatendim
 - confirmacao com codigo de retirada;
 - acompanhamento da situacao do pedido com barra de progresso.
 
-Quando o pedido e confirmado, ele aparece no dashboard e na tela `src/pages/cozinha.html`. No proprio totem, o cliente pode tocar em **Acompanhar pedido** e consultar o status usando o codigo de retirada.
+Quando o pedido e confirmado, ele aparece no dashboard e na tela `src/pages/cozinha.php`. No proprio totem, o cliente pode tocar em **Acompanhar pedido** e consultar o status usando o codigo de retirada.
 
 O tempo de espera mostrado ao cliente e configurado no dashboard, pelo botao de engrenagem ou pelo botao **Ajustar** no card de tempo medio.
 
 ## Cozinha/atendimento
 
-A tela `src/pages/cozinha.html` representa a area interna da lanchonete:
+A tela `src/pages/cozinha.php` representa a area interna da lanchonete:
 
 - filtra pedidos por status;
 - mostra codigo, cliente, itens e total;
@@ -229,7 +234,7 @@ A tela `src/pages/cozinha.html` representa a area interna da lanchonete:
 
 ## Financeiro
 
-A tela `src/pages/financeiro.html` representa o controle de caixa:
+A tela `src/pages/financeiro.php` representa o controle de caixa:
 
 - mostra faturamento do dia usando os pedidos do totem;
 - separa vendas por Pix, cartao e dinheiro;
@@ -244,6 +249,42 @@ Para usar no phpMyAdmin:
 3. Selecione o arquivo `database/database.sql`.
 4. Execute a importacao.
 
-## Proxima etapa
+## Primeira versao em PHP
 
-Esta versao esta funcional no navegador com `localStorage`. A proxima etapa, se o professor exigir backend, e transformar as telas em PHP, conectar com MySQL e substituir o armazenamento local pelo banco.
+A pasta `app` tem os arquivos de apoio do PHP:
+
+- `app/conexao.php`: conecta no MySQL.
+- `app/auth.php`: controla login e sessao.
+- `app/funcoes.php`: funcoes pequenas como escapar texto e formatar dinheiro.
+- `app/produtos_repositorio.php`: busca, salva e exclui produtos no banco.
+
+As primeiras telas PHP ficam em `src/pages`:
+
+- `src/pages/login.php`
+- `src/pages/dashboard.php`
+- `src/pages/produtos.php`
+- `src/pages/cozinha.php`
+- `src/pages/totem.php`
+
+Para abrir a versao PHP:
+
+1. Ligue Apache e MySQL no XAMPP.
+2. Importe `database/database.sql` no phpMyAdmin.
+3. Acesse `http://localhost/Sistema Administrativo/src/pages/login.php`, se a pasta estiver no `htdocs`.
+4. Acesso de teste: `admin` / `123`.
+
+Se usar o servidor PHP embutido:
+
+```text
+C:\xampp\php\php.exe -S 127.0.0.1:5520 -t .
+```
+
+Depois abra:
+
+```text
+http://127.0.0.1:5520/src/pages/login.php
+```
+
+## Versao PHP atual
+
+A versao principal agora esta em PHP com MySQL. Login, dashboard, produtos, categorias, financeiro, usuarios, configuracoes, cozinha e totem ja usam os dados do banco. O JavaScript ficou apenas para a interacao do carrinho no `totem.php`.

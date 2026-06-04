@@ -4,7 +4,7 @@ Este arquivo e para voce se localizar sem precisar decorar tudo.
 
 ## Pastas principais
 
-- `index.html`: primeira pagina. Ela manda o usuario para o totem.
+- `index.html` e `index.php`: primeira pagina. Elas mandam o usuario para o totem em PHP.
 - `src/pages`: telas do sistema.
 - `src/styles`: arquivos de aparencia.
 - `src/scripts`: regras em JavaScript.
@@ -14,20 +14,34 @@ Este arquivo e para voce se localizar sem precisar decorar tudo.
 
 ## Telas
 
-- `src/pages/totem.html`: tela do cliente fazer o pedido.
-- `src/pages/login.html`: entrada do painel administrativo.
-- `src/pages/dashboard.html`: resumo geral do sistema.
-- `src/pages/produtos.html`: onde cadastra e edita o cardapio.
-- `src/pages/cozinha.html`: fila dos pedidos recebidos.
-- `src/pages/financeiro.html`: caixa e faturamento.
+- `src/pages/totem.php`: tela do cliente fazer o pedido.
+- `src/pages/login.php`: entrada do painel administrativo.
+- `src/pages/dashboard.php`: resumo geral do sistema.
+- `src/pages/produtos.php`: onde cadastra e edita o cardapio.
+- `src/pages/categorias.php`: onde cadastra e organiza categorias.
+- `src/pages/financeiro.php`: caixa e faturamento.
+- `src/pages/cozinha.php`: fila dos pedidos recebidos.
+- `src/pages/administradores.php`: usuarios que acessam o painel.
+- `src/pages/configuracoes.php`: nome da loja, logo e tempo medio.
 
-## Arquivos JavaScript
+As telas antigas em HTML ficaram guardadas em `src/pages/versao-antiga-html`. Elas servem como backup, mas a versao principal do projeto agora e a `.php`.
 
-- `src/scripts/store.js`: guarda os dados do sistema no navegador.
-- `src/scripts/totem.js`: controla carrinho, pedidos e escolhas do cliente.
-- `src/scripts/admin.js`: controla dashboard, produtos, categorias, usuarios, logo e caixa.
-- `src/scripts/cozinha.js`: mostra os pedidos e avisa quando chega pedido novo.
-- `src/scripts/login.js`: controla o login do painel.
+## Arquivos PHP principais
+
+- `app/conexao.php`: conecta no MySQL.
+- `app/auth.php`: controla login e sessao.
+- `app/funcoes.php`: funcoes pequenas usadas em varias telas.
+- `app/produtos_repositorio.php`: produtos e categorias.
+- `app/pedidos_repositorio.php`: pedidos e cozinha.
+- `app/financeiro_repositorio.php`: caixa e movimentos financeiros.
+- `app/configuracoes_repositorio.php`: nome, logo e tempo medio.
+- `app/administradores_repositorio.php`: usuarios do painel.
+
+## Arquivos JavaScript antigos
+
+Esses arquivos ficaram guardados em `src/scripts/versao-antiga-js`.
+Eles sao da versao antiga em HTML. A versao principal agora usa PHP.
+No `totem.php` ainda existe um pedaco de JavaScript dentro da propria pagina para controlar o carrinho antes de enviar o pedido.
 
 Os arquivos principais tambem tem comentarios no proprio codigo. Use `Ctrl + F` no VS Code e procure por palavras como `imagem`, `logo`, `cardapio`, `cozinha` ou `pedido`.
 
@@ -44,12 +58,12 @@ Pelo sistema:
 No codigo:
 
 - As imagens fixas ficam em `src/assets/images/menu`.
-- O caminho da imagem de cada produto fica em `src/scripts/store.js`, no campo `image`.
+- O caminho da imagem de cada produto fica no banco, na tabela `produtos`, campo `imagem_url`.
 
 Exemplo:
 
-```js
-image: "../assets/images/menu/combo-smash.jpg"
+```sql
+imagem_url = "../assets/images/menu/combo 2.jpg"
 ```
 
 ## Onde trocar a logo
@@ -57,54 +71,27 @@ image: "../assets/images/menu/combo-smash.jpg"
 Pelo sistema:
 
 1. Entre no dashboard.
-2. Clique na engrenagem de configuracao.
+2. Abra `Configuracoes`.
 3. Escolha uma imagem para a logo.
 4. Clique em `Salvar configuracoes`.
 
 No codigo:
 
 - A logo padrao fica em `src/assets/brand/gastrotech-logo.jpg`.
-- O caminho padrao fica em `src/scripts/store.js`, no campo `storeLogo`.
-
-## Palavras que aparecem em ingles
-
-Alguns nomes ficaram em ingles porque eles sao os nomes internos dos dados. Se trocar tudo de uma vez, pode quebrar o sistema. Para estudar, leia assim:
-
-- `products`: produtos
-- `categories`: categorias
-- `orders`: pedidos
-- `items`: itens do pedido
-- `settings`: configuracoes da loja
-- `storeName`: nome da loja
-- `storeLogo`: logo da loja
-- `price`: preco
-- `stock`: estoque
-- `status`: situacao
-- `image`: imagem
-- `ingredients`: ingredientes
-- `customizations`: escolhas extras, como bebida e gelo
-- `localStorage`: lugar onde o navegador salva os dados
-
-As funcoes principais do `TotemStore` foram deixadas em portugues, por exemplo:
-
-- `carregarDados()`: busca os dados salvos.
-- `salvarProdutoDados()`: salva produto novo ou editado.
-- `criarPedido()`: cria pedido vindo do totem.
-- `atualizarStatusPedido()`: muda o status na cozinha.
-- `aplicarMarca()`: aplica nome e logo nas telas.
+- O caminho padrao fica no banco, na tabela `configuracoes_sistema`, chave `logo_loja`.
 
 ## Fluxo do pedido
 
 1. O cliente escolhe os itens no totem.
-2. O JavaScript monta o carrinho.
-3. Ao finalizar, o pedido e salvo no `localStorage`.
-4. A cozinha le esses pedidos.
+2. O JavaScript do `totem.php` monta o carrinho na tela.
+3. Ao finalizar, o PHP salva o pedido no MySQL.
+4. A cozinha le esses pedidos do MySQL.
 5. Quando o status muda na cozinha, o totem consegue acompanhar pelo codigo.
 
 ## Imagens usadas agora
 
 - `src/assets/brand/gastrotech-logo.jpg`
-- `src/assets/images/menu/combo-smash.jpg`
+- `src/assets/images/menu/combo 2.jpg`
 - `src/assets/images/menu/x-bacon-artesanal.jpg`
 - `src/assets/images/menu/batata-suprema.jpg`
 - `src/assets/images/menu/bebida-gelada.jpg`
@@ -113,4 +100,27 @@ As funcoes principais do `TotemStore` foram deixadas em portugues, por exemplo:
 
 ## Observacao importante
 
-As imagens enviadas pelo painel ficam salvas no navegador. Para entregar o projeto em outro computador, o mais seguro e deixar as imagens principais dentro da pasta `src/assets/images/menu`, como esta agora.
+As imagens enviadas pelo painel ficam salvas nas pastas do projeto. Para entregar em outro computador, leve a pasta inteira junto com `src/assets`.
+
+## Parte PHP
+
+- `app/conexao.php`: conexao com MySQL.
+- `app/auth.php`: login com sessao.
+- `app/funcoes.php`: funcoes pequenas de apoio.
+- `app/produtos_repositorio.php`: produtos no banco.
+- `app/configuracoes_repositorio.php`: logo, nome e tempo medio.
+- `app/financeiro_repositorio.php`: caixa e financeiro.
+- `app/administradores_repositorio.php`: usuarios do painel.
+- `src/pages/login.php`: login PHP.
+- `src/pages/dashboard.php`: resumo vindo do banco.
+- `src/pages/produtos.php`: cadastro/lista de produtos no MySQL.
+- `src/pages/categorias.php`: categorias no MySQL.
+- `src/pages/financeiro.php`: financeiro no MySQL.
+- `src/pages/administradores.php`: usuarios no MySQL.
+- `src/pages/configuracoes.php`: configuracoes no MySQL.
+- `src/pages/cozinha.php`: fila da cozinha lendo pedidos do MySQL.
+- `src/pages/totem.php`: vitrine lendo produtos do MySQL.
+
+Para essa parte funcionar, precisa ligar Apache/MySQL no XAMPP e importar `database/database.sql`.
+
+No PHP, o JavaScript ainda aparece no `totem.php`: ele controla o carrinho na tela. Quando finaliza, o PHP salva o pedido no banco.

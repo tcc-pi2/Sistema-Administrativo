@@ -211,19 +211,6 @@ button {
   box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.08), 0 20px 60px rgba(0, 0, 0, 0.28);
 }
 
-.order-card.is-new::after {
-  content: "Novo";
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  padding: 5px 8px;
-  border-radius: 999px;
-  background: rgba(250, 204, 21, 0.14);
-  color: var(--yellow);
-  font-size: 11px;
-  font-weight: 800;
-}
-
 .order-card__header,
 .order-card__footer {
   display: flex;
@@ -332,6 +319,51 @@ button {
   text-align: center;
 }
 
+.kitchen-notice {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+  padding: 14px;
+  border: 1px solid rgba(250, 204, 21, 0.38);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(135deg, rgba(250, 204, 21, 0.1), transparent 56%),
+    var(--surface);
+}
+
+.kitchen-notice__icon {
+  width: 46px;
+  height: 46px;
+  flex: 0 0 46px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius);
+  background: rgba(250, 204, 21, 0.14);
+  color: var(--yellow);
+}
+
+.kitchen-notice strong,
+.kitchen-notice p {
+  display: block;
+}
+
+.kitchen-notice p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.sound-toggle {
+  margin-left: auto;
+}
+
+.sound-toggle.is-active {
+  border-color: rgba(74, 222, 128, 0.32);
+  background: rgba(74, 222, 128, 0.12);
+  color: var(--green);
+}
+
 .toast {
   position: fixed;
   right: 22px;
@@ -431,5 +463,15 @@ button {
   .kitchen-heading {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .kitchen-notice {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .sound-toggle {
+    width: 100%;
+    margin-left: 0;
   }
 }
