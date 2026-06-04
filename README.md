@@ -1,4 +1,4 @@
-# GastroTech Admin
+﻿# GastroTech Admin
 
 Sistema de autoatendimento e painel administrativo para lanchonete, com cardapio visual, detalhes dos alimentos, fluxo da cozinha e acompanhamento financeiro.
 
@@ -109,23 +109,23 @@ Depois que voce muda pelo painel, o caminho fica salvo no MySQL. Para entregar o
 
 ## Funcionalidades prontas
 
-- Login obrigatório para o painel administrativo.
-- Cadastro, edição e exclusão de itens do cardápio.
-- Cardápio enriquecido com imagem, ingredientes, alérgenos, porção, calorias e tags.
-- Troca ou cadastro de imagem do produto direto pelo painel, sem editar código.
+- Login obrigatÃ³rio para o painel administrativo.
+- Cadastro, ediÃ§Ã£o e exclusÃ£o de itens do cardÃ¡pio.
+- CardÃ¡pio enriquecido com imagem, ingredientes, alÃ©rgenos, porÃ§Ã£o, calorias e tags.
+- Troca ou cadastro de imagem do produto direto pelo painel, sem editar cÃ³digo.
 - Troca da logo, nome da loja e frase do totem direto pelo dashboard.
-- Cadastro, edição e exclusão de categorias.
-- Cadastro, edição, bloqueio e exclusão de administradores.
-- Totem do cliente com categorias, carrinho, pagamento simulado e código de retirada.
+- Cadastro, ediÃ§Ã£o e exclusÃ£o de categorias.
+- Cadastro, ediÃ§Ã£o, bloqueio e exclusÃ£o de administradores.
+- Totem do cliente com categorias, carrinho, pagamento simulado e cÃ³digo de retirada.
 - Escolha de bebida no totem: refrigerante ou suco, com gelo ou sem gelo.
 - Consulta de situacao do pedido no totem pelo codigo de retirada.
 - Pedidos do totem salvos e exibidos no dashboard.
 - Tela da cozinha para acompanhar e avancar o status dos pedidos.
-- Notificação visual na cozinha quando um novo pedido chega.
+- NotificaÃ§Ã£o visual na cozinha quando um novo pedido chega.
 - Tela financeira com faturamento, caixa, entradas, saidas e vendas por pagamento.
 - Configuracao de tempo medio de espera pelo painel administrativo.
-- Estoque atualizado quando um pedido é finalizado.
-- Exportação CSV de cardápio, categorias, administradores e financeiro.
+- Estoque atualizado quando um pedido Ã© finalizado.
+- ExportaÃ§Ã£o CSV de cardÃ¡pio, categorias, administradores e financeiro.
 
 Os dados principais ficam salvos no MySQL. O arquivo `database/database.sql` cria a estrutura inicial para importar no phpMyAdmin.
 
