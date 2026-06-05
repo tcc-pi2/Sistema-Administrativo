@@ -138,9 +138,7 @@ CREATE TABLE itens_pedido (
 );
 
 INSERT INTO administradores (nome, email, senha_hash, permissao, status) VALUES
-('Usuario Admin', 'admin@gastrotech.com', '$2y$10$troque-este-hash-no-php', 'Administrador', 'Ativo'),
-('Marina Costa', 'marina@gastrotech.com', '$2y$10$troque-este-hash-no-php', 'Cardapio', 'Ativo'),
-('Rafael Lima', 'rafael@gastrotech.com', '$2y$10$troque-este-hash-no-php', 'Atendimento', 'Ativo');
+('Usuario Admin', 'admin@gastrotech.com', '$2y$10$BOG1TRs1KhNUbr2mvRvRG.gAIWv6i1JtFPRf54uBatUb0a/q0oEO.', 'Administrador', 'Ativo');
 
 INSERT INTO totens (codigo, localizacao, status) VALUES
 ('TOTEM-01', 'Entrada principal', 'Online'),

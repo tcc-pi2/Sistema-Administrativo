@@ -5,12 +5,13 @@ Este arquivo e para voce se localizar sem precisar decorar tudo.
 ## Pastas principais
 
 - `index.html` e `index.php`: primeira pagina. Elas mandam o usuario para o totem em PHP.
+- `app`: conexao com MySQL, login/sessao e repositorios.
 - `src/pages`: telas do sistema.
 - `src/styles`: arquivos de aparencia.
-- `src/scripts`: regras em JavaScript.
 - `src/assets/brand`: logo da loja.
 - `src/assets/images/menu`: fotos dos alimentos.
 - `database/database.sql`: modelo do banco de dados.
+- `legacy`: arquivos antigos guardados como backup.
 
 ## Telas
 
@@ -24,7 +25,7 @@ Este arquivo e para voce se localizar sem precisar decorar tudo.
 - `src/pages/administradores.php`: usuarios que acessam o painel.
 - `src/pages/configuracoes.php`: nome da loja, logo e tempo medio.
 
-As telas antigas em HTML ficaram guardadas em `src/pages/versao-antiga-html`. Elas servem como backup, mas a versao principal do projeto agora e a `.php`.
+As telas antigas em HTML ficaram guardadas em `legacy/html`. Elas servem como backup, mas a versao principal do projeto agora e a `.php`.
 
 ## Arquivos PHP principais
 
@@ -39,7 +40,7 @@ As telas antigas em HTML ficaram guardadas em `src/pages/versao-antiga-html`. El
 
 ## Arquivos JavaScript antigos
 
-Esses arquivos ficaram guardados em `src/scripts/versao-antiga-js`.
+Esses arquivos ficaram guardados em `legacy/js`.
 Eles sao da versao antiga em HTML. A versao principal agora usa PHP.
 No `totem.php` ainda existe um pedaco de JavaScript dentro da propria pagina para controlar o carrinho antes de enviar o pedido.
 

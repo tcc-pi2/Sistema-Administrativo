@@ -42,16 +42,7 @@ function login_admin($pdo, $login, $senha)
         return false;
     }
 
-    $hash = $admin['senha_hash'] ?? '';
-    $senha_correta = password_verify($senha, $hash);
-
-    // O SQL de exemplo ainda usa um texto no lugar do hash.
-    // Para apresentacao, admin/123 continua funcionando.
-    if (!$senha_correta && strpos($hash, 'troque-este-hash') !== false) {
-        $senha_correta = $senha === '123';
-    }
-
-    if (!$senha_correta) {
+    if (!password_verify($senha, $admin['senha_hash'] ?? '')) {
         return false;
     }
 
