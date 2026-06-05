@@ -51,31 +51,38 @@ Fluxo principal:
 ## Estrutura do projeto
 
 ```text
-Sistema Administrativo/
-|-- index.html
-|-- index.php
-|-- README.md
-|-- GUIA_DO_CODIGO.md
+GastroTech/
+|-- app/
+|   |-- conexao.php
+|   |-- auth.php
+|   `-- *_repositorio.php
 |-- database/
 |   `-- database.sql
+|-- legacy/
+|   |-- html/
+|   |-- js/
+|   `-- images/
 |-- src/
 |   |-- assets/
 |   |   |-- brand/
 |   |   `-- images/
 |   |       `-- menu/
-|   |-- styles/
-|   |-- scripts/
-|   `-- pages/
-`-- .vscode/
+|   |-- pages/
+|   `-- styles/
+|-- index.html
+|-- index.php
+|-- README.md
+`-- GUIA_DO_CODIGO.md
 ```
 
 - `index.html` e `index.php`: entrada principal do projeto, redirecionando para o totem em PHP.
-- `database/database.sql`: modelo inicial do banco de dados.
+- `app`: conexao com MySQL, sessao/login e repositorios usados pelas telas.
+- `database/database.sql`: modelo inicial do banco de dados para importar no phpMyAdmin.
+- `src/pages`: telas PHP ativas do sistema.
+- `src/styles`: arquivos de estilo da versao ativa.
 - `src/assets/brand`: logo e arquivos da identidade visual.
 - `src/assets/images/menu`: imagens dos alimentos exibidos no totem.
-- `src/styles`: arquivos de estilo.
-- `src/scripts`: regras e interacoes em JavaScript.
-- `src/pages`: telas HTML do sistema.
+- `legacy`: backup da versao antiga em HTML/JS e imagens que nao sao usadas pela versao PHP.
 
 ## Onde alterar imagens e logo
 
@@ -89,9 +96,8 @@ Pelo sistema, sem mexer no codigo:
 
 No codigo, caso queira estudar:
 
-- `src/scripts/store.js`: guarda os dados iniciais do sistema.
-- Em `settings`, ficam nome, frase, tempo e logo padrao da loja.
-- Em cada produto, o campo `image` guarda a imagem que aparece no cardapio.
+- As configuracoes ficam na tabela `configuracoes_sistema`, em `database/database.sql`.
+- Os produtos usam o campo `imagem_url`, salvo no MySQL.
 - `src/assets/brand`: pasta para logos.
 - `src/assets/images/menu`: pasta para imagens dos alimentos.
 
@@ -181,19 +187,29 @@ Depois acesse:
 http://127.0.0.1:5520/src/pages/totem.php
 ```
 
-Tambem e possivel colocar a pasta `Sistema Administrativo` dentro do `htdocs` do XAMPP e acessar pelo navegador com Apache e MySQL ligados.
+Tambem e possivel colocar esta pasta do projeto dentro do `htdocs` do XAMPP e acessar pelo navegador com Apache e MySQL ligados.
 
 ## Como abrir no VS Code
 
 1. Abra o VS Code.
 2. Va em `File > Open Folder`.
-3. Selecione a pasta `Sistema Administrativo` que tem `index.html`, `src` e `database` dentro.
+3. Selecione a pasta do GastroTech que tem `index.html`, `app`, `src` e `database` dentro.
 4. Va em `Terminal > Run Task` e escolha `Iniciar servidor PHP`.
 5. Abra `http://127.0.0.1:5520/src/pages/totem.php`.
 
 ## Guia para estudar
 
-O arquivo `GUIA_DO_CODIGO.md` explica, de forma mais simples, onde ficam as telas, os scripts, as imagens, a logo e os nomes internos usados no JavaScript.
+O arquivo `GUIA_DO_CODIGO.md` explica, de forma mais simples, onde ficam as telas PHP, os arquivos de apoio, as imagens, a logo e os backups antigos.
+
+## Documentacao de entrega
+
+A documentacao tecnica em PDF fica em:
+
+```text
+docs/documentacao_tecnica_gastrotech.pdf
+```
+
+Ela contem a estrutura do projeto, fluxo do sistema, explicacao da autenticacao, conexao PDO, CRUD, banco de dados e checklist dos requisitos obrigatorios.
 
 ## Banco de dados
 
@@ -249,7 +265,7 @@ Para usar no phpMyAdmin:
 3. Selecione o arquivo `database/database.sql`.
 4. Execute a importacao.
 
-## Primeira versao em PHP
+## Arquivos PHP principais
 
 A pasta `app` tem os arquivos de apoio do PHP:
 
@@ -258,7 +274,7 @@ A pasta `app` tem os arquivos de apoio do PHP:
 - `app/funcoes.php`: funcoes pequenas como escapar texto e formatar dinheiro.
 - `app/produtos_repositorio.php`: busca, salva e exclui produtos no banco.
 
-As primeiras telas PHP ficam em `src/pages`:
+As telas PHP ficam em `src/pages`:
 
 - `src/pages/login.php`
 - `src/pages/dashboard.php`
@@ -270,7 +286,7 @@ Para abrir a versao PHP:
 
 1. Ligue Apache e MySQL no XAMPP.
 2. Importe `database/database.sql` no phpMyAdmin.
-3. Acesse `http://localhost/Sistema Administrativo/src/pages/login.php`, se a pasta estiver no `htdocs`.
+3. Acesse `http://localhost/NOME-DA-PASTA/src/pages/login.php`, trocando `NOME-DA-PASTA` pelo nome usado no `htdocs`.
 4. Acesso de teste: `admin` / `123`.
 
 Se usar o servidor PHP embutido:
