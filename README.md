@@ -27,9 +27,6 @@ O GastroTech resolve um problema simples e real: a lanchonete precisa alterar pr
 - Administrar usuarios com acesso ao painel.
 - Preparar a base para conectar PHP e MySQL.
 
-## Como explicar na apresentacao
-
-> Este projeto simula um fluxo real de lanchonete: o cliente faz o pedido no totem, a cozinha acompanha a fila de preparo e o administrador controla o cardapio, categorias, estoque e usuarios do sistema. Se um lanche acaba, ele deixa de aparecer no totem. Se o preco muda, o painel atualiza a informacao. Quando o cliente finaliza o pedido, ele recebe um codigo de retirada e a cozinha consegue avancar o status.
 
 Fluxo principal:
 
