@@ -1,5 +1,5 @@
 <?php
-// Funcoes pequenas usadas em varias paginas PHP.
+// Funções pequenas usadas em várias páginas PHP.
 
 function escapar($valor)
 {
@@ -9,6 +9,180 @@ function escapar($valor)
 function dinheiro($valor)
 {
     return 'R$ ' . number_format((float) $valor, 2, ',', '.');
+}
+
+function texto_pagamento($valor)
+{
+    $mapa = [
+        'Cartao' => 'Cartão',
+        'Pix' => 'Pix',
+        'Dinheiro' => 'Dinheiro',
+    ];
+
+    return $mapa[$valor] ?? $valor;
+}
+
+function texto_tipo_movimento($valor)
+{
+    $mapa = [
+        'Entrada' => 'Entrada',
+        'Saida' => 'Saída',
+    ];
+
+    return $mapa[$valor] ?? $valor;
+}
+
+function texto_permissao($valor)
+{
+    $mapa = [
+        'Cardapio' => 'Cardápio',
+        'Administrador' => 'Administrador',
+        'Atendimento' => 'Atendimento',
+        'Leitura' => 'Leitura',
+    ];
+
+    return $mapa[$valor] ?? $valor;
+}
+
+function texto_categoria($valor)
+{
+    $mapa = [
+        'Hamburgueres' => 'Hambúrgueres',
+        'Porcoes' => 'Porções',
+        'Opcoes' => 'Opções',
+        'Cardapio' => 'Cardápio',
+    ];
+
+    return $mapa[$valor] ?? $valor;
+}
+
+function texto_visivel($valor)
+{
+    $mapa = [
+        'Hamburgueres' => 'Hambúrgueres',
+        'hamburgueres' => 'hambúrgueres',
+        'Porcoes' => 'Porções',
+        'porcoes' => 'porções',
+        'Opcoes' => 'Opções',
+        'opcoes' => 'opções',
+        'Cardapio' => 'Cardápio',
+        'cardapio' => 'cardápio',
+        'Porcao' => 'Porção',
+        'porcao' => 'porção',
+        'Media' => 'Média',
+        'media' => 'média',
+        'Codigo' => 'Código',
+        'codigo' => 'código',
+        'Situacao' => 'Situação',
+        'situacao' => 'situação',
+        'Preco' => 'Preço',
+        'preco' => 'preço',
+        'Informacao' => 'Informação',
+        'informacao' => 'informação',
+        'Configuracoes' => 'Configurações',
+        'configuracoes' => 'configurações',
+        'Usuario' => 'Usuário',
+        'usuario' => 'usuário',
+        'Balcao' => 'Balcão',
+        'balcao' => 'balcão',
+        'Guarana' => 'Guaraná',
+        'guarana' => 'guaraná',
+        'Acai' => 'Açaí',
+        'acai' => 'açaí',
+        'Pao' => 'Pão',
+        'pao' => 'pão',
+        'Hamburguer' => 'Hambúrguer',
+        'hamburguer' => 'hambúrguer',
+        'Gluten' => 'Glúten',
+        'gluten' => 'glúten',
+        'Rapido' => 'Rápido',
+        'rapido' => 'rápido',
+        'Promocoes' => 'Promoções',
+        'promocoes' => 'promoções',
+        'Reforcado' => 'Reforçado',
+        'reforcado' => 'reforçado',
+        'Saida' => 'Saída',
+        'saida' => 'saída',
+    ];
+
+    return str_replace(array_keys($mapa), array_values($mapa), (string) $valor);
+}
+
+function horario_curto($valor)
+{
+    if (!$valor) {
+        return '-';
+    }
+
+    try {
+        return (new DateTime((string) $valor))->format('H:i');
+    } catch (Exception $erro) {
+        return '-';
+    }
+}
+
+function minutos_desde($valor)
+{
+    if (!$valor) {
+        return 0;
+    }
+
+    try {
+        $inicio = new DateTime((string) $valor);
+        $agora = new DateTime();
+        $segundos = $agora->getTimestamp() - $inicio->getTimestamp();
+
+        return max(0, (int) floor($segundos / 60));
+    } catch (Exception $erro) {
+        return 0;
+    }
+}
+
+function texto_minutos($minutos)
+{
+    $minutos = max(0, (int) $minutos);
+
+    if ($minutos <= 0) {
+        return 'agora';
+    }
+
+    if ($minutos < 60) {
+        return $minutos === 1 ? '1 min' : $minutos . ' min';
+    }
+
+    $dias = intdiv($minutos, 1440);
+    $horas = intdiv($minutos % 1440, 60);
+    $restoMinutos = $minutos % 60;
+
+    if ($dias > 0) {
+        $textoDias = $dias === 1 ? '1 dia' : $dias . ' dias';
+
+        if ($horas > 0) {
+            return $textoDias . ' ' . $horas . 'h';
+        }
+
+        return $textoDias;
+    }
+
+    if ($restoMinutos > 0) {
+        return $horas . 'h ' . $restoMinutos . 'min';
+    }
+
+    return $horas . 'h';
+}
+
+function atraso_pedido($pedido)
+{
+    $status = $pedido['status_pedido'] ?? '';
+
+    if (!in_array($status, ['Recebido', 'Em preparo'], true)) {
+        return 0;
+    }
+
+    $decorrido = minutos_desde($pedido['criado_em'] ?? null);
+    $estimado = (int) ($pedido['tempo_estimado_min'] ?? 0);
+
+    return max(0, $decorrido - $estimado);
 }
 
 function lista_texto($valor)
@@ -51,7 +225,7 @@ function personalizacoes_produto($valor)
 
 function icone_categoria($nome)
 {
-    // Escolhe o icone da lateral do totem conforme o nome da categoria.
+    // Escolhe o ícone da lateral do totem conforme o nome da categoria.
     $texto = strtolower((string) $nome);
     $texto = strtr($texto, [
         'á' => 'a', 'à' => 'a', 'ã' => 'a', 'â' => 'a',

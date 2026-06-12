@@ -61,7 +61,7 @@ $limiteEstoqueBaixo = 10;
           <img class="brand-card__avatar" src="<?= escapar($logoLoja) ?>" alt="Logo <?= escapar($nomeLoja) ?>">
           <span>
             <strong class="brand-card__name"><?= escapar($nomeLoja) ?></strong>
-            <span class="brand-card__role"><?= escapar($admin['nome']) ?></span>
+            <span class="brand-card__role"><?= escapar(texto_visivel($admin['nome'])) ?></span>
           </span>
         </a>
 
@@ -71,8 +71,8 @@ $limiteEstoqueBaixo = 10;
           <a class="nav-link" href="./categorias.php"><i class="fa-solid fa-table-cells-large"></i><span>Categorias</span></a>
           <a class="nav-link" href="./financeiro.php"><i class="fa-solid fa-cash-register"></i><span>Financeiro</span></a>
           <a class="nav-link" href="./cozinha.php"><i class="fa-solid fa-kitchen-set"></i><span>Cozinha</span></a>
-          <a class="nav-link" href="./administradores.php"><i class="fa-solid fa-users-gear"></i><span>Usuarios</span></a>
-          <a class="nav-link" href="./configuracoes.php"><i class="fa-solid fa-gear"></i><span>Configuracoes</span></a>
+          <a class="nav-link" href="./administradores.php"><i class="fa-solid fa-users-gear"></i><span>Usuários</span></a>
+          <a class="nav-link" href="./configuracoes.php"><i class="fa-solid fa-gear"></i><span>Configurações</span></a>
           <a class="nav-link" href="./totem.php" target="_blank"><i class="fa-solid fa-display"></i><span>Totem</span></a>
           <a class="nav-link" href="./login.php?logout=1"><i class="fa-solid fa-right-from-bracket"></i><span>Sair</span></a>
         </nav>
@@ -82,8 +82,8 @@ $limiteEstoqueBaixo = 10;
     <main class="content">
       <header class="topbar">
         <div>
-          <p class="topbar__eyebrow">Cardapio do totem</p>
-          <h1 class="topbar__title">Cardapio</h1>
+          <p class="topbar__eyebrow">Cardápio do totem</p>
+          <h1 class="topbar__title">Cardápio</h1>
         </div>
         <div class="topbar__actions">
           <a class="button button--primary" href="./produtos.php#produto-form">
@@ -126,13 +126,13 @@ $limiteEstoqueBaixo = 10;
                       <div class="product-row__header">
                         <div>
                           <h3><?= escapar($produto['nome']) ?></h3>
-                          <p><?= escapar($produto['descricao']) ?></p>
+                          <p><?= escapar(texto_visivel($produto['descricao'])) ?></p>
                         </div>
                         <strong class="product-row__price"><?= dinheiro($produto['preco']) ?></strong>
                       </div>
 
                       <div class="product-row__meta">
-                        <span><i class="fa-solid fa-layer-group"></i><?= escapar($produto['categoria_nome'] ?? 'Sem categoria') ?></span>
+                        <span><i class="fa-solid fa-layer-group"></i><?= escapar(texto_categoria($produto['categoria_nome'] ?? 'Sem categoria')) ?></span>
                         <span><i class="fa-solid fa-boxes-stacked"></i><?= (int) $produto['estoque'] ?> un.</span>
                         <span><i class="fa-solid fa-clock"></i><?= (int) $produto['tempo_preparo_min'] ?> min</span>
                         <?php if ((int) $produto['estoque'] <= 0): ?>
@@ -170,7 +170,7 @@ $limiteEstoqueBaixo = 10;
                 <span class="form-card__icon"><i class="fa-solid fa-burger"></i></span>
                 <div>
                   <h2><?= $produtoEdicao ? 'Editar produto' : 'Novo produto' ?></h2>
-                  <p><?= $produtoEdicao ? 'Altere os dados e salve.' : 'Adicione um item ao cardapio.' ?></p>
+                  <p><?= $produtoEdicao ? 'Altere os dados e salve.' : 'Adicione um item ao cardápio.' ?></p>
                 </div>
               </div>
 
@@ -178,26 +178,49 @@ $limiteEstoqueBaixo = 10;
                 <input type="hidden" name="id" value="<?= escapar($produtoEdicao['id'] ?? '') ?>">
 
                 <div class="form-grid">
-                  <div class="form-group">
+                  <div class="form-group form-group--wide">
                     <label for="nome">Nome</label>
                     <input class="form-control" id="nome" name="nome" type="text" required value="<?= escapar($produtoEdicao['nome'] ?? '') ?>">
                   </div>
 
-                  <div class="form-group">
+                  <div class="form-group form-group--wide">
                     <label for="categoria">Categoria</label>
                     <select class="form-control" id="categoria" name="categoria_id">
                       <option value="">Sem categoria</option>
                       <?php foreach ($categorias as $categoria): ?>
                         <option value="<?= $categoria['id'] ?>" <?= (string) ($produtoEdicao['categoria_id'] ?? '') === (string) $categoria['id'] ? 'selected' : '' ?>>
-                          <?= escapar($categoria['nome']) ?>
+                          <?= escapar(texto_categoria($categoria['nome'])) ?>
                         </option>
                       <?php endforeach; ?>
                     </select>
                   </div>
 
+                  <div class="form-group form-group--stock">
+                    <label for="estoque">Estoque</label>
+                    <input class="form-control" id="estoque" name="estoque" type="number" min="0" value="<?= escapar($produtoEdicao['estoque'] ?? 0) ?>">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="preco">Preço</label>
+                    <input class="form-control" id="preco" name="preco" type="number" min="0" step="0.01" value="<?= escapar($produtoEdicao['preco'] ?? '') ?>">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="tempo">Preparo min.</label>
+                    <input class="form-control" id="tempo" name="tempo_preparo_min" type="number" min="1" value="<?= escapar($produtoEdicao['tempo_preparo_min'] ?? 10) ?>">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="status">Status</label>
+                    <select class="form-control" id="status" name="status">
+                      <option value="Ativo" <?= ($produtoEdicao['status'] ?? 'Ativo') === 'Ativo' ? 'selected' : '' ?>>Ativo</option>
+                      <option value="Inativo" <?= ($produtoEdicao['status'] ?? '') === 'Inativo' ? 'selected' : '' ?>>Inativo</option>
+                    </select>
+                  </div>
+
                   <div class="form-group form-group--wide">
-                    <label for="descricao">Descricao</label>
-                    <input class="form-control" id="descricao" name="descricao" type="text" value="<?= escapar($produtoEdicao['descricao'] ?? '') ?>">
+                    <label for="descricao">Descrição</label>
+                    <textarea class="form-control" id="descricao" name="descricao" rows="3"><?= escapar($produtoEdicao['descricao'] ?? '') ?></textarea>
                   </div>
 
                   <div class="form-group form-group--wide">
@@ -231,9 +254,9 @@ $limiteEstoqueBaixo = 10;
                   </div>
 
                   <div class="form-group">
-                    <label for="opcoes_personalizacao">Opcoes de bebida/gelo</label>
-                    <input class="form-control" id="opcoes_personalizacao" name="opcoes_personalizacao" type="text" value="<?= escapar($produtoEdicao['opcoes_personalizacao'] ?? '') ?>">
-                    <p class="form-hint">Ex: Bebida: Coca-Cola, Guarana, Suco de uva | Gelo: Com gelo, Sem gelo</p>
+                    <label for="opcoes_personalizacao">Opções de bebida/gelo</label>
+                    <textarea class="form-control" id="opcoes_personalizacao" name="opcoes_personalizacao" rows="2"><?= escapar($produtoEdicao['opcoes_personalizacao'] ?? '') ?></textarea>
+                    <p class="form-hint">Ex: Bebida: Coca-Cola, Guaraná, Suco de uva | Gelo: Com gelo, Sem gelo</p>
                   </div>
 
                   <div class="form-group">
@@ -242,12 +265,12 @@ $limiteEstoqueBaixo = 10;
                   </div>
 
                   <div class="form-group">
-                    <label for="alergenos">Alergenos</label>
+                    <label for="alergenos">Alérgenos</label>
                     <input class="form-control" id="alergenos" name="alergenos" type="text" value="<?= escapar($produtoEdicao['alergenos'] ?? '') ?>">
                   </div>
 
                   <div class="form-group">
-                    <label for="porcao">Porcao</label>
+                    <label for="porcao">Porção</label>
                     <input class="form-control" id="porcao" name="porcao" type="text" value="<?= escapar($produtoEdicao['porcao'] ?? '') ?>">
                   </div>
 
@@ -256,30 +279,7 @@ $limiteEstoqueBaixo = 10;
                     <input class="form-control" id="calorias" name="calorias" type="number" min="0" value="<?= escapar($produtoEdicao['calorias'] ?? '') ?>">
                   </div>
 
-                  <div class="form-group">
-                    <label for="estoque">Estoque</label>
-                    <input class="form-control" id="estoque" name="estoque" type="number" min="0" value="<?= escapar($produtoEdicao['estoque'] ?? 0) ?>">
-                  </div>
-
-                  <div class="form-group">
-                    <label for="preco">Preco</label>
-                    <input class="form-control" id="preco" name="preco" type="number" min="0" step="0.01" value="<?= escapar($produtoEdicao['preco'] ?? '') ?>">
-                  </div>
-
-                  <div class="form-group">
-                    <label for="tempo">Preparo min.</label>
-                    <input class="form-control" id="tempo" name="tempo_preparo_min" type="number" min="1" value="<?= escapar($produtoEdicao['tempo_preparo_min'] ?? 10) ?>">
-                  </div>
-
-                  <div class="form-group">
-                    <label for="status">Status</label>
-                    <select class="form-control" id="status" name="status">
-                      <option value="Ativo" <?= ($produtoEdicao['status'] ?? 'Ativo') === 'Ativo' ? 'selected' : '' ?>>Ativo</option>
-                      <option value="Inativo" <?= ($produtoEdicao['status'] ?? '') === 'Inativo' ? 'selected' : '' ?>>Inativo</option>
-                    </select>
-                  </div>
-
-                  <label class="check-row">
+                  <label class="check-row form-group--wide">
                     <input type="checkbox" name="destaque" <?= !empty($produtoEdicao['destaque']) ? 'checked' : '' ?>>
                     Destacar produto
                   </label>

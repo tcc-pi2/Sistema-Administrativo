@@ -1,5 +1,5 @@
 <?php
-// Funcoes do banco ligadas a pedidos e cozinha.
+// Pedidos do totem e da cozinha.
 
 function codigo_proximo_pedido($pdo)
 {

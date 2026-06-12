@@ -24,6 +24,16 @@ $produtosEstoqueBaixo = $pdo->query('
     ORDER BY produtos.estoque ASC, produtos.nome ASC
     LIMIT 6
 ')->fetchAll();
+$pedidosAtrasados = $pdo->query('
+    SELECT *,
+      TIMESTAMPDIFF(MINUTE, criado_em, NOW()) AS minutos_decorridos,
+      GREATEST(0, TIMESTAMPDIFF(MINUTE, criado_em, NOW()) - tempo_estimado_min) AS minutos_atraso
+    FROM pedidos
+    WHERE status_pedido IN ("Recebido", "Em preparo")
+      AND TIMESTAMPDIFF(MINUTE, criado_em, NOW()) > tempo_estimado_min
+    ORDER BY minutos_atraso DESC, criado_em ASC
+    LIMIT 5
+')->fetchAll();
 $pedidos = $pdo->query('SELECT * FROM pedidos ORDER BY criado_em DESC LIMIT 6')->fetchAll();
 ?>
 <!DOCTYPE html>
@@ -44,7 +54,7 @@ $pedidos = $pdo->query('SELECT * FROM pedidos ORDER BY criado_em DESC LIMIT 6')-
           <img class="brand-card__avatar" src="<?= escapar($logoLoja) ?>" alt="Logo <?= escapar($nomeLoja) ?>">
           <span>
             <strong class="brand-card__name"><?= escapar($nomeLoja) ?></strong>
-            <span class="brand-card__role"><?= escapar($admin['nome']) ?></span>
+            <span class="brand-card__role"><?= escapar(texto_visivel($admin['nome'])) ?></span>
           </span>
         </a>
 
@@ -54,8 +64,8 @@ $pedidos = $pdo->query('SELECT * FROM pedidos ORDER BY criado_em DESC LIMIT 6')-
           <a class="nav-link" href="./categorias.php"><i class="fa-solid fa-table-cells-large"></i><span>Categorias</span></a>
           <a class="nav-link" href="./financeiro.php"><i class="fa-solid fa-cash-register"></i><span>Financeiro</span></a>
           <a class="nav-link" href="./cozinha.php"><i class="fa-solid fa-kitchen-set"></i><span>Cozinha</span></a>
-          <a class="nav-link" href="./administradores.php"><i class="fa-solid fa-users-gear"></i><span>Usuarios</span></a>
-          <a class="nav-link" href="./configuracoes.php"><i class="fa-solid fa-gear"></i><span>Configuracoes</span></a>
+          <a class="nav-link" href="./administradores.php"><i class="fa-solid fa-users-gear"></i><span>Usuários</span></a>
+          <a class="nav-link" href="./configuracoes.php"><i class="fa-solid fa-gear"></i><span>Configurações</span></a>
           <a class="nav-link" href="./totem.php" target="_blank"><i class="fa-solid fa-display"></i><span>Totem</span></a>
           <a class="nav-link" href="./login.php?logout=1"><i class="fa-solid fa-right-from-bracket"></i><span>Sair</span></a>
         </nav>
@@ -65,13 +75,13 @@ $pedidos = $pdo->query('SELECT * FROM pedidos ORDER BY criado_em DESC LIMIT 6')-
     <main class="content">
       <header class="topbar">
         <div>
-          <p class="topbar__eyebrow">Operacao do totem</p>
+          <p class="topbar__eyebrow">Operação do totem</p>
           <h1 class="topbar__title">Dashboard</h1>
         </div>
         <div class="topbar__actions">
           <a class="button button--ghost" href="./configuracoes.php">
             <i class="fa-solid fa-gear"></i>
-            Configuracoes
+            Configurações
           </a>
           <a class="button button--primary" href="./totem.php" target="_blank">
             <i class="fa-solid fa-display"></i>
@@ -85,11 +95,11 @@ $pedidos = $pdo->query('SELECT * FROM pedidos ORDER BY criado_em DESC LIMIT 6')-
           <div class="metric-grid metric-grid--four">
             <article class="metric-card">
               <div class="metric-card__top">
-                <p class="metric-card__label">Itens do cardapio</p>
+                <p class="metric-card__label">Itens do cardápio</p>
                 <span class="metric-card__icon"><i class="fa-solid fa-burger"></i></span>
               </div>
               <p class="metric-card__value"><?= $totalProdutos ?></p>
-              <p class="metric-card__note">Produtos disponiveis no totem</p>
+              <p class="metric-card__note">Produtos disponíveis no totem</p>
             </article>
 
             <article class="metric-card">
@@ -103,11 +113,11 @@ $pedidos = $pdo->query('SELECT * FROM pedidos ORDER BY criado_em DESC LIMIT 6')-
 
             <article class="metric-card">
               <div class="metric-card__top">
-                <p class="metric-card__label">Tempo medio</p>
+                <p class="metric-card__label">Tempo médio</p>
                 <span class="metric-card__icon"><i class="fa-solid fa-clock"></i></span>
               </div>
               <p class="metric-card__value"><?= escapar($tempoEspera) ?> min</p>
-              <p class="metric-card__note">Previsao exibida ao cliente</p>
+              <p class="metric-card__note">Previsão exibida ao cliente</p>
             </article>
 
             <article class="metric-card">
@@ -120,25 +130,66 @@ $pedidos = $pdo->query('SELECT * FROM pedidos ORDER BY criado_em DESC LIMIT 6')-
             </article>
           </div>
 
+          <?php if ($pedidosAtrasados): ?>
+            <section class="table-card late-panel">
+              <div class="table-card__header late-panel__header">
+                <div class="late-panel__title">
+                  <span class="late-panel__mark">
+                    <i class="fa-solid fa-stopwatch"></i>
+                  </span>
+                  <div>
+                    <h3 class="table-card__title">Pedidos atrasados</h3>
+                    <p class="form-hint">Pedidos que passaram do tempo estimado de preparo.</p>
+                  </div>
+                </div>
+                <a class="button button--danger" href="./cozinha.php">
+                  <i class="fa-solid fa-kitchen-set"></i>
+                  Ver na cozinha
+                </a>
+              </div>
+
+              <div class="late-list">
+                <?php foreach ($pedidosAtrasados as $pedido): ?>
+                  <article class="late-order-card">
+                    <span class="late-order-card__code"><?= escapar($pedido['codigo_retirada']) ?></span>
+                    <div>
+                      <strong><?= escapar(texto_visivel($pedido['nome_cliente'] ?: 'Cliente')) ?></strong>
+                      <span>Recebido às <?= horario_curto($pedido['criado_em']) ?> • <?= escapar($pedido['status_pedido']) ?></span>
+                    </div>
+                    <span class="time-pill time-pill--late">
+                      +<?= texto_minutos($pedido['minutos_atraso']) ?>
+                    </span>
+                  </article>
+                <?php endforeach; ?>
+              </div>
+            </section>
+          <?php endif; ?>
+
           <?php if ($produtosEstoqueBaixo): ?>
-            <section class="table-card">
-              <div class="table-card__header">
-                <div>
-                  <h3 class="table-card__title">Atenção ao estoque</h3>
-                  <p class="form-hint">Itens com poucas unidades ou sem estoque.</p>
+            <section class="table-card stock-panel">
+              <div class="table-card__header stock-panel__header">
+                <div class="stock-panel__title">
+                  <span class="stock-panel__mark">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                  </span>
+                  <div>
+                    <h3 class="table-card__title">Estoque baixo</h3>
+                    <p class="form-hint"><?= count($produtosEstoqueBaixo) ?> item(ns) precisam de atenção.</p>
+                  </div>
                 </div>
                 <a class="button button--ghost" href="./produtos.php">Ajustar produtos</a>
               </div>
 
               <div class="stock-list">
                 <?php foreach ($produtosEstoqueBaixo as $produto): ?>
+                  <?php $iconeEstoque = (int) $produto['estoque'] <= 0 ? 'fa-box-open' : icone_categoria($produto['categoria_nome'] ?? $produto['nome']); ?>
                   <article class="stock-alert-card <?= (int) $produto['estoque'] <= 0 ? 'is-empty' : '' ?>">
                     <span class="stock-alert-card__icon">
-                      <i class="fa-solid fa-triangle-exclamation"></i>
+                      <i class="fa-solid <?= escapar($iconeEstoque) ?>"></i>
                     </span>
                     <div>
                       <strong><?= escapar($produto['nome']) ?></strong>
-                      <span><?= escapar($produto['categoria_nome'] ?? 'Sem categoria') ?></span>
+                      <span><?= escapar(texto_categoria($produto['categoria_nome'] ?? 'Sem categoria')) ?></span>
                     </div>
                     <span class="badge <?= (int) $produto['estoque'] <= 0 ? 'badge--danger' : 'badge--warning' ?>">
                       <?= (int) $produto['estoque'] <= 0 ? 'Sem estoque' : (int) $produto['estoque'] . ' un.' ?>
@@ -159,9 +210,11 @@ $pedidos = $pdo->query('SELECT * FROM pedidos ORDER BY criado_em DESC LIMIT 6')-
               <table>
                 <thead>
                   <tr>
-                    <th>Codigo</th>
+                    <th>Código</th>
                     <th>Cliente</th>
                     <th>Status</th>
+                    <th>Recebido</th>
+                    <th>Tempo</th>
                     <th>Total</th>
                     <th>Pagamento</th>
                   </tr>
@@ -170,10 +223,23 @@ $pedidos = $pdo->query('SELECT * FROM pedidos ORDER BY criado_em DESC LIMIT 6')-
                   <?php foreach ($pedidos as $pedido): ?>
                     <tr>
                       <td><strong><?= escapar($pedido['codigo_retirada']) ?></strong></td>
-                      <td><?= escapar($pedido['nome_cliente']) ?></td>
+                      <td><?= escapar(texto_visivel($pedido['nome_cliente'])) ?></td>
                       <td><?= escapar($pedido['status_pedido']) ?></td>
+                      <td><?= horario_curto($pedido['criado_em']) ?></td>
+                      <td>
+                        <?php $atraso = atraso_pedido($pedido); ?>
+                        <span class="time-pill <?= $atraso > 0 ? 'time-pill--late' : '' ?>">
+                          <?php if ($atraso > 0): ?>
+                            <?= 'Atraso há ' . texto_minutos($atraso) ?>
+                          <?php elseif (in_array($pedido['status_pedido'], ['Pronto', 'Retirado', 'Cancelado'], true)): ?>
+                            <?= escapar($pedido['status_pedido']) ?>
+                          <?php else: ?>
+                            <?= texto_minutos(minutos_desde($pedido['criado_em'])) ?>
+                          <?php endif; ?>
+                        </span>
+                      </td>
                       <td><?= dinheiro($pedido['subtotal']) ?></td>
-                      <td><?= escapar($pedido['forma_pagamento']) ?></td>
+                      <td><?= escapar(texto_pagamento($pedido['forma_pagamento'])) ?></td>
                     </tr>
                   <?php endforeach; ?>
                 </tbody>

@@ -31,11 +31,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 if (($_GET['msg'] ?? '') === 'salvo') {
-    $mensagem = 'Usuario salvo com sucesso.';
+    $mensagem = 'Usuário salvo com sucesso.';
 }
 
 if (($_GET['msg'] ?? '') === 'excluido') {
-    $mensagem = 'Usuario removido quando permitido.';
+    $mensagem = 'Usuário removido quando permitido.';
 }
 
 $configuracoes = buscar_configuracoes($pdo);
@@ -48,7 +48,7 @@ $administradores = listar_administradores($pdo);
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Usuarios | <?= escapar($nomeLoja) ?> Admin</title>
+  <title>Usuários | <?= escapar($nomeLoja) ?> Admin</title>
   <link rel="icon" type="image/jpeg" href="<?= escapar($logoLoja) ?>">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <link rel="stylesheet" href="../styles/admin.css">
@@ -61,7 +61,7 @@ $administradores = listar_administradores($pdo);
           <img class="brand-card__avatar" src="<?= escapar($logoLoja) ?>" alt="Logo <?= escapar($nomeLoja) ?>">
           <span>
             <strong class="brand-card__name"><?= escapar($nomeLoja) ?></strong>
-            <span class="brand-card__role"><?= escapar($usuarioAtual['nome']) ?></span>
+            <span class="brand-card__role"><?= escapar(texto_visivel($usuarioAtual['nome'])) ?></span>
           </span>
         </a>
 
@@ -71,8 +71,8 @@ $administradores = listar_administradores($pdo);
           <a class="nav-link" href="./categorias.php"><i class="fa-solid fa-table-cells-large"></i><span>Categorias</span></a>
           <a class="nav-link" href="./financeiro.php"><i class="fa-solid fa-cash-register"></i><span>Financeiro</span></a>
           <a class="nav-link" href="./cozinha.php"><i class="fa-solid fa-kitchen-set"></i><span>Cozinha</span></a>
-          <a class="nav-link nav-link--active" href="./administradores.php"><i class="fa-solid fa-users-gear"></i><span>Usuarios</span></a>
-          <a class="nav-link" href="./configuracoes.php"><i class="fa-solid fa-gear"></i><span>Configuracoes</span></a>
+          <a class="nav-link nav-link--active" href="./administradores.php"><i class="fa-solid fa-users-gear"></i><span>Usuários</span></a>
+          <a class="nav-link" href="./configuracoes.php"><i class="fa-solid fa-gear"></i><span>Configurações</span></a>
           <a class="nav-link" href="./totem.php" target="_blank"><i class="fa-solid fa-display"></i><span>Totem</span></a>
           <a class="nav-link" href="./login.php?logout=1"><i class="fa-solid fa-right-from-bracket"></i><span>Sair</span></a>
         </nav>
@@ -83,7 +83,7 @@ $administradores = listar_administradores($pdo);
       <header class="topbar">
         <div>
           <p class="topbar__eyebrow">Acesso ao painel</p>
-          <h1 class="topbar__title">Usuarios</h1>
+          <h1 class="topbar__title">Usuários</h1>
         </div>
       </header>
 
@@ -97,7 +97,7 @@ $administradores = listar_administradores($pdo);
             <div class="form-card__header">
               <span class="form-card__icon"><i class="fa-solid fa-user-plus"></i></span>
               <div>
-                <h2><?= $adminEdicao ? 'Editar usuario' : 'Novo usuario' ?></h2>
+                <h2><?= $adminEdicao ? 'Editar usuário' : 'Novo usuário' ?></h2>
                 <p>Cadastre quem pode entrar no painel administrativo.</p>
               </div>
             </div>
@@ -118,15 +118,15 @@ $administradores = listar_administradores($pdo);
 
                 <div class="form-group">
                   <label for="senha">Senha</label>
-                  <input class="form-control" id="senha" name="senha" type="password" placeholder="<?= $adminEdicao ? 'Deixe vazio para manter' : 'Padrao 123 se vazio' ?>">
+                  <input class="form-control" id="senha" name="senha" type="password" placeholder="<?= $adminEdicao ? 'Deixe vazio para manter' : 'Padrão 123 se vazio' ?>">
                 </div>
 
                 <div class="form-group">
-                  <label for="permissao">Permissao</label>
+                  <label for="permissao">Permissão</label>
                   <select class="form-control" id="permissao" name="permissao">
                     <?php foreach (['Administrador', 'Cardapio', 'Atendimento', 'Leitura'] as $permissao): ?>
                       <option value="<?= $permissao ?>" <?= ($adminEdicao['permissao'] ?? 'Leitura') === $permissao ? 'selected' : '' ?>>
-                        <?= $permissao ?>
+                        <?= escapar(texto_permissao($permissao)) ?>
                       </option>
                     <?php endforeach; ?>
                   </select>
@@ -145,7 +145,7 @@ $administradores = listar_administradores($pdo);
                 <a class="button button--ghost" href="./administradores.php">Limpar</a>
                 <button class="button button--primary" type="submit">
                   <i class="fa-solid fa-check"></i>
-                  Salvar usuario
+                  Salvar usuário
                 </button>
               </div>
             </form>
@@ -153,7 +153,7 @@ $administradores = listar_administradores($pdo);
 
           <section class="table-card">
             <div class="table-card__header">
-              <h3 class="table-card__title">Usuarios cadastrados</h3>
+              <h3 class="table-card__title">Usuários cadastrados</h3>
             </div>
 
             <div class="table-wrapper">
@@ -162,17 +162,17 @@ $administradores = listar_administradores($pdo);
                   <tr>
                     <th>Nome</th>
                     <th>E-mail</th>
-                    <th>Permissao</th>
+                    <th>Permissão</th>
                     <th>Status</th>
-                    <th class="text-right">Acoes</th>
+                    <th class="text-right">Ações</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php foreach ($administradores as $admin): ?>
                     <tr>
-                      <td><strong><?= escapar($admin['nome']) ?></strong></td>
+                      <td><strong><?= escapar(texto_visivel($admin['nome'])) ?></strong></td>
                       <td><?= escapar($admin['email']) ?></td>
-                      <td><?= escapar($admin['permissao']) ?></td>
+                      <td><?= escapar(texto_permissao($admin['permissao'])) ?></td>
                       <td>
                         <span class="badge <?= $admin['status'] === 'Ativo' ? 'badge--success' : 'badge--neutral' ?>">
                           <?= escapar($admin['status']) ?>
@@ -184,7 +184,7 @@ $administradores = listar_administradores($pdo);
                             <i class="fa-solid fa-pen-to-square"></i>
                           </a>
                           <?php if ((int) $admin['id'] !== (int) $usuarioAtual['id']): ?>
-                            <a class="icon-button" href="./administradores.php?excluir=<?= $admin['id'] ?>" title="Excluir" onclick="return confirm('Excluir este usuario?')">
+                            <a class="icon-button" href="./administradores.php?excluir=<?= $admin['id'] ?>" title="Excluir" onclick="return confirm('Excluir este usuário?')">
                               <i class="fa-solid fa-trash"></i>
                             </a>
                           <?php endif; ?>

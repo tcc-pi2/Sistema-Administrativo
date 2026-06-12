@@ -1,5 +1,5 @@
 <?php
-// Funcoes do banco ligadas a categorias e produtos.
+// Produtos e categorias no banco.
 
 function listar_categorias($pdo)
 {

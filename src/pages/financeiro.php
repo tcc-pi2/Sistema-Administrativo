@@ -50,7 +50,7 @@ $movimentos = listar_movimentos_caixa($pdo, $filtrosFinanceiro);
           <img class="brand-card__avatar" src="<?= escapar($logoLoja) ?>" alt="Logo <?= escapar($nomeLoja) ?>">
           <span>
             <strong class="brand-card__name"><?= escapar($nomeLoja) ?></strong>
-            <span class="brand-card__role"><?= escapar($admin['nome']) ?></span>
+            <span class="brand-card__role"><?= escapar(texto_visivel($admin['nome'])) ?></span>
           </span>
         </a>
 
@@ -60,8 +60,8 @@ $movimentos = listar_movimentos_caixa($pdo, $filtrosFinanceiro);
           <a class="nav-link" href="./categorias.php"><i class="fa-solid fa-table-cells-large"></i><span>Categorias</span></a>
           <a class="nav-link nav-link--active" href="./financeiro.php"><i class="fa-solid fa-cash-register"></i><span>Financeiro</span></a>
           <a class="nav-link" href="./cozinha.php"><i class="fa-solid fa-kitchen-set"></i><span>Cozinha</span></a>
-          <a class="nav-link" href="./administradores.php"><i class="fa-solid fa-users-gear"></i><span>Usuarios</span></a>
-          <a class="nav-link" href="./configuracoes.php"><i class="fa-solid fa-gear"></i><span>Configuracoes</span></a>
+          <a class="nav-link" href="./administradores.php"><i class="fa-solid fa-users-gear"></i><span>Usuários</span></a>
+          <a class="nav-link" href="./configuracoes.php"><i class="fa-solid fa-gear"></i><span>Configurações</span></a>
           <a class="nav-link" href="./totem.php" target="_blank"><i class="fa-solid fa-display"></i><span>Totem</span></a>
           <a class="nav-link" href="./login.php?logout=1"><i class="fa-solid fa-right-from-bracket"></i><span>Sair</span></a>
         </nav>
@@ -86,7 +86,7 @@ $movimentos = listar_movimentos_caixa($pdo, $filtrosFinanceiro);
             <div class="table-card__header">
               <div>
                 <h3 class="table-card__title">Filtros do financeiro</h3>
-                <p class="form-hint">Use datas e forma de pagamento para conferir um periodo.</p>
+                <p class="form-hint">Use datas e forma de pagamento para conferir um período.</p>
               </div>
             </div>
 
@@ -107,7 +107,7 @@ $movimentos = listar_movimentos_caixa($pdo, $filtrosFinanceiro);
                   <option value="">Todas</option>
                   <?php foreach (['Pix', 'Cartao', 'Dinheiro'] as $forma): ?>
                     <option value="<?= $forma ?>" <?= $filtrosFinanceiro['forma_pagamento'] === $forma ? 'selected' : '' ?>>
-                      <?= $forma ?>
+                      <?= escapar(texto_pagamento($forma)) ?>
                     </option>
                   <?php endforeach; ?>
                 </select>
@@ -144,11 +144,11 @@ $movimentos = listar_movimentos_caixa($pdo, $filtrosFinanceiro);
 
             <article class="metric-card">
               <div class="metric-card__top">
-                <p class="metric-card__label">Cartao</p>
+                <p class="metric-card__label">Cartão</p>
                 <span class="metric-card__icon"><i class="fa-solid fa-credit-card"></i></span>
               </div>
               <p class="metric-card__value metric-card__value--money"><?= dinheiro($resumo['cartao']) ?></p>
-              <p class="metric-card__note">Pedidos pagos no cartao</p>
+              <p class="metric-card__note">Pedidos pagos no cartão</p>
             </article>
 
             <article class="metric-card">
@@ -157,7 +157,7 @@ $movimentos = listar_movimentos_caixa($pdo, $filtrosFinanceiro);
                 <span class="metric-card__icon"><i class="fa-solid fa-money-bill-wave"></i></span>
               </div>
               <p class="metric-card__value metric-card__value--money"><?= dinheiro($resumo['saldo']) ?></p>
-              <p class="metric-card__note">Troco + entradas - saidas</p>
+              <p class="metric-card__note">Troco + entradas - saídas</p>
             </article>
           </div>
 
@@ -167,7 +167,7 @@ $movimentos = listar_movimentos_caixa($pdo, $filtrosFinanceiro);
                 <span class="form-card__icon"><i class="fa-solid fa-plus-minus"></i></span>
                 <div>
                   <h2>Novo movimento</h2>
-                  <p>Registre entrada ou saida manual do caixa.</p>
+                  <p>Registre entrada ou saída manual do caixa.</p>
                 </div>
               </div>
 
@@ -177,7 +177,7 @@ $movimentos = listar_movimentos_caixa($pdo, $filtrosFinanceiro);
                     <label for="tipo">Tipo</label>
                     <select class="form-control" id="tipo" name="tipo">
                       <option value="Entrada">Entrada</option>
-                      <option value="Saida">Saida</option>
+                      <option value="Saida">Saída</option>
                     </select>
                   </div>
 
@@ -186,12 +186,12 @@ $movimentos = listar_movimentos_caixa($pdo, $filtrosFinanceiro);
                     <select class="form-control" id="forma_pagamento" name="forma_pagamento">
                       <option value="Dinheiro">Dinheiro</option>
                       <option value="Pix">Pix</option>
-                      <option value="Cartao">Cartao</option>
+                      <option value="Cartao">Cartão</option>
                     </select>
                   </div>
 
                   <div class="form-group">
-                    <label for="descricao">Descricao</label>
+                    <label for="descricao">Descrição</label>
                     <input class="form-control" id="descricao" name="descricao" type="text" placeholder="Ex: Compra de embalagens" required>
                   </div>
 
@@ -220,7 +220,7 @@ $movimentos = listar_movimentos_caixa($pdo, $filtrosFinanceiro);
                   <thead>
                     <tr>
                       <th>Tipo</th>
-                      <th>Descricao</th>
+                      <th>Descrição</th>
                       <th>Forma</th>
                       <th class="text-right">Valor</th>
                     </tr>
@@ -230,11 +230,11 @@ $movimentos = listar_movimentos_caixa($pdo, $filtrosFinanceiro);
                       <tr>
                         <td>
                           <span class="badge <?= $movimento['tipo'] === 'Entrada' ? 'badge--success' : 'badge--danger' ?>">
-                            <?= escapar($movimento['tipo']) ?>
+                            <?= escapar(texto_tipo_movimento($movimento['tipo'])) ?>
                           </span>
                         </td>
-                        <td><?= escapar($movimento['descricao']) ?></td>
-                        <td><?= escapar($movimento['forma_pagamento']) ?></td>
+                        <td><?= escapar(texto_visivel($movimento['descricao'])) ?></td>
+                        <td><?= escapar(texto_pagamento($movimento['forma_pagamento'])) ?></td>
                         <td class="text-right"><strong><?= dinheiro($movimento['valor']) ?></strong></td>
                       </tr>
                     <?php endforeach; ?>

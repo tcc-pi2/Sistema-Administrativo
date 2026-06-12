@@ -1,9 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap");
 
-/*
-  Estilos da tela da cozinha.
-  As cores ficam em :root e os pedidos ficam nas classes order-card.
-*/
+/* Cozinha */
 
 :root {
   --bg: #0f0c08;
@@ -211,6 +208,11 @@ button {
   box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.08), 0 20px 60px rgba(0, 0, 0, 0.28);
 }
 
+.order-card.is-late {
+  border-color: rgba(251, 113, 133, 0.58);
+  box-shadow: 0 0 0 3px rgba(251, 113, 133, 0.08), 0 20px 60px rgba(0, 0, 0, 0.28);
+}
+
 .order-card__header,
 .order-card__footer {
   display: flex;
@@ -242,6 +244,49 @@ button {
   margin: 0;
   color: var(--muted-2);
   font-size: 13px;
+}
+
+.order-timing {
+  display: grid;
+  gap: 7px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+}
+
+.order-timing span,
+.order-timing strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.order-timing i {
+  width: 14px;
+  color: var(--accent);
+  text-align: center;
+}
+
+.order-timing.is-late {
+  border-color: rgba(251, 113, 133, 0.3);
+  background: rgba(251, 113, 133, 0.08);
+}
+
+.order-timing.is-late strong,
+.order-timing.is-late strong i {
+  color: var(--red);
+}
+
+.order-timing strong {
+  color: var(--green);
+}
+
+.order-timing strong i {
+  color: var(--green);
 }
 
 .badge {
@@ -330,6 +375,18 @@ button {
   background:
     linear-gradient(135deg, rgba(250, 204, 21, 0.1), transparent 56%),
     var(--surface);
+}
+
+.kitchen-notice--late {
+  border-color: rgba(251, 113, 133, 0.38);
+  background:
+    linear-gradient(135deg, rgba(251, 113, 133, 0.11), transparent 58%),
+    var(--surface);
+}
+
+.kitchen-notice--late .kitchen-notice__icon {
+  background: rgba(251, 113, 133, 0.14);
+  color: var(--red);
 }
 
 .kitchen-notice__icon {

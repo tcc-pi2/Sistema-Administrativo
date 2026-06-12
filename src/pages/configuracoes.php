@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 if (($_GET['msg'] ?? '') === 'salvo') {
-    $mensagem = 'Configuracoes salvas com sucesso.';
+    $mensagem = 'Configurações salvas com sucesso.';
 }
 
 $admin = usuario_logado();
@@ -30,7 +30,7 @@ $tempoEspera = valor_configuracao($configuracoes, 'tempo_espera_min', '18');
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Configuracoes | <?= escapar($nomeLoja) ?> Admin</title>
+  <title>Configurações | <?= escapar($nomeLoja) ?> Admin</title>
   <link rel="icon" type="image/jpeg" href="<?= escapar($logoLoja) ?>">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <link rel="stylesheet" href="../styles/admin.css">
@@ -43,7 +43,7 @@ $tempoEspera = valor_configuracao($configuracoes, 'tempo_espera_min', '18');
           <img class="brand-card__avatar" src="<?= escapar($logoLoja) ?>" alt="Logo <?= escapar($nomeLoja) ?>">
           <span>
             <strong class="brand-card__name"><?= escapar($nomeLoja) ?></strong>
-            <span class="brand-card__role"><?= escapar($admin['nome']) ?></span>
+            <span class="brand-card__role"><?= escapar(texto_visivel($admin['nome'])) ?></span>
           </span>
         </a>
 
@@ -53,8 +53,8 @@ $tempoEspera = valor_configuracao($configuracoes, 'tempo_espera_min', '18');
           <a class="nav-link" href="./categorias.php"><i class="fa-solid fa-table-cells-large"></i><span>Categorias</span></a>
           <a class="nav-link" href="./financeiro.php"><i class="fa-solid fa-cash-register"></i><span>Financeiro</span></a>
           <a class="nav-link" href="./cozinha.php"><i class="fa-solid fa-kitchen-set"></i><span>Cozinha</span></a>
-          <a class="nav-link" href="./administradores.php"><i class="fa-solid fa-users-gear"></i><span>Usuarios</span></a>
-          <a class="nav-link nav-link--active" href="./configuracoes.php"><i class="fa-solid fa-gear"></i><span>Configuracoes</span></a>
+          <a class="nav-link" href="./administradores.php"><i class="fa-solid fa-users-gear"></i><span>Usuários</span></a>
+          <a class="nav-link nav-link--active" href="./configuracoes.php"><i class="fa-solid fa-gear"></i><span>Configurações</span></a>
           <a class="nav-link" href="./totem.php" target="_blank"><i class="fa-solid fa-display"></i><span>Totem</span></a>
           <a class="nav-link" href="./login.php?logout=1"><i class="fa-solid fa-right-from-bracket"></i><span>Sair</span></a>
         </nav>
@@ -65,7 +65,7 @@ $tempoEspera = valor_configuracao($configuracoes, 'tempo_espera_min', '18');
       <header class="topbar">
         <div>
           <p class="topbar__eyebrow">Identidade da loja</p>
-          <h1 class="topbar__title">Configuracoes</h1>
+          <h1 class="topbar__title">Configurações</h1>
         </div>
         <a class="button button--ghost" href="./totem.php" target="_blank">
           <i class="fa-solid fa-display"></i>
@@ -84,7 +84,7 @@ $tempoEspera = valor_configuracao($configuracoes, 'tempo_espera_min', '18');
               <span class="form-card__icon"><i class="fa-solid fa-store"></i></span>
               <div>
                 <h2>Dados exibidos no sistema</h2>
-                <p>Essas informacoes aparecem no totem e no painel.</p>
+                <p>Essas informações aparecem no totem e no painel.</p>
               </div>
             </div>
 
@@ -98,7 +98,7 @@ $tempoEspera = valor_configuracao($configuracoes, 'tempo_espera_min', '18');
                 </div>
 
                 <div class="form-group">
-                  <label for="tempo_espera_min">Tempo medio de espera</label>
+                  <label for="tempo_espera_min">Tempo médio de espera</label>
                   <input class="form-control" id="tempo_espera_min" name="tempo_espera_min" type="number" min="1" value="<?= escapar($tempoEspera) ?>">
                 </div>
 
@@ -124,7 +124,7 @@ $tempoEspera = valor_configuracao($configuracoes, 'tempo_espera_min', '18');
               <div class="crud-panel__footer">
                 <button class="button button--primary" type="submit">
                   <i class="fa-solid fa-check"></i>
-                  Salvar configuracoes
+                  Salvar configurações
                 </button>
               </div>
             </form>

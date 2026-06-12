@@ -27,6 +27,18 @@ $nomeLoja = valor_configuracao($configuracoes, 'nome_loja', 'GastroTech');
 $logoLoja = valor_configuracao($configuracoes, 'logo_loja', '../assets/brand/gastrotech-logo.jpg');
 $novosRecebidos = (int) ($contagens['Recebido'] ?? 0);
 $ultimoPedidoRecebido = (int) $pdo->query('SELECT COALESCE(MAX(id), 0) FROM pedidos WHERE status_pedido = "Recebido"')->fetchColumn();
+$totalAtrasados = (int) $pdo->query('
+    SELECT COUNT(*)
+    FROM pedidos
+    WHERE status_pedido IN ("Recebido", "Em preparo")
+      AND TIMESTAMPDIFF(MINUTE, criado_em, NOW()) > tempo_estimado_min
+')->fetchColumn();
+$maiorAtraso = (int) $pdo->query('
+    SELECT COALESCE(MAX(TIMESTAMPDIFF(MINUTE, criado_em, NOW()) - tempo_estimado_min), 0)
+    FROM pedidos
+    WHERE status_pedido IN ("Recebido", "Em preparo")
+      AND TIMESTAMPDIFF(MINUTE, criado_em, NOW()) > tempo_estimado_min
+')->fetchColumn();
 
 function classe_status_cozinha($status)
 {
@@ -86,7 +98,7 @@ function texto_botao_status($status)
         </span>
         <div>
           <h1>Fila da cozinha</h1>
-          <p>Acompanhe os pedidos do totem e avance o status ate a retirada.</p>
+          <p>Acompanhe os pedidos do totem e avance o status até a retirada.</p>
         </div>
       </div>
 
@@ -118,12 +130,28 @@ function texto_botao_status($status)
           </span>
           <div>
             <strong><?= $novosRecebidos ?> pedido(s) aguardando preparo</strong>
-            <p>Pedidos recebidos ficam destacados ate alguem iniciar o preparo.</p>
+            <p>Pedidos recebidos ficam destacados até alguém iniciar o preparo.</p>
           </div>
           <button class="button sound-toggle" type="button" data-sound-toggle>
             <i class="fa-solid fa-volume-high"></i>
             Ativar aviso sonoro
           </button>
+        </section>
+      <?php endif; ?>
+
+      <?php if ($totalAtrasados > 0): ?>
+        <section class="kitchen-notice kitchen-notice--late" aria-label="Aviso de pedidos atrasados">
+          <span class="kitchen-notice__icon">
+            <i class="fa-solid fa-stopwatch"></i>
+          </span>
+          <div>
+            <strong><?= $totalAtrasados ?> pedido(s) atrasado(s)</strong>
+            <p>Maior atraso: <?= texto_minutos($maiorAtraso) ?> além do tempo estimado.</p>
+          </div>
+          <a class="button" href="./cozinha.php?status=Todos">
+            <i class="fa-solid fa-list-check"></i>
+            Ver fila completa
+          </a>
         </section>
       <?php endif; ?>
 
@@ -146,7 +174,11 @@ function texto_botao_status($status)
         <?php endif; ?>
 
         <?php foreach ($pedidos as $pedido): ?>
-          <article class="order-card <?= $pedido['status_pedido'] === 'Recebido' ? 'is-new' : '' ?>">
+          <?php
+            $minutosDecorridos = minutos_desde($pedido['criado_em']);
+            $minutosAtraso = atraso_pedido($pedido);
+          ?>
+          <article class="order-card <?= $pedido['status_pedido'] === 'Recebido' ? 'is-new' : '' ?> <?= $minutosAtraso > 0 ? 'is-late' : '' ?>">
             <div class="order-card__header">
               <div>
                 <span class="order-code"><?= escapar($pedido['codigo_retirada']) ?></span>
@@ -157,8 +189,45 @@ function texto_botao_status($status)
             </div>
 
             <div>
-              <h2><?= escapar($pedido['nome_cliente'] ?: 'Cliente') ?></h2>
-              <p><?= escapar($pedido['forma_pagamento']) ?> • <?= (int) $pedido['tempo_estimado_min'] ?> min estimados</p>
+              <h2><?= escapar(texto_visivel($pedido['nome_cliente'] ?: 'Cliente')) ?></h2>
+                <p><?= escapar(texto_pagamento($pedido['forma_pagamento'])) ?> • <?= (int) $pedido['tempo_estimado_min'] ?> min estimados</p>
+            </div>
+
+            <div class="order-timing <?= $minutosAtraso > 0 ? 'is-late' : '' ?>">
+              <span>
+                <i class="fa-solid fa-clock"></i>
+                Recebido às <?= horario_curto($pedido['criado_em']) ?>
+              </span>
+              <?php if (in_array($pedido['status_pedido'], ['Recebido', 'Em preparo'], true)): ?>
+                <span>
+                  <i class="fa-solid fa-hourglass-half"></i>
+                  <?= texto_minutos($minutosDecorridos) ?> na cozinha
+                </span>
+                <?php if ($minutosAtraso > 0): ?>
+                  <strong>
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    Atrasado há <?= texto_minutos($minutosAtraso) ?>
+                  </strong>
+                <?php endif; ?>
+              <?php elseif ($pedido['status_pedido'] === 'Pronto'): ?>
+                <span>
+                  <i class="fa-solid fa-bell-concierge"></i>
+                  Saiu da cozinha às <?= horario_curto($pedido['atualizado_em']) ?>
+                </span>
+                <strong>
+                  <i class="fa-solid fa-circle-check"></i>
+                  Aguardando retirada
+                </strong>
+              <?php elseif ($pedido['status_pedido'] === 'Retirado'): ?>
+                <span>
+                  <i class="fa-solid fa-bag-shopping"></i>
+                  Retirado às <?= horario_curto($pedido['atualizado_em']) ?>
+                </span>
+                <strong>
+                  <i class="fa-solid fa-circle-check"></i>
+                  Pedido entregue ao cliente
+                </strong>
+              <?php endif; ?>
             </div>
 
             <div class="order-items">
@@ -167,7 +236,7 @@ function texto_botao_status($status)
                   <span>
                     <?= (int) $item['quantidade'] ?>x <?= escapar($item['nome_produto']) ?>
                     <?php if ($item['observacao']): ?>
-                      <small><?= escapar($item['observacao']) ?></small>
+                      <small><?= escapar(texto_visivel($item['observacao'])) ?></small>
                     <?php endif; ?>
                   </span>
                   <strong><?= dinheiro((float) $item['preco_unitario'] * (int) $item['quantidade']) ?></strong>

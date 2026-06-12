@@ -1,5 +1,5 @@
 <?php
-// Controle de sessao do painel PHP.
+// Sessão do painel.
 
 if (session_status() === PHP_SESSION_NONE) {
     $pastaSessoes = __DIR__ . '/sessoes';
