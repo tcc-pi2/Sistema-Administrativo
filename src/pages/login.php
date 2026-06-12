@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    $erro = 'Usuario ou senha incorretos.';
+    $erro = 'Usuário ou senha incorretos.';
 }
 
 $configuracoes = buscar_configuracoes($pdo);
@@ -54,7 +54,7 @@ $logoLoja = valor_configuracao($configuracoes, 'logo_loja', '../assets/brand/gas
 
     <form class="login-form" method="post">
       <div class="form-group">
-        <label for="login">Usuario ou e-mail</label>
+        <label for="login">Usuário ou e-mail</label>
         <input class="form-control" type="text" id="login" name="login" autocomplete="username" placeholder="admin" required>
       </div>
 

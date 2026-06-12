@@ -1,5 +1,5 @@
 <?php
-// Funcoes do financeiro: caixa, movimentos e resumo das vendas.
+// Caixa e movimentos financeiros.
 
 function caixa_atual($pdo)
 {

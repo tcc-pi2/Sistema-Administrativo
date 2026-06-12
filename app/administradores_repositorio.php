@@ -1,5 +1,5 @@
 <?php
-// Cadastro dos usuarios que entram no painel.
+// Cadastro dos usuários que entram no painel.
 
 function listar_administradores($pdo)
 {

@@ -58,7 +58,7 @@ $categorias = listar_categorias($pdo);
           <img class="brand-card__avatar" src="<?= escapar($logoLoja) ?>" alt="Logo <?= escapar($nomeLoja) ?>">
           <span>
             <strong class="brand-card__name"><?= escapar($nomeLoja) ?></strong>
-            <span class="brand-card__role"><?= escapar($admin['nome']) ?></span>
+            <span class="brand-card__role"><?= escapar(texto_visivel($admin['nome'])) ?></span>
           </span>
         </a>
 
@@ -68,8 +68,8 @@ $categorias = listar_categorias($pdo);
           <a class="nav-link nav-link--active" href="./categorias.php"><i class="fa-solid fa-table-cells-large"></i><span>Categorias</span></a>
           <a class="nav-link" href="./financeiro.php"><i class="fa-solid fa-cash-register"></i><span>Financeiro</span></a>
           <a class="nav-link" href="./cozinha.php"><i class="fa-solid fa-kitchen-set"></i><span>Cozinha</span></a>
-          <a class="nav-link" href="./administradores.php"><i class="fa-solid fa-users-gear"></i><span>Usuarios</span></a>
-          <a class="nav-link" href="./configuracoes.php"><i class="fa-solid fa-gear"></i><span>Configuracoes</span></a>
+          <a class="nav-link" href="./administradores.php"><i class="fa-solid fa-users-gear"></i><span>Usuários</span></a>
+          <a class="nav-link" href="./configuracoes.php"><i class="fa-solid fa-gear"></i><span>Configurações</span></a>
           <a class="nav-link" href="./totem.php" target="_blank"><i class="fa-solid fa-display"></i><span>Totem</span></a>
           <a class="nav-link" href="./login.php?logout=1"><i class="fa-solid fa-right-from-bracket"></i><span>Sair</span></a>
         </nav>
@@ -79,7 +79,7 @@ $categorias = listar_categorias($pdo);
     <main class="content">
       <header class="topbar">
         <div>
-          <p class="topbar__eyebrow">Organizacao do cardapio</p>
+          <p class="topbar__eyebrow">Organização do cardápio</p>
           <h1 class="topbar__title">Categorias</h1>
         </div>
       </header>
@@ -114,7 +114,7 @@ $categorias = listar_categorias($pdo);
                 </div>
 
                 <div class="form-group form-group--wide">
-                  <label for="descricao">Descricao</label>
+                  <label for="descricao">Descrição</label>
                   <input class="form-control" id="descricao" name="descricao" type="text" value="<?= escapar($categoriaEdicao['descricao'] ?? '') ?>">
                 </div>
 
@@ -147,17 +147,17 @@ $categorias = listar_categorias($pdo);
                 <thead>
                   <tr>
                     <th>Nome</th>
-                    <th>Descricao</th>
+                    <th>Descrição</th>
                     <th class="text-right">Ordem</th>
                     <th>Status</th>
-                    <th class="text-right">Acoes</th>
+                    <th class="text-right">Ações</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php foreach ($categorias as $categoria): ?>
                     <tr>
-                      <td><strong><?= escapar($categoria['nome']) ?></strong></td>
-                      <td><?= escapar($categoria['descricao']) ?></td>
+                      <td><strong><?= escapar(texto_categoria($categoria['nome'])) ?></strong></td>
+                      <td><?= escapar(texto_visivel($categoria['descricao'])) ?></td>
                       <td class="text-right"><?= (int) $categoria['ordem'] ?></td>
                       <td>
                         <span class="badge <?= $categoria['status'] === 'Ativo' ? 'badge--success' : 'badge--neutral' ?>">

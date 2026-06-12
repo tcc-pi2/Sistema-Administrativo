@@ -1,6 +1,6 @@
 <?php
-// Conexao principal com o banco MySQL.
-// No XAMPP, normalmente o usuario e root e a senha fica vazia.
+// Conexão com o banco MySQL.
+// No XAMPP, normalmente o usuário é root e a senha fica vazia.
 
 $host = 'localhost';
 $banco = 'gastrotech_admin';
@@ -18,5 +18,5 @@ try {
         ]
     );
 } catch (PDOException $erro) {
-    die('Erro ao conectar no banco. Confira se o MySQL esta ligado e se o database.sql foi importado.');
+    die('Erro ao conectar no banco. Confira se o MySQL está ligado e se o database.sql foi importado.');
 }

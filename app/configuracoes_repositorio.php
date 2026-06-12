@@ -1,5 +1,5 @@
 <?php
-// Configuracoes simples da loja: nome, logo e tempo de espera.
+// Configurações simples da loja: nome, logo e tempo de espera.
 
 function buscar_configuracoes($pdo)
 {
@@ -74,6 +74,6 @@ function salvar_configuracoes_loja($pdo, $dados, $arquivoLogo)
 
     salvar_configuracao($pdo, 'nome_loja', $nome, 'Nome exibido no totem e no painel');
     salvar_configuracao($pdo, 'frase_totem', $frase, 'Frase curta exibida abaixo da logo no totem');
-    salvar_configuracao($pdo, 'tempo_espera_min', (string) $tempo, 'Previsao em minutos exibida ao cliente');
+    salvar_configuracao($pdo, 'tempo_espera_min', (string) $tempo, 'Previsão em minutos exibida ao cliente');
     salvar_configuracao($pdo, 'logo_loja', $logo, 'Logo exibida no sistema');
 }

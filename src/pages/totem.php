@@ -52,13 +52,19 @@ foreach ($produtos as $produto) {
 }
 
 $produtosJs = array_map(function ($produto) {
+    $personalizacoes = array_map(function ($grupo) {
+        $grupo['nome'] = texto_visivel($grupo['nome']);
+        $grupo['opcoes'] = array_map('texto_visivel', $grupo['opcoes']);
+        return $grupo;
+    }, personalizacoes_produto($produto['opcoes_personalizacao'] ?? ''));
+
     return [
         'id' => (int) $produto['id'],
         'nome' => $produto['nome'],
         'preco' => (float) $produto['preco'],
         'imagem' => imagem_produto($produto),
         'estoque' => (int) $produto['estoque'],
-        'personalizacoes' => personalizacoes_produto($produto['opcoes_personalizacao'] ?? ''),
+        'personalizacoes' => $personalizacoes,
     ];
 }, $produtosVisiveis);
 
@@ -88,7 +94,7 @@ $etapasPedido = ['Recebido', 'Em preparo', 'Pronto', 'Retirado'];
           </div>
         </div>
 
-        <nav class="category-list" aria-label="Categorias do cardapio">
+        <nav class="category-list" aria-label="Categorias do cardápio">
           <a class="category-button <?= $categoriaAtual === 0 ? 'is-active' : '' ?>" href="./totem.php">
             <i class="fa-solid fa-table-cells-large"></i>
             <span>Todos</span>
@@ -97,7 +103,7 @@ $etapasPedido = ['Recebido', 'Em preparo', 'Pronto', 'Retirado'];
             <?php if (($categoria['status'] ?? 'Ativo') !== 'Ativo') continue; ?>
             <a class="category-button <?= $categoriaAtual === (int) $categoria['id'] ? 'is-active' : '' ?>" href="./totem.php?categoria=<?= $categoria['id'] ?>">
               <i class="fa-solid <?= escapar(icone_categoria($categoria['nome'])) ?>"></i>
-              <span><?= escapar($categoria['nome']) ?></span>
+              <span><?= escapar(texto_categoria($categoria['nome'])) ?></span>
             </a>
           <?php endforeach; ?>
         </nav>
@@ -107,7 +113,7 @@ $etapasPedido = ['Recebido', 'Em preparo', 'Pronto', 'Retirado'];
             <i class="fa-solid fa-magnifying-glass"></i>
             Acompanhar pedido
           </a>
-          <a class="back-office" href="./dashboard.php" target="_blank" rel="noopener">
+          <a class="back-office" href="./login.php?logout=1" target="_blank" rel="noopener">
             <i class="fa-solid fa-user-gear"></i>
             Painel administrativo
           </a>
@@ -119,7 +125,7 @@ $etapasPedido = ['Recebido', 'Em preparo', 'Pronto', 'Retirado'];
       <header class="totem-header">
         <div>
           <h2>Escolha seu sabor</h2>
-          <p>Veja ingredientes, porcoes e detalhes antes de finalizar seu pedido.</p>
+          <p>Veja ingredientes, porções e detalhes antes de finalizar seu pedido.</p>
         </div>
         <span class="order-chip">
           <i class="fa-solid fa-circle-check"></i>
@@ -127,16 +133,16 @@ $etapasPedido = ['Recebido', 'Em preparo', 'Pronto', 'Retirado'];
         </span>
       </header>
 
-      <section class="customer-status" id="acompanhar">
+      <section class="customer-status customer-status--inline" id="acompanhar">
         <h3>Acompanhar retirada</h3>
-        <p>Digite o codigo do pedido para ver em qual etapa ele esta.</p>
+        <p>Digite o código do pedido para ver em qual etapa ele está.</p>
         <form class="tracking-form" method="get">
           <input class="customer-field" type="text" name="acompanhar" value="<?= escapar($codigoAcompanhamento) ?>" placeholder="Ex: A105">
           <button class="finish-button finish-button--secondary" type="submit">Consultar</button>
         </form>
 
         <?php if ($codigoAcompanhamento && !$pedidoAcompanhado): ?>
-          <span class="tracker-empty">Pedido nao encontrado.</span>
+          <span class="tracker-empty">Pedido não encontrado.</span>
         <?php endif; ?>
 
         <?php if ($pedidoAcompanhado): ?>
@@ -144,8 +150,8 @@ $etapasPedido = ['Recebido', 'Em preparo', 'Pronto', 'Retirado'];
           <?php $indiceAtual = $indiceAtual === false ? 0 : $indiceAtual; ?>
           <div class="tracker-summary">
             <span>
-              <strong><?= escapar($pedidoAcompanhado['nome_cliente'] ?: 'Cliente') ?></strong>
-              <span><?= dinheiro($pedidoAcompanhado['subtotal']) ?> • <?= escapar($pedidoAcompanhado['forma_pagamento']) ?></span>
+              <strong><?= escapar(texto_visivel($pedidoAcompanhado['nome_cliente'] ?: 'Cliente')) ?></strong>
+              <span><?= dinheiro($pedidoAcompanhado['subtotal']) ?> • <?= escapar(texto_pagamento($pedidoAcompanhado['forma_pagamento'])) ?></span>
             </span>
             <strong class="tracker-summary__code"><?= escapar($pedidoAcompanhado['codigo_retirada']) ?></strong>
           </div>
@@ -168,7 +174,7 @@ $etapasPedido = ['Recebido', 'Em preparo', 'Pronto', 'Retirado'];
             </span>
             <div>
               <h3>Pedido confirmado</h3>
-              <p>Guarde este codigo para retirar no balcao.</p>
+              <p>Guarde este código para retirar no balcão.</p>
             </div>
             <strong class="receipt-card__code"><?= escapar($pedidoConfirmado['codigo_retirada']) ?></strong>
           </div>
@@ -176,14 +182,14 @@ $etapasPedido = ['Recebido', 'Em preparo', 'Pronto', 'Retirado'];
           <div class="receipt-card__info">
             <span>
               <small>Cliente</small>
-              <strong><?= escapar($pedidoConfirmado['nome_cliente'] ?: 'Cliente') ?></strong>
+              <strong><?= escapar(texto_visivel($pedidoConfirmado['nome_cliente'] ?: 'Cliente')) ?></strong>
             </span>
             <span>
               <small>Pagamento</small>
-              <strong><?= escapar($pedidoConfirmado['forma_pagamento']) ?></strong>
+              <strong><?= escapar(texto_pagamento($pedidoConfirmado['forma_pagamento'])) ?></strong>
             </span>
             <span>
-              <small>Previsao</small>
+              <small>Previsão</small>
               <strong><?= (int) $pedidoConfirmado['tempo_estimado_min'] ?> min</strong>
             </span>
           </div>
@@ -194,7 +200,7 @@ $etapasPedido = ['Recebido', 'Em preparo', 'Pronto', 'Retirado'];
                 <span>
                   <strong><?= (int) $item['quantidade'] ?>x <?= escapar($item['nome_produto']) ?></strong>
                   <?php if ($item['observacao']): ?>
-                    <small><?= escapar($item['observacao']) ?></small>
+                    <small><?= escapar(texto_visivel($item['observacao'])) ?></small>
                   <?php endif; ?>
                 </span>
                 <strong><?= dinheiro((float) $item['preco_unitario'] * (int) $item['quantidade']) ?></strong>
@@ -204,6 +210,7 @@ $etapasPedido = ['Recebido', 'Em preparo', 'Pronto', 'Retirado'];
 
           <div class="receipt-card__footer">
             <a class="finish-button finish-button--secondary" href="./totem.php?acompanhar=<?= urlencode($pedidoConfirmado['codigo_retirada']) ?>#acompanhar">
+              <i class="fa-solid fa-magnifying-glass"></i>
               Acompanhar pedido
             </a>
             <span>
@@ -224,7 +231,7 @@ $etapasPedido = ['Recebido', 'Em preparo', 'Pronto', 'Retirado'];
         </div>
       <?php endif; ?>
 
-      <section class="menu-grid" aria-label="Itens do cardapio">
+      <section class="menu-grid" aria-label="Itens do cardápio">
         <?php foreach ($produtosVisiveis as $produto): ?>
           <article class="product-card">
             <div class="product-card__media">
@@ -243,25 +250,25 @@ $etapasPedido = ['Recebido', 'Em preparo', 'Pronto', 'Retirado'];
                 <?php endif; ?>
               </div>
 
-              <p><?= escapar($produto['descricao']) ?></p>
+              <p><?= escapar(texto_visivel($produto['descricao'])) ?></p>
 
               <div class="product-card__chips">
                 <?php foreach (lista_texto($produto['tags']) as $tag): ?>
-                  <span class="product-chip"><?= escapar($tag) ?></span>
+                  <span class="product-chip"><?= escapar(texto_visivel($tag)) ?></span>
                 <?php endforeach; ?>
               </div>
 
               <div class="ingredient-panel">
                 <strong>Ingredientes</strong>
-                <span><?= escapar($produto['ingredientes']) ?></span>
+                <span><?= escapar(texto_visivel($produto['ingredientes'])) ?></span>
               </div>
 
               <div class="product-card__details">
-                <span><i class="fa-solid fa-box-open"></i><?= escapar($produto['porcao']) ?></span>
+                <span><i class="fa-solid fa-box-open"></i><?= escapar(texto_visivel($produto['porcao'])) ?></span>
                 <span><i class="fa-solid fa-fire"></i><?= (int) $produto['calorias'] ?> kcal</span>
                 <span><i class="fa-solid fa-boxes-stacked"></i><?= (int) $produto['estoque'] ?> em estoque</span>
                 <?php if (!empty($produto['alergenos'])): ?>
-                  <span><i class="fa-solid fa-circle-info"></i>Contem <?= escapar($produto['alergenos']) ?></span>
+                  <span><i class="fa-solid fa-circle-info"></i>Contém <?= escapar(texto_visivel($produto['alergenos'])) ?></span>
                 <?php endif; ?>
               </div>
 
@@ -275,6 +282,14 @@ $etapasPedido = ['Recebido', 'Em preparo', 'Pronto', 'Retirado'];
             </div>
           </article>
         <?php endforeach; ?>
+
+        <?php if (!$produtosVisiveis): ?>
+          <div class="menu-empty">
+            <i class="fa-solid fa-circle-info"></i>
+            <strong>Nenhum item disponível nesta categoria.</strong>
+            <span>Verifique o estoque ou escolha outra categoria.</span>
+          </div>
+        <?php endif; ?>
       </section>
     </main>
 
@@ -288,7 +303,7 @@ $etapasPedido = ['Recebido', 'Em preparo', 'Pronto', 'Retirado'];
         <div class="cart-empty">
           <span>
             <i class="fa-solid fa-basket-shopping"></i><br><br>
-            Seu pedido ainda esta vazio
+            Seu pedido ainda está vazio
           </span>
         </div>
       </div>
@@ -337,7 +352,7 @@ $etapasPedido = ['Recebido', 'Em preparo', 'Pronto', 'Retirado'];
   </div>
 
   <script>
-    // O PHP monta a lista. O JavaScript so controla carrinho e botoes.
+    // Carrinho do totem.
     const produtos = <?= json_encode($produtosJs, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;
     const carrinho = new Map();
     let produtoPersonalizado = null;
@@ -433,7 +448,7 @@ $etapasPedido = ['Recebido', 'Em preparo', 'Pronto', 'Retirado'];
           <div class="cart-empty">
             <span>
               <i class="fa-solid fa-basket-shopping"></i><br><br>
-              Seu pedido ainda esta vazio
+              Seu pedido ainda está vazio
             </span>
           </div>
         `;
