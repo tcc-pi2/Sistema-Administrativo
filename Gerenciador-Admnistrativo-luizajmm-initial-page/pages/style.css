@@ -1,0 +1,115 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Fundo da página */
+body {
+    background: #050505;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Centraliza o card na tela */
+.container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Card principal */
+.card {
+    width: 400px;
+    padding: 40px;
+    background: rgba(20, 20, 20, 0.4);
+    border-radius: 16px;
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Área do título */
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    color: white;
+    font-size: 28px;
+}
+
+.header p {
+    color: #A3A3A3;
+    font-size: 14px;
+}
+
+/* Formulário */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Grupo de input */
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Labels */
+label {
+    color: #D4D4D4;
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+/* Linha com "senha" e "esqueceu" */
+.label-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Texto "esqueceu senha" */
+.forgot {
+    font-size: 12px;
+    color: #737373;
+    cursor: pointer;
+}
+
+/* Inputs */
+input {
+    height: 45px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.03);
+    color: white;
+}
+
+/* Botão */
+.btn {
+    height: 45px;
+    background: #FF5C00;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Rodapé */
+.footer {
+    margin-top: 30px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding-top: 15px;
+    text-align: center;
+    font-size: 12px;
+    color: #737373;
+}
+
+.footer span {
+    color: white;
+    cursor: pointer;
+}
