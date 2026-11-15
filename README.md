@@ -1,30 +1,22 @@
-<p align="center">
-  <img src="src/assets/brand/gastrotech-logo.jpg" alt="GastroTech" width="160" />
-</p>
+<img src="src/assets/brand/gastrotech-logo.jpg" alt="GastroTech" width="120" />
 
-<h1 align="center">GastroTech</h1>
+# GastroTech
 
-<p align="center">
-  Sistema completo de pedidos para lanchonete: do totem de autoatendimento à cozinha e ao caixa.
-</p>
+Sistema de pedidos para lanchonete, feito em PHP com MySQL.
 
-<p align="center">
-  <img src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white" />
-  <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" />
-  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" />
-  <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" />
-  <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" />
-</p>
+O cliente monta o pedido no totem, o pedido aparece na tela da cozinha e o dono controla tudo pelo painel administrativo.
 
-## Funcionalidades
+O projeto tem:
 
-| Módulo | O que faz |
-|---|---|
-| 🛒 **Totem** | O cliente monta o pedido sozinho, com carrinho em JavaScript |
-| 👩‍🍳 **Cozinha** | Fila de pedidos para a equipe preparar |
-| 🔐 **Painel administrativo** | Acesso com login; cadastro de produtos, categorias e usuários |
-| 🖼️ **Personalização** | Troca de logo, nome da loja e imagens dos produtos pelo painel |
-| 💰 **Financeiro** | Controle de vendas e movimentos de caixa |
+- totem para o cliente montar o pedido;
+- painel administrativo com login;
+- cadastro de produtos, categorias e usuários;
+- troca de imagens dos produtos pelo painel;
+- troca da logo e nome da loja;
+- tela da cozinha com fila de pedidos;
+- financeiro simples para acompanhar vendas e movimentos de caixa.
+
+**Tecnologias:** PHP, MySQL, JavaScript, HTML e CSS.
 
 ## Acesso de demonstração
 
