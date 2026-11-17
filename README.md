@@ -2,6 +2,8 @@
 
 # GastroTech
 
+> Essa é a versão original, feita em grupo no 2º semestre. Depois eu reconstruí o sistema em Laravel e Angular: [luizajmm/gastrotech](https://github.com/luizajmm/gastrotech)
+
 Sistema de pedidos para lanchonete, feito em PHP com MySQL.
 
 O cliente monta o pedido no totem, o pedido aparece na tela da cozinha e o dono controla tudo pelo painel administrativo.
